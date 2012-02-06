@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
 import socket
 
-hote = "10.240.230.197" #adresse ip du mac mini
-port = 8080
+hote = "localhost" #adresse ip du mac mini
+port = 12800
 
 connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connexion_avec_serveur.connect((hote, port))
