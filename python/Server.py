@@ -2,7 +2,7 @@
 import socket
 
 hote = ''
-port = 12800
+port = 8080
 
 connexion_principale = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connexion_principale.bind((hote, port))
