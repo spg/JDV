@@ -1,5 +1,6 @@
 import socket
-from network.CommunicationThread import CommunicationThread
+from CommunicationThread import CommunicationThread
+
 
 class Server():
     def __init__(self, port):
@@ -10,7 +11,7 @@ class Server():
 
     def _initializeSocket(self):
         self.soc = socket.socket()
-        self.soc.bind(('localhost',self.port))
+        self.soc.bind(('',self.port))
         self.soc.listen(5)
 
     def _setConnections(self):
@@ -31,7 +32,7 @@ class Server():
         return dict
 
     def listen(self):
-        cThread = CommunicationThread(dict['recv'])
+        cThread = CommunicationThread(self.dict['recv'])
         cThread.start()
 
     def send(self, data):
@@ -49,5 +50,6 @@ class Server():
                 self._msend(conn,msg[1000:]) # calling recursive
 
 
-
+s = Server(12800)
+s.listen()
 
