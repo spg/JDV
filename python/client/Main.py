@@ -1,5 +1,5 @@
 import wx
-from BaseFrame import BaseFrame
+from ui.BaseFrame import BaseFrame
 
 app = wx.App(False)
 frame = BaseFrame(None, "Smalle editor")
