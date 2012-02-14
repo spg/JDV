@@ -1,22 +1,53 @@
-# -*- coding: utf-8 -*
+
+#client
 import socket
+import threading
+import pickle
 
-hote = "localhost" #adresse ip du mac mini
-port = 12800
+SIZE =4
+class client(threading.Thread):
+    def __init__(self,c):
+        threading.Thread.__init__(self)
+        self.conn = c
+        self.stopIt = False
 
-connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connexion_avec_serveur.connect((hote, port))
-print "Connexion établie avec le serveur sur le port", port
+    def mrecv(self):
+        data = self.conn.recv(SIZE)
+        self.conn.send('OK')
+        return self.conn.recv(int(data))
 
-msg_a_envoyer = b""
-while msg_a_envoyer != b"fin":
-    msg_a_envoyer = raw_input("> ")
-    # Peut planter si vous entrez des caractères spéciaux
-    msg_a_envoyer = msg_a_envoyer.encode()
-    # On envoie le message
-    connexion_avec_serveur.send(msg_a_envoyer)
-    msg_recu = connexion_avec_serveur.recv(1024)
-    print msg_recu.decode() # là encore, peut planter si y'a des accents
+    def run(self):
+        while not self.stopIt:
+            msg = self.mrecv()
+            print 'recieved-> ',msg
 
-print "Fermeture de la connexion"
-connexion_avec_serveur.close()
+soc1 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+soc1.connect(('localhost',12800))
+soc1.send('WILL SEND') # telling server we will send data from here
+
+soc2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+soc2.connect(('localhost',12800))
+soc2.send('WILL RECV') # telling server we will recieve data from here
+
+def msend(conn,msg):
+    if len(msg)<=999 and len(msg)>0:
+        conn.send(str(len(msg)))
+        if conn.recv(2) == 'OK':
+            conn.send(msg)
+    else:
+        conn.send(str(999))
+        if conn.recv(2) == 'OK':
+            conn.send(msg[:999])
+            msend(conn,msg[1000:]) # calling recursive
+thr = client(soc2)
+thr.start()
+try:
+    while 1:
+        msend(soc1,raw_input())
+except:
+    print 'closing'
+thr.stopIt=True
+msend(soc1,'bye!!') # for stoping the thread
+thr.conn.close()
+soc1.close()
+soc2.close()
