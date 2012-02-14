@@ -8,6 +8,8 @@ class CommunicationThread(threading.Thread):
         self.conn = c
         self.stopIt=False
 
+        self.run()
+
     def mrecv(self):
         data = self.conn.recv(SIZE)
         self.conn.send('OK')
