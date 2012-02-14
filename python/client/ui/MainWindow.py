@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 import wx
 
-class BaseFrame(wx.Frame):
+class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(500, 400))
         self._initUi()

@@ -1,6 +1,6 @@
 import wx
-from ui.BaseFrame import BaseFrame
+from ui.MainWindow import MainWindow
 
 app = wx.App(False)
-frame = BaseFrame(None, "Smalle editor")
+frame = MainWindow(None, "Robot Picasso")
 app.MainLoop()
