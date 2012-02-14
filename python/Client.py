@@ -1,53 +1,55 @@
-
 #client
 import socket
-import threading
-import pickle
+from network.CommunicationThread import CommunicationThread
 
-SIZE =4
-class client(threading.Thread):
-    def __init__(self,c):
-        threading.Thread.__init__(self)
-        self.conn = c
-        self.stopIt = False
+SIZE = 4
 
-    def mrecv(self):
-        data = self.conn.recv(SIZE)
-        self.conn.send('OK')
-        return self.conn.recv(int(data))
+class client():
+    def __init__(self):
+        self._initialiseSocket()
+        self.connect("10.240.193.154", 12800)
+        self.listen()
 
-    def run(self):
-        while not self.stopIt:
-            msg = self.mrecv()
-            print 'recieved-> ',msg
 
-soc1 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-soc1.connect(('localhost',12800))
-soc1.send('WILL SEND') # telling server we will send data from here
+    def _initialiseSocket(self):
+        self.soc1 = socket.socket()
+        self.soc2 = socket.socket()
 
-soc2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-soc2.connect(('localhost',12800))
-soc2.send('WILL RECV') # telling server we will recieve data from here
+    def connect(self, host, port):
+        self.soc1.connect((host, port))
+        self.soc1.send('WILL SEND') # telling server we will send data from here
+        self.soc2.connect((host, port))
+        self.soc2.send('WILL RECV') # telling server we will recieve data from here
 
-def msend(conn,msg):
-    if len(msg)<=999 and len(msg)>0:
-        conn.send(str(len(msg)))
-        if conn.recv(2) == 'OK':
-            conn.send(msg)
-    else:
-        conn.send(str(999))
-        if conn.recv(2) == 'OK':
-            conn.send(msg[:999])
-            msend(conn,msg[1000:]) # calling recursive
-thr = client(soc2)
-thr.start()
-try:
-    while 1:
-        msend(soc1,raw_input())
-except:
-    print 'closing'
-thr.stopIt=True
-msend(soc1,'bye!!') # for stoping the thread
-thr.conn.close()
-soc1.close()
-soc2.close()
+    def send(self, data):
+        self._msend(self.soc1, data)
+
+    def _msend(self, conn, msg):
+        if 999 >= len(msg) > 0:
+            conn.send(str(len(msg)))
+            if conn.recv(2) == 'OK':
+                conn.send(msg)
+        else:
+            conn.send(str(999))
+            if conn.recv(2) == 'OK':
+                conn.send(msg[:999])
+                self._msend(conn, msg[1000:]) # calling recursive
+
+    def listen(self):
+        thr = CommunicationThread(self.soc2)
+        thr.start()
+        try:
+            while 1:
+                self._msend(self.soc1, raw_input())
+        except:
+            print 'closing'
+        thr.stopIt = True
+        self._msend(self.soc1, 'bye!!') # for stoping the thread
+        thr.conn.close()
+        self.soc1.close()
+        self.soc2.close()
+
+
+
+c = client()
+
