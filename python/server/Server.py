@@ -57,8 +57,4 @@ class Server():
 s = Server(12800)
 s.listen()
 
-time.sleep(20)
-
-s.send('hello from server!')
-
 
