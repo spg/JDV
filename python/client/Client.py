@@ -2,15 +2,13 @@
 import socket
 from network.CommunicationThread import CommunicationThread
 from client.ClientDispatcher import ClientDispatcher
-from server.actions.StartAction import StartAction
-import cPickle
 
 SIZE = 4
 
 class client():
     def __init__(self):
         self._initialiseSocket()
-        self.connect('127.0.0.1', 12800)
+        self.connect('10.240.254.168', 12800)
 
     def _initialiseSocket(self):
         self.soc1 = socket.socket()
@@ -46,8 +44,4 @@ class client():
         self.thr.conn.close()
         self.soc1.close()
         self.soc2.close()
-
-c = client()
-c.listen()
-c.send(cPickle.dumps(StartAction()))
 
