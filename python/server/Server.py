@@ -1,5 +1,7 @@
 import socket
-from CommunicationThread import CommunicationThread
+from network.CommunicationThread import CommunicationThread
+from ServerDispatcher import ServerDispatcher
+import time
 
 
 class Server():
@@ -21,7 +23,9 @@ class Server():
 
     def _setConn(self, con1, con2):
         dict={}
+        print 'connexion set'
         state = con1.recv(9)
+        print 'state: ', state
         con2.recv(9)
         if state =='WILL RECV':
             dict['send'] = con1 # server will send data to reciever
@@ -32,7 +36,7 @@ class Server():
         return dict
 
     def listen(self):
-        cThread = CommunicationThread(self.dict['recv'])
+        cThread = CommunicationThread(self.dict['recv'], ServerDispatcher())
         cThread.start()
 
     def send(self, data):
@@ -52,4 +56,9 @@ class Server():
 
 s = Server(12800)
 s.listen()
+
+time.sleep(20)
+
+s.send('hello from server!')
+
 

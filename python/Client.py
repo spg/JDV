@@ -1,15 +1,16 @@
 #client
 import socket
 from network.CommunicationThread import CommunicationThread
+from client.ClientDispatcher import ClientDispatcher
+from server.actions.StartAction import StartAction
+import cPickle
 
 SIZE = 4
 
 class client():
     def __init__(self):
         self._initialiseSocket()
-        self.connect("10.240.193.154", 12800)
-        self.listen()
-
+        self.connect('127.0.0.1', 12800)
 
     def _initialiseSocket(self):
         self.soc1 = socket.socket()
@@ -36,20 +37,17 @@ class client():
                 self._msend(conn, msg[1000:]) # calling recursive
 
     def listen(self):
-        thr = CommunicationThread(self.soc2)
-        thr.start()
-        try:
-            while 1:
-                self._msend(self.soc1, raw_input())
-        except:
-            print 'closing'
-        thr.stopIt = True
+        self.thr = CommunicationThread(self.soc2, ClientDispatcher())
+        self.thr.start()
+
+    def stop(self):
+        self.thr.stopIt = True
         self._msend(self.soc1, 'bye!!') # for stoping the thread
-        thr.conn.close()
+        self.thr.conn.close()
         self.soc1.close()
         self.soc2.close()
 
-
-
 c = client()
+c.listen()
+c.send(cPickle.dumps(StartAction()))
 
