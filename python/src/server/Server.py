@@ -1,7 +1,6 @@
 import socket
 from network.CommunicationThread import CommunicationThread
-from ServerDispatcher import ServerDispatcher
-import time
+from src.server import ServerDispatcher
 
 
 class Server():

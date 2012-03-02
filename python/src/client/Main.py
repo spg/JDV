@@ -1,6 +1,6 @@
 import wx
-from ui.MainWindow import MainWindow
-from ClientLogic import ClientLogic
+from src.client import ClientLogic
+from src.client.ui import MainWindow
 
 app = wx.App(False)
 frame = MainWindow(None, "Robot Picasso")

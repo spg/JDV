@@ -1,6 +1,6 @@
-from actions.StartAction import StartAction
 import cPickle
 import serial
+from src.server.actions import StartAction
 
 class ServerDispatcher():
     def dispatch(self, msg):

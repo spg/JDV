@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 import wx
-from client import ClientLogic
+from src.client import ClientLogic
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
