@@ -1,6 +1,6 @@
 import cPickle
 import serial
-from src.robot.actions import StartAction
+from src.shared.actions import StartAction
 
 class ServerDispatcher():
     def dispatch(self, msg):
