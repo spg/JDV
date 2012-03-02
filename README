@@ -1,1 +1,2 @@
-just a test
+bashscripts/: contains bashscripts to be executed on the robot
+python/: contains all of the python code
