@@ -1,7 +1,6 @@
 import socket
-from network.CommunicationThread import CommunicationThread
-from src.robot import ServerDispatcher
-
+from src.robot.ActionDispatcher import ActionDispatcher
+from src.shared.network.CommunicationThread import CommunicationThread
 
 class Server():
     def __init__(self, port):
@@ -35,7 +34,7 @@ class Server():
         return dict
 
     def listen(self):
-        cThread = CommunicationThread(self.dict['recv'], ServerDispatcher())
+        cThread = CommunicationThread(self.dict['recv'], ActionDispatcher())
         cThread.start()
 
     def send(self, data):
@@ -51,9 +50,4 @@ class Server():
             if conn.recv(2) == 'OK':
                 conn.send(msg[:999])
                 self._msend(conn,msg[1000:]) # calling recursive
-
-
-s = Server(12800)
-s.listen()
-
 

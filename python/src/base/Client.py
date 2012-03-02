@@ -1,7 +1,8 @@
 #client
 import socket
-from network.CommunicationThread import CommunicationThread
-from src.base import ClientDispatcher
+from src.base.ActionDispatcher import ActionDispatcher
+from src.shared.network.CommunicationThread import CommunicationThread
+
 
 SIZE = 4
 
@@ -35,7 +36,7 @@ class client():
                 self._msend(conn, msg[1000:]) # calling recursive
 
     def listen(self):
-        self.thr = CommunicationThread(self.soc2, ClientDispatcher())
+        self.thr = CommunicationThread(self.soc2, ActionDispatcher())
         self.thr.start()
 
     def stop(self):

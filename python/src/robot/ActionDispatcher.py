@@ -2,7 +2,7 @@ import cPickle
 import serial
 from src.shared.actions import StartAction
 
-class ServerDispatcher():
+class ActionDispatcher():
     def dispatch(self, msg):
         obj = cPickle.loads(msg)
 
