@@ -15,6 +15,6 @@ class ShapeExtractor:
             y = int(point[1])
 
             center = int(point[0]), int(point[1])
-            cv.Circle(srcImage, (center), 4, (0,0,255))
+            cv.Circle(srcImage, center, 4, (0,0,255))
 
         return shapeImage
