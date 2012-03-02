@@ -1,6 +1,6 @@
 import cPickle
-from src.client.Client import client
-from src.server.actions import StartAction
+from src.base.Client import client
+from src.robot.actions import StartAction
 
 class ClientLogic():
     _client = client()

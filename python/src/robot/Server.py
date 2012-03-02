@@ -1,6 +1,6 @@
 import socket
 from network.CommunicationThread import CommunicationThread
-from src.server import ServerDispatcher
+from src.robot import ServerDispatcher
 
 
 class Server():
