@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 import wx
-from src.base import ClientLogic
+from src.base import Base
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
@@ -21,5 +21,5 @@ class MainWindow(wx.Frame):
         self.spinWheels()
 
     def spinWheels(self):
-        ClientLogic.ClientLogic.send()
+        Base.Base.send()
 

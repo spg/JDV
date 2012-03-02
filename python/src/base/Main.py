@@ -1,11 +1,11 @@
 import wx
-from src.base.ClientLogic import ClientLogic
+from src.base.Base import Base
 from src.base.ui.MainWindow import MainWindow
 
 app = wx.App(False)
 frame = MainWindow(None, "Robot Picasso")
 
-ClientLogic().run()
+Base().run()
 
 app.MainLoop()
 

@@ -2,14 +2,14 @@ import cPickle
 from src.base.Client import client
 from src.shared.actions.StartAction import StartAction
 
-class ClientLogic():
+class Base():
     _client = client()
     def run(self):
         print 'hello'
-        ClientLogic._client.listen()
+        Base._client.listen()
 
     @staticmethod
     def send():
-        ClientLogic._client.send(cPickle.dumps(StartAction()))
+        Base._client.send(cPickle.dumps(StartAction()))
         print 'sending...'
 
