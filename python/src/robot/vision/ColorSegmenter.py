@@ -33,7 +33,7 @@ class ColorSegmenter:
         self.upperTreshold.append(cv.Scalar(255,2555,255))
 
     def segmentImageByColor(self, sourceImage, color):
-        if color >= 0 and color <= 5:
+        if 0 <= color <= 5:
             hsvImage = self.convertImageToHSV(sourceImage)
             imgTresh = cv.CreateImage(cv.GetSize(sourceImage), 8, 1)
             imgTresh = self.treshHSVImageByGivenColor(hsvImage, imgTresh, color)
