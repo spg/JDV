@@ -1,5 +1,5 @@
 import socket
-from src.robot.ActionDispatcher import ActionDispatcher
+from ActionDispatcher import ActionDispatcher
 from src.shared.network.CommunicationThread import CommunicationThread
 
 class Server():

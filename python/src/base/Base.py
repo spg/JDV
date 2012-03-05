@@ -1,5 +1,5 @@
 import cPickle
-from src.base.Client import client
+from Client import client
 from src.shared.actions.StartAction import StartAction
 
 class Base():
