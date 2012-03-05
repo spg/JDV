@@ -1,6 +1,6 @@
 import cPickle
 from src.base.logevent import LogEvent
-from src.shared.actions import log
+from src.shared.actions.robottobase import log
 
 class ActionDispatcher():
     def dispatch(self, msg):

@@ -1,4 +1,4 @@
-from src.shared.actions.log import Log
+from src.shared.actions.robottobase.log import Log
 
 class Logger:
     def __init__(self, robot):

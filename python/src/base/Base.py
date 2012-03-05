@@ -1,10 +1,8 @@
 import cPickle
-from sched import scheduler
 import threading
-import time
 from Client import client
-from src.shared.actions.getpose import GetPose
-from src.shared.actions.startrobot import StartRobot
+from src.shared.actions.basetorobot.getpose import GetPose
+from src.shared.actions.basetorobot.startrobot import StartRobot
 
 class Base():
     def __init__(self):

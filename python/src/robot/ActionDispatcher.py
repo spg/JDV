@@ -1,7 +1,8 @@
 import cPickle
 #import serial
 from Logger import Logger
-from src.shared.actions import startrobot, getpose
+from src.shared.actions import startrobot
+from src.shared.actions.basetorobot import getpose, startrobot
 
 class ActionDispatcher:
     def __init__(self, robot):
