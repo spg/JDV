@@ -1,9 +1,11 @@
 import cPickle
-from src.shared.actions import LogMessage
+from src.base.logevent import LogEvent
+from src.shared.actions import log
 
 class ActionDispatcher():
     def dispatch(self, msg):
         obj = cPickle.loads(msg)
+        moduleName = obj.__module__
 
-        if obj.__class__.__name__ == LogMessage.__name__:
-            print 'we have a logging message!'
+        if moduleName == log.__name__:
+            LogEvent.fire(obj.message)

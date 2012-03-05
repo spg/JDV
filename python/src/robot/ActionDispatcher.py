@@ -1,14 +1,18 @@
 import cPickle
-import serial
+#import serial
 from Logger import Logger
-from src.shared.actions import StartAction
+from src.shared.actions import startrobot
 
-class ActionDispatcher():
+class ActionDispatcher:
+    def __init__(self, robot):
+        self._robot = robot
+
     def dispatch(self, msg):
         obj = cPickle.loads(msg)
+        moduleName = obj.__module__
 
-        if obj.__class__.__name__ == StartAction.__name__:
-            print 'we have a StartAction!'
-            Logger.log('Robot started')
+        if moduleName == startrobot.__name__:
+            logger = Logger(self._robot)
+            logger.log('Robot started')
             #s = serial.Serial('/dev/ttyAMC0', 9600)
             #s.write('V50.')

@@ -1,6 +1,6 @@
 import socket
 from ActionDispatcher import ActionDispatcher
-from src.shared.network.CommunicationThread import CommunicationThread
+from src.shared.network.communicationthread import CommunicationThread
 
 class Server():
     def __init__(self, port):
@@ -33,11 +33,12 @@ class Server():
             dict['send'] = con2
         return dict
 
-    def listen(self):
-        cThread = CommunicationThread(self.dict['recv'], ActionDispatcher())
+    def listen(self, robot):
+        cThread = CommunicationThread(self.dict['recv'], ActionDispatcher(robot))
         cThread.start()
 
     def send(self, data):
+        print 'sending back to base'
         self._msend(self.dict['send'], data)
 
     def _msend(self, conn, msg):

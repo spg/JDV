@@ -1,7 +1,7 @@
 #client
 import socket
 from src.base.ActionDispatcher import ActionDispatcher
-from src.shared.network.CommunicationThread import CommunicationThread
+from src.shared.network.communicationthread import CommunicationThread
 
 SIZE = 4
 

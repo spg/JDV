@@ -1,16 +1,15 @@
 import cPickle
 from Client import client
-from src.shared.actions.StartAction import StartAction
+from src.shared.actions.startrobot import StartRobot
 
 class Base():
-    _client = client()
-    def run(self, robotIp):
-        print 'hello'
-        Base._client.connect(robotIp, 12800)
-        Base._client.listen()
+    def __init__(self):
+        self._client = client()
 
-    @staticmethod
-    def send():
-        Base._client.send(cPickle.dumps(StartAction()))
-        print 'sending...'
+    def send(self, action):
+        self._client.send(cPickle.dumps(action))
 
+    def connectToRobot(self, ip):
+        self._client.connect(ip, 12800)
+        self._client.listen()
+        self.send(StartRobot())

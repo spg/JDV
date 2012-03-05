@@ -1,4 +1,4 @@
-from Robot import Robot
+from src.robot.Robot import Robot
 
 robot = Robot()
 robot.activate()

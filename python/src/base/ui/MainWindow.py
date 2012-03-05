@@ -1,38 +1,51 @@
 # -*- coding: utf-8 -*
+import time
 import wx
 from src.base.Base import Base
+from src.base.logevent import LogEvent
 from src.base.ui.SetIpDialog import SetIpDialog
+from src.shared.actions.startrobot import StartRobot
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(800, 600))
-        self._base = Base()
+        self.__base = Base()
 
-        self._initUi()
-        self._bindHandlers()
+        self.__initUi()
+        self.__bindHandlers()
+        self.__defaultIp = 'localhost'
 
         self.Show(True)
 
-    def _initUi(self):
+        LogEvent.addHandler(self.__logReceived)
+
+    def __initUi(self):
         panel = wx.Panel(self, -1)
-        self.vroomButton = wx.Button(panel, label="Vrooom!", pos=(300, 300), size=(100, 50))
-        self.setIpButton = wx.Button(panel, label="Ip du robot", pos=(300, 400), size=(100,50))
-        self._loggingArea = wx.TextCtrl(panel, pos=(275,0), size=(500,250), style=wx.TE_MULTILINE)
+        self.__connectionButton = wx.Button(panel, label="Connecter au robot!", pos=(300, 300), size=(100, 50))
+        self.__setIpButton = wx.Button(panel, label="Ip du robot", pos=(300, 400), size=(100,50))
+        self.__loggingArea = wx.TextCtrl(panel, pos=(275,0), size=(500,250), style=wx.TE_MULTILINE)
 
-    def _bindHandlers(self):
-        self.Bind(wx.EVT_BUTTON, self._onVroomClicked, self.vroomButton)
-        self.Bind(wx.EVT_BUTTON, self._onSetIpClicked, self.setIpButton)
+    def __bindHandlers(self):
+        self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
+        self.Bind(wx.EVT_BUTTON, self.__onSetIpClicked, self.__setIpButton)
 
-    def _onVroomClicked(self, event):
-        self.spinWheels()
+    def __onConnectButtonClicked(self, event):
+        self.__disableConnectionButtons()
+        self.__base.connectToRobot(self.__defaultIp)
 
-    def _onSetIpClicked(self, event):
-        ipdialog = SetIpDialog(self, '10.240.254.168')
+    def __disableConnectionButtons(self):
+        self.__connectionButton.Disable()
+        self.__setIpButton.Disable()
+
+    def __onSetIpClicked(self, event):
+        ipdialog = SetIpDialog(self, 'localhost')
         ipdialog.ShowModal()
 
     def setIp(self, ip):
-        self._base.run(ip)
+        self.__disableConnectionButtons()
+        self.__base.connectToRobot(ip)
 
-    def spinWheels(self):
-        Base.send()
+    def __logReceived(self, message):
+        print "Time (24hr) :", time.strftime("%H:%M:%S", time.localtime())
+        self.__loggingArea.AppendText(message +'\n')
 

@@ -1,12 +1,11 @@
 import cPickle
-from Server import Server
+from src.robot.Server import Server
 
 class Robot:
     _server = Server(12800)
 
     def activate(self):
-        Robot._server.listen()
+        Robot._server.listen(self)
 
-    @staticmethod
-    def send(action):
+    def send(self, action):
         Robot._server.send(cPickle.dumps(action))

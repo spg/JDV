@@ -1,8 +1,9 @@
-from Robot import Robot
-from src.shared.actions.LogMessage import LogMessage
+from src.shared.actions.log import Log
 
-class Logger():
-    @staticmethod
+class Logger:
+    def __init__(self, robot):
+        self._robot = robot
+
     def log(self, message):
-        logAction = LogMessage(message)
-        Robot.send(logAction)
+        logAction = Log(message)
+        self._robot.send(logAction)
