@@ -3,13 +3,11 @@ import socket
 from src.base.ActionDispatcher import ActionDispatcher
 from src.shared.network.CommunicationThread import CommunicationThread
 
-
 SIZE = 4
 
 class client():
     def __init__(self):
         self._initialiseSocket()
-        self.connect('10.240.254.168', 12800)
 
     def _initialiseSocket(self):
         self.soc1 = socket.socket()

@@ -4,8 +4,9 @@ from src.shared.actions.StartAction import StartAction
 
 class Base():
     _client = client()
-    def run(self):
+    def run(self, robotIp):
         print 'hello'
+        Base._client.connect(robotIp, 12800)
         Base._client.listen()
 
     @staticmethod

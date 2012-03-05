@@ -1,13 +1,15 @@
 import wx
-from src.base.Base import Base
 from src.base.ui.MainWindow import MainWindow
 
-app = wx.App(False)
-frame = MainWindow(None, "Robot Picasso")
+class Main():
+    def __init__(self):
+        self._app = wx.App(False)
+        self._frame = MainWindow(None, "Robot Picasso")
 
-Base().run()
+    def run(self):
+        self._app.MainLoop()
 
-app.MainLoop()
+Main().run()
 
 
 
