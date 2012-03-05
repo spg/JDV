@@ -1,5 +1,6 @@
 import cPickle
 import serial
+from src.robot.Logger import Logger
 from src.shared.actions import StartAction
 
 class ActionDispatcher():
@@ -8,5 +9,6 @@ class ActionDispatcher():
 
         if obj.__class__.__name__ == StartAction.__name__:
             print 'we have a StartAction!'
-            s = serial.Serial('/dev/ttyAMC0', 9600)
-            s.write('V50.')
+            Logger.log('Robot started')
+            #s = serial.Serial('/dev/ttyAMC0', 9600)
+            #s.write('V50.')
