@@ -24,13 +24,13 @@ class client():
 
     def _msend(self, conn, msg):
         if 999 >= len(msg) > 0:
-            conn.__send(str(len(msg)))
+            conn.send(str(len(msg)))
             if conn.recv(2) == 'OK':
-                conn.__send(msg)
+                conn.send(msg)
         else:
-            conn.__send(str(999))
+            conn.send(str(999))
             if conn.recv(2) == 'OK':
-                conn.__send(msg[:999])
+                conn.send(msg[:999])
                 self._msend(conn, msg[1000:]) # calling recursive
 
     def listen(self):

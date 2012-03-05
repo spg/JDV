@@ -6,4 +6,4 @@ class Logger:
 
     def log(self, message):
         logAction = Log(message)
-        self._robot.__send(logAction)
+        self._robot.send(logAction)
