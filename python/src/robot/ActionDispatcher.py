@@ -1,6 +1,6 @@
 import cPickle
 import serial
-from src.robot.Logger import Logger
+from Logger import Logger
 from src.shared.actions import StartAction
 
 class ActionDispatcher():

@@ -1,4 +1,4 @@
-from src.robot import Robot
+from Robot import Robot
 from src.shared.actions.LogMessage import LogMessage
 
 class Logger():

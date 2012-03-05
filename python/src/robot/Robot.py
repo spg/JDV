@@ -1,5 +1,5 @@
 import cPickle
-from src.robot.Server import Server
+from Server import Server
 
 class Robot:
     _server = Server(12800)
