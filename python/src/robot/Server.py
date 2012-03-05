@@ -43,12 +43,12 @@ class Server():
 
     def _msend(self, conn, msg):
         if 999 >= len(msg) > 0:
-            conn.send(str(len(msg)))
+            conn.__send(str(len(msg)))
             if conn.recv(2) == 'OK':
-                conn.send(msg)
+                conn.__send(msg)
         else:
-            conn.send(str(999))
+            conn.__send(str(999))
             if conn.recv(2) == 'OK':
-                conn.send(msg[:999])
+                conn.__send(msg[:999])
                 self._msend(conn,msg[1000:]) # calling recursive
 

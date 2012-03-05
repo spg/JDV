@@ -11,7 +11,7 @@ class CommunicationThread(threading.Thread):
 
     def mrecv(self):
         data = self.conn.recv(SIZE)
-        self.conn.send('OK')
+        self.conn.__send('OK')
         msg = self.conn.recv(int(data))
         return msg
 

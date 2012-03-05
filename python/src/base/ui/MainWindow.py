@@ -18,9 +18,9 @@ class MainWindow(wx.Frame):
 
     def __initUi(self):
         panel = wx.Panel(self)
-        self.__connectionButton = wx.Button(panel, label="Se connecter au: ", pos=(575, 300), size=(130, 50))
+        self.__connectionButton = wx.Button(panel, label="Se connecter au: ", pos=(500, 300), size=(130, 50))
         self.__loggingArea = wx.TextCtrl(panel, pos=(275,0), size=(500,250), style=wx.TE_MULTILINE)
-        self.__ipTextCtrl = wx.TextCtrl(panel, value='localhost', pos=(710, 310))
+        self.__ipTextCtrl = wx.TextCtrl(panel, value='10.240.254.168', pos=(650, 300), size=(100, 50))
 
     def __bindHandlers(self):
         self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
