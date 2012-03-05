@@ -3,6 +3,7 @@ import cPickle
 from Logger import Logger
 from src.shared.actions import startrobot
 from src.shared.actions.basetorobot import getpose, startrobot
+from src.shared.actions.robottobase.sendpose import SendPose
 
 class ActionDispatcher:
     def __init__(self, robot):
@@ -17,5 +18,6 @@ class ActionDispatcher:
             self.__logger.log('Robot started')
             #s = serial.Serial('/dev/ttyAMC0', 9600)
             #s.write('V50.')
+
         elif moduleName == getpose.__name__:
-            self.__logger.log('About to send pose: ')
+            self.__robot.send(SendPose(2, 4, 120))
