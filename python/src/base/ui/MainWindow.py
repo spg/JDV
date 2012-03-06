@@ -32,6 +32,8 @@ class MainWindow(wx.Frame):
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
 
     def __logReceived(self, message):
+        wx.CallAfter(self.__printToLoggingArea, message)
+
+    def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
         self.__loggingArea.AppendText(currentTime + ' : ' + message +'\n')
-
