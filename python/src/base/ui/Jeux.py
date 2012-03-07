@@ -14,9 +14,13 @@ last edited: November 2010
 import math
 
 import wx
+import sys
+#import gv
+
 from pygraph.classes.graph import graph
-#from pygraph.classes.digraph import digraph
-#from pygraph.algorithms.searching import breadth_first_search
+from pygraph.classes.digraph import digraph
+from pygraph.algorithms.searching import breadth_first_search
+from pygraph.readwrite.markup import write
 
 
 class Example(wx.Frame):
@@ -35,15 +39,9 @@ class Example(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onAfficheClicked, self.Affiche)
 
     def CreerGraph(self):
+        #Initialise les noueds
         self.gr.add_node("Depart")
-        self.gr.add_node("1")
-        self.gr.add_node("2")
-        self.gr.add_node("3")
-        self.gr.add_node("4")
-        self.gr.add_node("5")
-        self.gr.add_node("6")
-        self.gr.add_node("7")
-        self.gr.add_node("8")
+        self.gr.add_node("Fin")
         self.gr.add_node("O11")
         self.gr.add_node("O12")
         self.gr.add_node("O13")
@@ -52,6 +50,32 @@ class Example(wx.Frame):
         self.gr.add_node("O22")
         self.gr.add_node("O23")
         self.gr.add_node("O24")
+        #Initialisation des arcs
+        self.gr.add_edge(("Depart","O13"),999999)
+        self.gr.add_edge(("Depart","O11"),999999)
+        self.gr.add_edge(("Depart","O21"),999999)
+        self.gr.add_edge(("Depart","O23"),999999)
+        self.gr.add_edge(("Depart","Fin"),999999)
+        #Arc de l'obstacle 1
+        self.gr.add_edge(("O12","O21"),999999)
+        self.gr.add_edge(("O12","O23"),999999)
+        self.gr.add_edge(("O12","Fin"),999999)
+        self.gr.add_edge(("O14","O21"),999999)
+        self.gr.add_edge(("O14","O23"),999999)
+        self.gr.add_edge(("O14","Fin"),999999)
+        #Arc de l'obstacle 2
+        self.gr.add_edge(("O22","O11"),999999)
+        self.gr.add_edge(("O22","O13"),999999)
+        self.gr.add_edge(("O22","Fin"),999999)
+        self.gr.add_edge(("O24","O11"),999999)
+        self.gr.add_edge(("O24","O13"),999999)
+        self.gr.add_edge(("O24","Fin"),999999)
+        # Arc inter obstacle
+        self.gr.add_edge(("O11","O12"),999999)
+        self.gr.add_edge(("O13","O14"),999999)
+        self.gr.add_edge(("O21","O22"),999999)
+        self.gr.add_edge(("O23","O24"),999999)
+
 
     def DrawLine(self):
         #option de décalage
@@ -99,7 +123,7 @@ class Example(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.x1=145+self.d
+        self.x1=130+self.d
         self.y1=250+self.d
 
         self.Ox11=35+self.x1
@@ -148,8 +172,7 @@ class Example(wx.Frame):
         self.TrouveO = True
         self.TrouveO1 = False
         self.TrouveO2 = False
-        depart = "Depart"
-        self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,depart)
+        self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"Depart")
         while(self.TrouveO == True):
             self.TrouveO=False
             if self.TrouveO1==True:
@@ -160,6 +183,10 @@ class Example(wx.Frame):
                 self.TrouveO2=False
                 self.ParcourireLigne(self.Ox22,self.Oy22,Posfx,Posfy,"O22")
                 self.ParcourireLigne(self.Ox24,self.Oy24,Posfx,Posfy,"O24")
+        print self.gr
+        #dot = write(self.gr)
+         #gv.layout(gvv,'dot')
+        #gv.render(gvv,'png','europe.png')
 
 
     def ParcourireLigne(self,Posdx,Posdy,Posfx,Posfy,depart):
@@ -188,17 +215,20 @@ class Example(wx.Frame):
                 disty=self.Oy21 - Posdy
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                #self.gr.add_edge(depart,"O21",5)
+
+
+                print "Ajout edge"
+                self.gr.set_edge_weight((depart,"O21"),dist)
                 self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
                 distx= self.Ox22 - Posdx
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                #self.gr.add_edge(depart,"O22",5)
                 self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
+                self.gr.set_edge_weight((depart,"O23"),dist)
                 #Ajout des arcs
-                #self.gr.add_edge("O21","O23",5)
+                self.gr.set_edge_weight(("O21","O22"),5)
                 self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
-                #self.gr.add_edge("O22","O24",5)
+                self.gr.set_edge_weight(("O23","O24"),5)
                 self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
                 self.TrouveO = True
                 self.TrouveO2=True
@@ -209,24 +239,24 @@ class Example(wx.Frame):
                 disty=self.Oy11 - Posdy
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                #self.gr.add_edge("Depart","O11",5)
+                self.gr.set_edge_weight((depart,"O11"),dist)
                 self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
                 distx= self.Ox22 - Posdx
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-               # self.gr.add_edge("Depart","O12",5)
+                self.gr.set_edge_weight((depart,"O13"),dist)
                 self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
                 #Ajout des arcs
-                #self.gr.add_edge("O11","O13",5)
+                self.gr.set_edge_weight(("O11","O12"),5)
                 self.dc.DrawLine(self.Ox11, self.Oy11, self.Ox12, self.Oy12)
-                #self.gr.add_edge("O12","O14",5)
+                self.gr.set_edge_weight(("O13","O14"),5)
                 self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
                 self.TrouveO = True
                 self.TrouveO1 = True
             b = b+1
         if self.TrouveO == False :
             self.dc.DrawLine(Posdx,Posdy,Posfx,Posfy)
-
+            self.gr.set_edge_weight((depart,"Fin"),5)
 
 
 
