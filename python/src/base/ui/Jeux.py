@@ -99,8 +99,8 @@ class Example(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.x1=100+self.d
-        self.y1=150+self.d
+        self.x1=145+self.d
+        self.y1=250+self.d
 
         self.Ox11=35+self.x1
         self.Ox12=35+self.x1
@@ -111,17 +111,18 @@ class Example(wx.Frame):
         self.Oy13=35+self.y1
         self.Oy14=self.y1-20
 
-        self.x2=90+self.d
-        self.y2=250+self.d
+        self.x2=150+self.d
+        self.y2=150+self.d
 
-        self.Ox21=25+self.x2
-        self.Ox22=25+self.x2
-        self.Ox23=self.x2-10
-        self.Ox24=self.x2-10
-        self.Oy21=25+self.y2
-        self.Oy22=self.y2-10
-        self.Oy23=25+self.y2
-        self.Oy24=self.y2-10
+        self.Ox21=35+self.x2
+        self.Ox22=35+self.x2
+        self.Ox23=self.x2-20
+        self.Ox24=self.x2-20
+        self.Oy21=35+self.y2
+        self.Oy22=self.y2-20
+        self.Oy23=35+self.y2
+        self.Oy24=self.y2-20
+
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#000000'))
         self.dc.DrawRectangle(self.x1, self.y1, 20, 20)
@@ -139,67 +140,92 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.Ox14,self.Oy14, 5, 5)
         #Ajout des noueds des obstacle
         #Ajout des chemein possible
+        self.Trouvetrajectoire(90.00,350.00,200.00,70.00)
+
+
 
     def Trouvetrajectoire(self,Posdx,Posdy,Posfx,Posfy):
         self.TrouveO = True
         self.TrouveO1 = False
         self.TrouveO2 = False
         depart = "Depart"
-        self.ParcourireLigne(0,Posdx,Posdy,Posfx,Posfy,depart)
+        self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,depart)
         while(self.TrouveO == True):
-            if TrouveO1==True:
-                self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"O13")
-                self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"O14")
-            if (TrouveO2):
-                self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"O23")
-                self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"O24")
+            self.TrouveO=False
+            if self.TrouveO1==True:
+                self.TrouveO1=False
+                self.ParcourireLigne(self.Ox12,self.Oy12,Posfx,Posfy,"O12")
+                self.ParcourireLigne(self.Ox14,self.Oy14,Posfx,Posfy,"O14")
+            if self.TrouveO2==True:
+                self.TrouveO2=False
+                self.ParcourireLigne(self.Ox22,self.Oy22,Posfx,Posfy,"O22")
+                self.ParcourireLigne(self.Ox24,self.Oy24,Posfx,Posfy,"O24")
 
 
     def ParcourireLigne(self,Posdx,Posdy,Posfx,Posfy,depart):
-        ad = abs(PosDx-Posfx)
-        b = abs(PosDy-Posfy)
-        tanA = ad/b
+        ad = abs(Posdx-Posfx)
+        bd = abs(Posdy-Posfy)
+        print "posy :%d" % ad
+        print "posy :%d" % bd
+        tanA = ad/bd
+        print "tanA :%d" % tanA
 
-        b = b-10
+        #self.dc.DrawLine(Posdx,Posdy, Posfx, Posfy)
+        b =1
+
         self.TrouveO = False
-        while ((b-10 > 0)and (self.TrouveO ==False)):
-            posy = posy-b
+        while ((bd > b )and (self.TrouveO ==False)):
             a = (tanA * b)
-            posx = a + posxd
-            posy = posdy - b
-            if((posy>self.y2)and(posy<=(self.y2+60)and(posx<=(self.x2)and(posx<=(self.x2+60))))):
+            posx = a + Posdx
+            #print "a :%d" % a
+            #print "b :%d" % b
+            #print "posx :%d" % posx
+            posy = Posdy - b
+            #print "posy :%d" % posy
+            if posy>= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
                 # Calcule des distances
                 distx= self.Ox21 - Posdx
                 disty=self.Oy21 - Posdy
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                self.gr.add_edge(depart,"O21",wt=dist)
+                #self.gr.add_edge(depart,"O21",5)
+                self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
                 distx= self.Ox22 - Posdx
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                self.gr.add_edge(depart,"O22",wt=dist)
+                #self.gr.add_edge(depart,"O22",5)
+                self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
                 #Ajout des arcs
-                self.gr.add_edge("O21","O23",wt=5)
-                self.gr.add_edge("O22","O24",wt=5)
+                #self.gr.add_edge("O21","O23",5)
+                self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
+                #self.gr.add_edge("O22","O24",5)
+                self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
                 self.TrouveO = True
+                self.TrouveO2=True
 
-            if((posy>self.y1)and(posy<=(self.y1+60)and(posx<=(self.x1)and(posx<=(self.x1+60))))):
+            if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
                 # Calcule des distances
                 distx= self.Ox11 - Posdx
                 disty=self.Oy11 - Posdy
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                self.gr.add_edge("Depart","O11",wt=dist)
+                #self.gr.add_edge("Depart","O11",5)
+                self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
                 distx= self.Ox22 - Posdx
                 c = distx**2 + disty**2
                 dist = math.sqrt(c)
-                self.gr.add_edge("Depart","O12",wt=dist)
+               # self.gr.add_edge("Depart","O12",5)
+                self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
                 #Ajout des arcs
-                self.gr.add_edge("O11","O13",wt=5)
-                self.gr.add_edge("O12","O24",wt=5)
+                #self.gr.add_edge("O11","O13",5)
+                self.dc.DrawLine(self.Ox11, self.Oy11, self.Ox12, self.Oy12)
+                #self.gr.add_edge("O12","O14",5)
+                self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
                 self.TrouveO = True
-
-            b = b-10
+                self.TrouveO1 = True
+            b = b+1
+        if self.TrouveO == False :
+            self.dc.DrawLine(Posdx,Posdy,Posfx,Posfy)
 
 
 
