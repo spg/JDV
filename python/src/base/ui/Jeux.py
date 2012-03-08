@@ -14,13 +14,9 @@ last edited: November 2010
 import math
 
 import wx
-import sys
-#import gv
+import networkx as nx
 
-from pygraph.classes.graph import graph
-from pygraph.classes.digraph import digraph
-from pygraph.algorithms.searching import breadth_first_search
-from pygraph.readwrite.markup import write
+
 
 
 class Example(wx.Frame):
@@ -29,7 +25,7 @@ class Example(wx.Frame):
             size=(1000, 1000))
         self.panel = wx.Panel(self, -1)
         wx.FutureCall(2000, self.DrawLine)
-        self.gr = graph()
+        self.gr = nx.Graph()
         self.Centre()
         self.Show()
 
@@ -51,30 +47,7 @@ class Example(wx.Frame):
         self.gr.add_node("O23")
         self.gr.add_node("O24")
         #Initialisation des arcs
-        self.gr.add_edge(("Depart","O13"),999999)
-        self.gr.add_edge(("Depart","O11"),999999)
-        self.gr.add_edge(("Depart","O21"),999999)
-        self.gr.add_edge(("Depart","O23"),999999)
-        self.gr.add_edge(("Depart","Fin"),999999)
-        #Arc de l'obstacle 1
-        self.gr.add_edge(("O12","O21"),999999)
-        self.gr.add_edge(("O12","O23"),999999)
-        self.gr.add_edge(("O12","Fin"),999999)
-        self.gr.add_edge(("O14","O21"),999999)
-        self.gr.add_edge(("O14","O23"),999999)
-        self.gr.add_edge(("O14","Fin"),999999)
-        #Arc de l'obstacle 2
-        self.gr.add_edge(("O22","O11"),999999)
-        self.gr.add_edge(("O22","O13"),999999)
-        self.gr.add_edge(("O22","Fin"),999999)
-        self.gr.add_edge(("O24","O11"),999999)
-        self.gr.add_edge(("O24","O13"),999999)
-        self.gr.add_edge(("O24","Fin"),999999)
-        # Arc inter obstacle
-        self.gr.add_edge(("O11","O12"),999999)
-        self.gr.add_edge(("O13","O14"),999999)
-        self.gr.add_edge(("O21","O22"),999999)
-        self.gr.add_edge(("O23","O24"),999999)
+
 
 
     def DrawLine(self):
@@ -135,7 +108,7 @@ class Example(wx.Frame):
         self.Oy13=35+self.y1
         self.Oy14=self.y1-20
 
-        self.x2=150+self.d
+        self.x2=200+self.d
         self.y2=150+self.d
 
         self.Ox21=35+self.x2
@@ -152,7 +125,7 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.x1, self.y1, 20, 20)
         self.dc.DrawRectangle(self.x2, self.y2, 20, 20)
         #Affichage des noeuds des obstacle 1
-        self.dc.SetBrush(wx.Brush('#00ff00'))
+        self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.Ox21,self.Oy21, 5, 5)
         self.dc.DrawRectangle(self.Ox22,self.Oy22, 5, 5)
         self.dc.DrawRectangle(self.Ox23,self.Oy23, 5, 5)
@@ -164,7 +137,10 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.Ox14,self.Oy14, 5, 5)
         #Ajout des noueds des obstacle
         #Ajout des chemein possible
-        self.Trouvetrajectoire(90.00,350.00,200.00,70.00)
+        self.Trouvetrajectoire(210.00,350.00,210.00,70.00)
+        grs = nx.Graph()
+        grs = nx.shortest_path(self.gr,"Depart","Fin")
+        print grs
 
 
 
@@ -183,25 +159,19 @@ class Example(wx.Frame):
                 self.TrouveO2=False
                 self.ParcourireLigne(self.Ox22,self.Oy22,Posfx,Posfy,"O22")
                 self.ParcourireLigne(self.Ox24,self.Oy24,Posfx,Posfy,"O24")
-        print self.gr
-        #dot = write(self.gr)
-         #gv.layout(gvv,'dot')
-        #gv.render(gvv,'png','europe.png')
 
 
     def ParcourireLigne(self,Posdx,Posdy,Posfx,Posfy,depart):
         ad = abs(Posdx-Posfx)
         bd = abs(Posdy-Posfy)
-        print "posy :%d" % ad
-        print "posy :%d" % bd
         tanA = ad/bd
-        print "tanA :%d" % tanA
+
 
         #self.dc.DrawLine(Posdx,Posdy, Posfx, Posfy)
         b =1
 
         self.TrouveO = False
-        while ((bd > b )and (self.TrouveO ==False)):
+        while bd > b and self.TrouveO ==False :
             a = (tanA * b)
             posx = a + Posdx
             #print "a :%d" % a
@@ -211,113 +181,76 @@ class Example(wx.Frame):
             #print "posy :%d" % posy
             if posy>= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
                 # Calcule des distances
-                distx= self.Ox21 - Posdx
                 disty=self.Oy21 - Posdy
-                c = distx**2 + disty**2
-                dist = math.sqrt(c)
+                self.verifierTrajectoire(Posdx,Posdy,self.Ox21,self.Oy21)
+                if self.Ox21 < 220  and self.Ox21 >0 and self.TrouveVO == False :
+                    distx= self.Ox21 - Posdx
+                    c = distx**2 + disty**2
+                    dist = math.sqrt(c)
 
-
-                print "Ajout edge"
-                self.gr.set_edge_weight((depart,"O21"),dist)
-                self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
-                distx= self.Ox22 - Posdx
-                c = distx**2 + disty**2
-                dist = math.sqrt(c)
-                self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
-                self.gr.set_edge_weight((depart,"O23"),dist)
-                #Ajout des arcs
-                self.gr.set_edge_weight(("O21","O22"),5)
-                self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
-                self.gr.set_edge_weight(("O23","O24"),5)
-                self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
+                    self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
+                    self.gr.add_edge(depart,"O21" , weight=dist )
+                    self.gr.add_edge("O21","O22" , weight=5 )
+                    self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
+                self.verifierTrajectoire(Posdx,Posdy,self.Ox23,self.Oy23)
+                if self.Ox23 < 220  and self.Ox23 > 0 and self.TrouveVO == False :
+                    distx= self.Ox23 - Posdx
+                    c = distx**2 + disty**2
+                    dist = math.sqrt(c)
+                    self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
+                    self.gr.add_edge(depart,"O23" , weight=dist )
+                    self.gr.add_edge("O23","O24" , weight=5 )
+                    self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
                 self.TrouveO = True
                 self.TrouveO2=True
 
             if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
+                self.verifierTrajectoire(Posdx,Posdy,self.Ox11,self.Oy11)
                 # Calcule des distances
-                distx= self.Ox11 - Posdx
-                disty=self.Oy11 - Posdy
-                c = distx**2 + disty**2
-                dist = math.sqrt(c)
-                self.gr.set_edge_weight((depart,"O11"),dist)
-                self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
-                distx= self.Ox22 - Posdx
-                c = distx**2 + disty**2
-                dist = math.sqrt(c)
-                self.gr.set_edge_weight((depart,"O13"),dist)
-                self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
-                #Ajout des arcs
-                self.gr.set_edge_weight(("O11","O12"),5)
-                self.dc.DrawLine(self.Ox11, self.Oy11, self.Ox12, self.Oy12)
-                self.gr.set_edge_weight(("O13","O14"),5)
-                self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
+                disty=self.Oy21 - Posdy
+                if self.Ox11 < 220  and self.Ox11 >0 and self.TrouveVO == False :
+                    distx= self.Ox11 - Posdx
+                    disty=self.Oy11 - Posdy
+                    c = distx**2 + disty**2
+                    dist = math.sqrt(c)
+                    self.gr.add_edge(depart,"O11" , weight=dist )
+                    self.gr.add_edge("O11","O12" , weight=5 )
+
+                    self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
+                self.verifierTrajectoire(Posdx,Posdy,self.Ox13,self.Oy13)
+                if self.Ox13 < 220  and self.Ox13 >0 and self.TrouveVO == False :
+                    distx= self.Ox22 - Posdx
+                    c = distx**2 + disty**2
+                    dist = math.sqrt(c)
+                    self.gr.add_edge(depart,"O13" , weight=dist )
+                    self.gr.add_edge("O13","O14" , weight=5 )
+                    self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
+                    #Ajout des arcs
+                    self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
                 self.TrouveO = True
                 self.TrouveO1 = True
             b = b+1
-        if self.TrouveO == False :
+        if self.TrouveO == False and  Posdx < 220  and Posdx > 0 :
             self.dc.DrawLine(Posdx,Posdy,Posfx,Posfy)
-            self.gr.set_edge_weight((depart,"Fin"),5)
+            self.gr.add_edge(depart,"Fin" , weight=5 )
 
 
+    def verifierTrajectoire(self,Posdx,Posdy,Posfx,Posfy):
+        ad = abs(Posdx-Posfx)
+        bd = abs(Posdy-Posfy)
+        tanA = ad/bd
+        b =1
+        self.TrouveVO = False
+        while bd > b and self.TrouveVO ==False :
+            a = (tanA * b)
+            posx = a + Posdx
+            posy = Posdy - b
+            if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
+                self.TrouveVO = True
+            if posy >= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
+                self.TrouveVO = True
+            b = b + 1
 
-
-        ##Algorithme maison pour trouver une trajectoire
-        #Affichage de la position du robot depart
-        #posxa = posxb= 20+self.d
-        #posya = posyb= 20+self.d
-        #self.dc.SetBrush(wx.Brush('#333333'))
-        #self.dc.DrawRectangle(posxa, posya, 20, 20)
-        #Affichage de la position  final
-        #posfx = 20+self.d
-        #posfy = 400+self.d
-        #self.dc.SetBrush(wx.Brush('#444444'))
-        #self.dc.DrawRectangle(posfx, posfy, 20, 20)
-        #trouve1 =trouve2 =False
-        #trouve=True
-        #i = 0
-        #posx = 0
-        #posy = 0
-        #while i < posfy:
-        #print "La variable i vaut :%d" % i
-        #si il arrive a la hauteur d un obstacle 1
-        #while (trouve):
-        #trouve = False
-        #if (i == y1):
-        ## est ce que le robot touche l'obstacle
-        #if((posxb+20>x1)and(posxb<=(x1+60))):
-        #posyb = i
-        #posxb = x1+70
-        #trouve=True
-        #else:
-        #posyb = i
-        #si il arrive a la hauteur d un obstacle 1
-        #trouve1=True
-        # if (i == y2):
-        # est ce que le robot touche l'obstacle
-        #if((posxb+20>x2)and(posxb<=(x2+60))):
-        #posyb = i
-        #posxb = x2+70
-        # trouve=True
-        #trouve2=True
-        #else:
-        #posyb = i
-        #trouve2=True
-        #trouve2=True
-        #trouve=True
-        #if ((trouve1==True)or (trouve2==True)):
-        #self.dc.DrawLine(posxa, posya, posxb, posyb)
-        #self.dc.SetBrush(wx.Brush('#333333'))
-        #self.dc.DrawRectangle(posxb, posyb, 20, 20)
-        #posxa= posxb
-        #posya= posyb
-        #if ((trouve1==True)and (trouve2==True)):
-
-        #posxa= posfx
-        #posya= posfy
-        #i+=10
-        #self.dc.DrawLine(posxa, posya, posxb, posyb)
-        #self.dc.SetBrush(wx.Brush('#333333'))
-        #self.dc.DrawRectangle(posxb, posyb, 20, 20)
 
     def decouperJeu(self):
     #a = []
