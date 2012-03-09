@@ -12,7 +12,7 @@ website: zetcode.com
 last edited: November 2010
 """
 import math
-
+import threading
 import wx
 import networkx as nx
 
@@ -24,10 +24,16 @@ class Example(wx.Frame):
         super(Example, self).__init__(parent, title=title,
             size=(1000, 1000))
         self.panel = wx.Panel(self, -1)
+        self.Action=True
+        self.robotx = 50
+        self.roboty = 50
+        self.i = 0
         wx.FutureCall(2000, self.DrawLine)
+        self.direction=1
         self.gr = nx.Graph()
         self.Centre()
         self.Show()
+
 
 
     def bindHandlers(self):
@@ -55,6 +61,7 @@ class Example(wx.Frame):
 
         self.d  = 10
         self.dc = wx.ClientDC(self.panel)
+
         # La zone de jeux
         self.dc.SetBrush(wx.Brush('#ffffff'))
         self.dc.DrawRectangle(0+self.d, 0+self.d, 220, 460)
@@ -78,15 +85,33 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(190+self.d, 60+self.d, 5, 5)
         # Point d'arriver pour la zone de  dessins
         self.dc.DrawRectangle(55+self.d, 240+self.d, 5, 5)
-        # Met les composant sur la fenetre
-        self.button = wx.Button(self.panel, label="Obstacle", pos=(500, 500),size=(100,50))
-        self.Affiche = wx.Button(self.panel, label="Affiche", pos=(700, 500),size=(100,50))
-        self.bindHandlers()
+        # Met le robot sur la zone
+        self.dc.SetBrush(wx.Brush('#ff0000'))
+        self.dc.DrawRectangle(self.robotx,self.roboty,10,10)
+        if self.direction==1:
+            self.dc.DrawRectangle(self.robotx-5,self.roboty+10,20,5)
+            self.dc.DrawRectangle(self.robotx-2.5,self.roboty+15,15,5)
+            self.dc.DrawRectangle(self.robotx,self.roboty+20,10,5)
+        if self.direction==2:
+            self.dc.DrawRectangle(self.robotx+10,self.roboty+-5,5,20)
+            self.dc.DrawRectangle(self.robotx+15,self.roboty-2.5,5,15)
+            self.dc.DrawRectangle(self.robotx+20,self.roboty,5,10)
+        if self.direction==3:
+            self.dc.DrawRectangle(self.robotx-5,self.roboty-5,20,5)
+            self.dc.DrawRectangle(self.robotx-2.5,self.roboty-10,15,5)
+            self.dc.DrawRectangle(self.robotx,self.roboty-15,10,5)
+        if self.direction==4:
+            self.dc.DrawRectangle(self.robotx-5,self.roboty-5,5,20)
+            self.dc.DrawRectangle(self.robotx-10,self.roboty-2.5,5,15)
+            self.dc.DrawRectangle(self.robotx-15,self.roboty,5,10)
+        if self.Action==True:
+            self.Action=False
+            self.button = wx.Button(self.panel, label="Obstacle", pos=(500, 500),size=(100,50))
+            self.Affiche = wx.Button(self.panel, label="Affiche", pos=(700, 500),size=(100,50))
+            self.bindHandlers()
 
     def onButtonClicked(self, event):
-        #Ouvre la fenetre des obstacles
-
-        self.O = Obstacle(self,'Obstacle')
+        self.__fetchCurrentPose()
 
     def onAfficheClicked(self, event):
 
@@ -252,27 +277,29 @@ class Example(wx.Frame):
             b = b + 1
 
 
-    def decouperJeu(self):
-    #a = []
-    # for i in xrange(3):
-    #     a.append([])
-    #     for j in xrange(3):
-    #         a[i].append(i+j)
-        self.zone = []
-        i=0
-        while ( i== 460):
-            self.zone.append([])
-            j=0
-        while (j == 220):
-            j = j +10
-            if ((i == posfx) and (j == posfy)):
-                #si la case a un obstacle
-                self.zone[i]=0
-            else:
-                #si la case est vide
-                self.zone[i]=1
-        i= i+10
 
+
+    def __fetchCurrentPose(self):
+        self.dc.Clear()
+
+        if self.i < 5:
+             self.direction=1
+             self.roboty= self.roboty +10
+        elif self.i < 10:
+            self.direction=2
+            self.robotx= self.robotx +10
+        elif self.i < 15:
+            self.direction=3
+            self.roboty= self.roboty -10
+        elif self.i < 20:
+             self.direction=4
+             self.robotx= self.robotx -10
+        else:
+            self.i = 0
+        self.i=self.i+1
+        self.DrawLine()
+        threading.Timer(1, self.__fetchCurrentPose).start()
+        #self.__send(GetPose())
 
 
 
@@ -326,3 +353,5 @@ if __name__ == '__main__':
     app = wx.App()
     Example(None, 'Line')
     app.MainLoop()
+
+
