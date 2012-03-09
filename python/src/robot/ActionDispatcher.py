@@ -16,8 +16,7 @@ class ActionDispatcher:
 
         if moduleName == startrobot.__name__:
             self.__logger.log('Robot started')
-            #s = serial.Serial('/dev/ttyAMC0', 9600)
-            #s.write('V50.')
+            self.__robot.activate()
 
         elif moduleName == getpose.__name__:
             self.__robot.send(SendPose(2, 4, 120))
