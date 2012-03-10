@@ -15,8 +15,20 @@ import math
 import threading
 import wx
 import networkx as nx
+import Image
+import os, sys
 
 
+
+for infile in sys.argv[1:]:
+    outfile = os.path.splitext(infile)[0] + ".thumbnail"
+    if infile != outfile:
+        try:
+            im = Image.open(infile)
+            im.thumbnail(size)
+            im.save(outfile, "JPEG")
+        except IOError:
+            print "cannot create thumbnail for", infile
 
 
 class Example(wx.Frame):
@@ -27,6 +39,10 @@ class Example(wx.Frame):
         self.Action=True
         self.robotx = 50
         self.roboty = 50
+        self.coordx1 = -1
+        self.coordy1 = -1
+        self.coordx2 = 1
+        self.coordy2 = -1
         self.i = 0
         wx.FutureCall(2000, self.DrawLine)
         self.direction=1
@@ -87,30 +103,46 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(55+self.d, 240+self.d, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.dc.DrawRectangle(self.robotx,self.roboty,10,10)
+        self.xL1=self.robotx+(10*self.coordx1)
+        self.xL2=self.robotx+(10*self.coordx2)
+        self.yL1=self.roboty+(10*self.coordy1)
+        self.yL2=self.roboty+(10*self.coordy2)
         if self.direction==1:
-            self.dc.DrawRectangle(self.robotx-5,self.roboty+10,20,5)
-            self.dc.DrawRectangle(self.robotx-2.5,self.roboty+15,15,5)
-            self.dc.DrawRectangle(self.robotx,self.roboty+20,10,5)
-        if self.direction==2:
-            self.dc.DrawRectangle(self.robotx+10,self.roboty+-5,5,20)
-            self.dc.DrawRectangle(self.robotx+15,self.roboty-2.5,5,15)
-            self.dc.DrawRectangle(self.robotx+20,self.roboty,5,10)
-        if self.direction==3:
-            self.dc.DrawRectangle(self.robotx-5,self.roboty-5,20,5)
-            self.dc.DrawRectangle(self.robotx-2.5,self.roboty-10,15,5)
-            self.dc.DrawRectangle(self.robotx,self.roboty-15,10,5)
-        if self.direction==4:
-            self.dc.DrawRectangle(self.robotx-5,self.roboty-5,5,20)
-            self.dc.DrawRectangle(self.robotx-10,self.roboty-2.5,5,15)
-            self.dc.DrawRectangle(self.robotx-15,self.roboty,5,10)
+            a = math.sin(math.radians(90))
+            print "sin90:%d" % a
+            print "robotx:%d" % self.robotx
+            print "roboty:%d" % self.roboty
+            print "xL1 :%d" % self.xL1
+            print "yL1 :%d" % self.yL1
+            print "xL2 :%d" % self.xL2
+            print "yL2 :%d" % self.yL2
+            self.dc.DrawLine(self.robotx,self.roboty,self.xL1,self.yL1)
+            self.dc.DrawLine(self.robotx,self.roboty,self.xL2,self.yL2)
+            self.dc.DrawLine(self.xL2,self.yL2,self.xL1,self.yL1)
         if self.Action==True:
             self.Action=False
             self.button = wx.Button(self.panel, label="Obstacle", pos=(500, 500),size=(100,50))
             self.Affiche = wx.Button(self.panel, label="Affiche", pos=(700, 500),size=(100,50))
             self.bindHandlers()
 
+
+    def RotationTriangle(self,angle):
+        x = (( self.robotx-self.xL1 )/ 10)
+        y = ((self.roboty-self.yL1)/10)
+        #print "x1 :%d" % x
+        #print "y1 :%d" % y
+        self.coordx1 = 0-(x*math.cos(math.radians(angle)) - (y*math.sin(math.radians(angle))))
+        self.coordy1 = 0-(x*math.sin(math.radians(angle)) + (y*math.cos(math.radians(angle))))
+        #print "coordy :%d" % self.coordy1
+        #print "coordx :%d" % self.coordx1
+        x1 = ((self.robotx- self.xL2)/ 10)
+        y1 = ((self.roboty-self.yL2)/10)
+        #print "x2 :%d" % x1
+        #print "y2 :%d" % y1
+        self.coordx2 = 0-(x1*math.cos(math.radians(angle)) - (y1*math.sin(math.radians(angle))))
+        self.coordy2 = 0-(x1*math.sin(math.radians(angle)) + (y1*math.cos(math.radians(angle))))
     def onButtonClicked(self, event):
+
         self.__fetchCurrentPose()
 
     def onAfficheClicked(self, event):
@@ -133,7 +165,7 @@ class Example(wx.Frame):
         self.Oy13=35+self.y1
         self.Oy14=self.y1-20
 
-        self.x2=200+self.d
+        self.x2=150+self.d
         self.y2=150+self.d
 
         self.Ox21=35+self.x2
@@ -162,7 +194,7 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.Ox14,self.Oy14, 5, 5)
         #Ajout des noueds des obstacle
         #Ajout des chemein possible
-        self.Trouvetrajectoire(210.00,350.00,210.00,70.00)
+        self.Trouvetrajectoire(150.00,350.00,210.00,70.00)
         grs = nx.Graph()
         grs = nx.shortest_path(self.gr,"Depart","Fin")
         print grs
@@ -281,22 +313,19 @@ class Example(wx.Frame):
 
     def __fetchCurrentPose(self):
         self.dc.Clear()
-
-        if self.i < 5:
+        #self.roboty = self.roboty+10
+        if self.i == 1:
              self.direction=1
-             self.roboty= self.roboty +10
-        elif self.i < 10:
-            self.direction=2
-            self.robotx= self.robotx +10
-        elif self.i < 15:
-            self.direction=3
-            self.roboty= self.roboty -10
-        elif self.i < 20:
-             self.direction=4
-             self.robotx= self.robotx -10
-        else:
-            self.i = 0
+             self.RotationTriangle(90)
+        elif self.i == 2:
+            self.RotationTriangle(45)
+        elif self.i == 3:
+            self.RotationTriangle(45)
+        elif self.i == 4:
+             self.RotationTriangle(90)
+             self.i = 0
         self.i=self.i+1
+        self.roboty = self.roboty + 10
         self.DrawLine()
         threading.Timer(1, self.__fetchCurrentPose).start()
         #self.__send(GetPose())
