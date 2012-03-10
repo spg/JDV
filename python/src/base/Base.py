@@ -14,11 +14,10 @@ class Base():
     def connectToRobot(self, ip):
         self._client.connect(ip, 12800)
         self._client.listen()
-        self.__send(StartRobot())
 
         self.__fetchCurrentPose()
 
     def __fetchCurrentPose(self):
-        threading.Timer(10, self.__fetchCurrentPose).start()
+        threading.Timer(3, self.__fetchCurrentPose).start()
         self.__send(GetPose())
 

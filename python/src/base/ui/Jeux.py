@@ -13,22 +13,16 @@ last edited: November 2010
 """
 import math
 import threading
+import time
 import wx
+from src.base.Base import Base
+from src.base.logevent import LogEvent
 import networkx as nx
 import Image
 import os, sys
 
 
 
-for infile in sys.argv[1:]:
-    outfile = os.path.splitext(infile)[0] + ".thumbnail"
-    if infile != outfile:
-        try:
-            im = Image.open(infile)
-            im.thumbnail(size)
-            im.save(outfile, "JPEG")
-        except IOError:
-            print "cannot create thumbnail for", infile
 
 
 class Example(wx.Frame):
@@ -36,25 +30,29 @@ class Example(wx.Frame):
         super(Example, self).__init__(parent, title=title,
             size=(1000, 1000))
         self.panel = wx.Panel(self, -1)
+        self.countAction = 0
         self.Action=True
         self.robotx = 50
+        self.angleActuelle=0
         self.roboty = 50
         self.coordx1 = -1
         self.coordy1 = -1
         self.coordx2 = 1
         self.coordy2 = -1
+        self.__base = Base()
         self.i = 0
         wx.FutureCall(2000, self.DrawLine)
         self.direction=1
         self.gr = nx.Graph()
         self.Centre()
         self.Show()
-
+        LogEvent.addHandler(self.__logReceived)
 
 
     def bindHandlers(self):
         self.Bind(wx.EVT_BUTTON, self.onButtonClicked, self.button)
         self.Bind(wx.EVT_BUTTON, self.onAfficheClicked, self.Affiche)
+        self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
 
     def CreerGraph(self):
         #Initialise les noueds
@@ -123,24 +121,55 @@ class Example(wx.Frame):
             self.Action=False
             self.button = wx.Button(self.panel, label="Obstacle", pos=(500, 500),size=(100,50))
             self.Affiche = wx.Button(self.panel, label="Affiche", pos=(700, 500),size=(100,50))
+            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 300), size=(130, 50))
+            self.__loggingArea = wx.TextCtrl(self.panel, pos=(275,0), size=(500,250), style=wx.TE_MULTILINE)
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(650, 300), size=(100, 50))
             self.bindHandlers()
 
+    def __onConnectButtonClicked(self, event):
+        self.__connectionButton.Disable()
+        self.__ipTextCtrl.Disable()
+        self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
+
+    def __logReceived(self, message):
+        if self.countAction < 2:
+            wx.CallAfter(self.__printToLoggingArea, message)
+        elif self.countAction == 2:
+            self.dc.Clear()
+            self.robotx =message
+            self.DrawLine()
+        elif self.countAction == 3:
+            self.dc.Clear()
+            self.roboty = message
+            self.DrawLine()
+        elif self.countAction == 4:
+            Angle= message
+            self.RotationTriangle(Angle)
+            self.countAction = -1
+        self.countAction = self.countAction+1
+
+    def __printToLoggingArea(self, message):
+        currentTime = time.strftime("%H:%M:%S", time.localtime())
+        self.__loggingArea.AppendText(currentTime + ' : ' + message +'\n')
 
     def RotationTriangle(self,angle):
         x = (( self.robotx-self.xL1 )/ 10)
         y = ((self.roboty-self.yL1)/10)
+        _angle = angle - self.angleActuelle
+        self.angleActuelle = self.angleActuelle + _angle
         #print "x1 :%d" % x
         #print "y1 :%d" % y
-        self.coordx1 = 0-(x*math.cos(math.radians(angle)) - (y*math.sin(math.radians(angle))))
-        self.coordy1 = 0-(x*math.sin(math.radians(angle)) + (y*math.cos(math.radians(angle))))
+        self.coordx1 = 0-(x*math.cos(math.radians(_angle)) - (y*math.sin(math.radians(_angle))))
+        self.coordy1 = 0-(x*math.sin(math.radians(_angle)) + (y*math.cos(math.radians(_angle))))
         #print "coordy :%d" % self.coordy1
         #print "coordx :%d" % self.coordx1
         x1 = ((self.robotx- self.xL2)/ 10)
         y1 = ((self.roboty-self.yL2)/10)
         #print "x2 :%d" % x1
         #print "y2 :%d" % y1
-        self.coordx2 = 0-(x1*math.cos(math.radians(angle)) - (y1*math.sin(math.radians(angle))))
-        self.coordy2 = 0-(x1*math.sin(math.radians(angle)) + (y1*math.cos(math.radians(angle))))
+        self.coordx2 = 0-(x1*math.cos(math.radians(_angle)) - (y1*math.sin(math.radians(_angle))))
+        self.coordy2 = 0-(x1*math.sin(math.radians(_angle)) + (y1*math.cos(math.radians(_angle))))
+
     def onButtonClicked(self, event):
 
         self.__fetchCurrentPose()
@@ -316,16 +345,16 @@ class Example(wx.Frame):
         #self.roboty = self.roboty+10
         if self.i == 1:
              self.direction=1
-             self.RotationTriangle(90)
+             self.RotationTriangle(180)
         elif self.i == 2:
-            self.RotationTriangle(45)
+            self.RotationTriangle(180)
         elif self.i == 3:
-            self.RotationTriangle(45)
+            self.RotationTriangle(180)
         elif self.i == 4:
-             self.RotationTriangle(90)
+             self.RotationTriangle(180)
              self.i = 0
         self.i=self.i+1
-        self.roboty = self.roboty + 10
+        #self.roboty = self.roboty + 10
         self.DrawLine()
         threading.Timer(1, self.__fetchCurrentPose).start()
         #self.__send(GetPose())
