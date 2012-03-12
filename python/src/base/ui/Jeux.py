@@ -182,7 +182,7 @@ class Example(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.x1=130+self.d
+        self.x1=140+self.d
         self.y1=250+self.d
 
         self.Ox11=35+self.x1
@@ -194,7 +194,7 @@ class Example(wx.Frame):
         self.Oy13=35+self.y1
         self.Oy14=self.y1-20
 
-        self.x2=150+self.d
+        self.x2=140+self.d
         self.y2=150+self.d
 
         self.Ox21=35+self.x2
@@ -223,10 +223,15 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.Ox14,self.Oy14, 5, 5)
         #Ajout des noueds des obstacle
         #Ajout des chemein possible
+        self.posDepartx =150.00
+        self.posDeparty =350.00
+        self.posFinx =210.00
+        self.posFiny =70.00
         self.Trouvetrajectoire(150.00,350.00,210.00,70.00)
-        grs = nx.Graph()
-        grs = nx.shortest_path(self.gr,"Depart","Fin")
-        print grs
+        self.grs = nx.Graph()
+        self.grs = nx.shortest_path(self.gr,"Depart","Fin")
+        print self.grs
+        self.TrouverDistanceAngle()
 
 
 
@@ -276,7 +281,7 @@ class Example(wx.Frame):
 
                     self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
                     self.gr.add_edge(depart,"O21" , weight=dist )
-                    self.gr.add_edge("O21","O22" , weight=5 )
+                    self.gr.add_edge("O21","O22" , weight=5.00 )
                     self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
                 self.verifierTrajectoire(Posdx,Posdy,self.Ox23,self.Oy23)
                 if self.Ox23 < 220  and self.Ox23 > 0 and self.TrouveVO == False :
@@ -285,7 +290,7 @@ class Example(wx.Frame):
                     dist = math.sqrt(c)
                     self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
                     self.gr.add_edge(depart,"O23" , weight=dist )
-                    self.gr.add_edge("O23","O24" , weight=5 )
+                    self.gr.add_edge("O23","O24" , weight=5.00 )
                     self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
                 self.TrouveO = True
                 self.TrouveO2=True
@@ -300,8 +305,8 @@ class Example(wx.Frame):
                     c = distx**2 + disty**2
                     dist = math.sqrt(c)
                     self.gr.add_edge(depart,"O11" , weight=dist )
-                    self.gr.add_edge("O11","O12" , weight=5 )
-
+                    self.gr.add_edge("O11","O12" , weight=5.00 )
+                    self.dc.DrawLine(self.Ox11, self.Oy11, self.Ox12, self.Oy12)
                     self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
                 self.verifierTrajectoire(Posdx,Posdy,self.Ox13,self.Oy13)
                 if self.Ox13 < 220  and self.Ox13 >0 and self.TrouveVO == False :
@@ -309,7 +314,7 @@ class Example(wx.Frame):
                     c = distx**2 + disty**2
                     dist = math.sqrt(c)
                     self.gr.add_edge(depart,"O13" , weight=dist )
-                    self.gr.add_edge("O13","O14" , weight=5 )
+                    self.gr.add_edge("O13","O14" , weight=5.00 )
                     self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
                     #Ajout des arcs
                     self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
@@ -318,7 +323,11 @@ class Example(wx.Frame):
             b = b+1
         if self.TrouveO == False and  Posdx < 220  and Posdx > 0 :
             self.dc.DrawLine(Posdx,Posdy,Posfx,Posfy)
-            self.gr.add_edge(depart,"Fin" , weight=5 )
+            distx= Posfx- Posdx
+            disty=Posfy- Posdy
+            c = distx**2 + disty**2
+            dist = math.sqrt(c)
+            self.gr.add_edge(depart,"Fin" , weight=dist)
 
 
     def verifierTrajectoire(self,Posdx,Posdy,Posfx,Posfy):
@@ -359,8 +368,87 @@ class Example(wx.Frame):
         threading.Timer(1, self.__fetchCurrentPose).start()
         #self.__send(GetPose())
 
+    def TrouverDistanceAngle(self):
+        i = 0
+        n1 = ""
+        for n in self.grs:
+            if  n != "Depart" :
+                 eattr = self.gr.edge[n1][n]
+                 data= eattr['weight']
+                 Posdx  = self.TrouverValeurX(n1)
+                 Posdy  = self.TrouverValeurY(n1)
+                 Posfx  = self.TrouverValeurX(n)
+                 Posfy  = self.TrouverValeurY(n)
+                 angles = self.TrouverAngle(Posdx,Posdy,Posfx,Posfy)
+                 print n1
+                 print n
+                 print "Angle :%d" % angles
+                 print "Distance  :%d" % data
+                 print "-----------------"
+            n1 = n
+            i = i+1
 
 
+    def TrouverAngle(self,Posdx,Posdy,Posfx,Posfy):
+
+        a =  Posdx- Posfx
+        #print "a :%d" % a
+        b =   Posdy-Posfy
+       # print "b :%d" % b
+        c = 0.0001
+        if b !=0 :
+            c = a/b
+           # print "c :%d" % c
+            d=math.degrees(math.atan(c))
+            #print "d :%d" % d
+        else:
+            d=0
+        return d
+
+    def TrouverValeurX(self,point):
+        if (point =="Depart"):
+            return self.posDepartx
+        elif (point =="O11"):
+            return self.Ox11
+        elif (point =="O12"):
+            return self.Ox12
+        elif (point =="O13"):
+            return self.Ox13
+        elif (point =="O14"):
+            return self.Ox14
+        elif (point =="O21"):
+            return self.Ox21
+        elif (point =="O22"):
+            return self.Ox22
+        elif (point =="O23"):
+            return self.Ox23
+        elif (point =="O24"):
+            return self.Ox24
+        elif (point =="Fin"):
+            return self.posFinx
+
+
+    def TrouverValeurY(self,point):
+        if (point =="Depart"):
+            return self.posDeparty
+        elif (point =="O11"):
+            return self.Oy11
+        elif (point =="O12"):
+            return self.Oy12
+        elif (point =="O13"):
+            return self.Oy13
+        elif (point =="O14"):
+            return self.Oy14
+        elif (point =="O21"):
+            return self.Oy21
+        elif (point =="O22"):
+            return self.Oy22
+        elif (point =="O23"):
+            return self.Oy23
+        elif (point =="O24"):
+            return self.Oy24
+        elif (point =="Fin"):
+            return self.posFiny
 
 
 class Obstacle(wx.Frame):
@@ -384,6 +472,9 @@ class Obstacle(wx.Frame):
         self.y2 = wx.TextCtrl(panel1,-1,value=u"",pos=(150, 150),size=(50,20))
         self.ajoute = wx.Button(panel1, label="Ajouter", pos=(50, 200),size=(75,20))
         self.annule = wx.Button(panel1, label="Annuler", pos=(150, 200),size=(75,20))
+
+
+
 
     def bindHandlers(self):
         self.Bind(wx.EVT_BUTTON, self.onAjouteClicked, self.ajoute)
