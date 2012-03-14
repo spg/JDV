@@ -19,7 +19,7 @@ from src.base.Base import Base
 from src.base.logevent import LogEvent
 import networkx as nx
 from src.base.ui.Obstacle import  Obstacle
-
+from src.shared.actions.basetorobot.startrobot import StartRobot
 
 
 
@@ -62,10 +62,10 @@ class Example(wx.Frame):
 
         self.d  = 10
         self.dc = wx.ClientDC(self.panel)
-
         # La zone de jeux
         self.dc.SetBrush(wx.Brush('#ffffff'))
         self.dc.DrawRectangle(0+self.d, 0+self.d, 220, 460)
+        self.dc.DrawRectangle(230+self.d, 0+self.d, 242,242)
         # Aire de dessin
         self.dc.SetBrush(wx.Brush('#00ff00'))
         self.dc.DrawRectangle(44+self.d, 228+self.d, 133, 133)
@@ -107,13 +107,16 @@ class Example(wx.Frame):
             self.Affiche = wx.Button(self.panel, label="Affiche", pos=(50, 550),size=(100,25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(50, 600), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(350,500), size=(200,200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(200, 600), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='localhost', pos=(200, 600), size=(100, 25))
             self.bindHandlers()
 
     def __onConnectButtonClicked(self, event):
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
+        self.__base.setObstacle(100,100,100,100)
+        self.__base.StartRobot()
+        self.__base._fetchCurrentPose()
 
     def __logReceived(self, message):
 
@@ -128,11 +131,15 @@ class Example(wx.Frame):
                 self.RotationTriangle(Angle)
                 self.robotx = message.x
                 self.roboty = message.y
-                self.countAction = -1
                 self.DrawLine()
-                self.countAction =0
-            elif self.mes =="Received Line:" :
-                self.dc.DrawLine(message.x1,message.y1,message.x2,message.y2)
+            elif self.mes =="Received lineDes:" :
+                self.dc.DrawLine(message.x1+240,message.y1+10,message.x2+240,message.y2+10)
+            elif self.mes =="Received lineTra:" :
+                self.dc.DrawLine(message.x1+10,message.y1+10,message.x2+10,message.y2+10)
+            elif self.mes =="Received message:" :
+                wx.CallAfter(self.__printToLoggingArea, message)
+
+            self.countAction =0
 
     def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
