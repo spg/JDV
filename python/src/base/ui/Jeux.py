@@ -12,14 +12,13 @@ website: zetcode.com
 last edited: November 2010
 """
 import math
-import threading
 import time
 import wx
+from src.base.ui.Trajectoire import  Trajectoire
 from src.base.Base import Base
 from src.base.logevent import LogEvent
 import networkx as nx
-import Image
-import os, sys
+from src.base.ui.Obstacle import  Obstacle
 
 
 
@@ -54,19 +53,7 @@ class Example(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onAfficheClicked, self.Affiche)
         self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
 
-    def CreerGraph(self):
-        #Initialise les noueds
-        self.gr.add_node("Depart")
-        self.gr.add_node("Fin")
-        self.gr.add_node("O11")
-        self.gr.add_node("O12")
-        self.gr.add_node("O13")
-        self.gr.add_node("O14")
-        self.gr.add_node("O21")
-        self.gr.add_node("O22")
-        self.gr.add_node("O23")
-        self.gr.add_node("O24")
-        #Initialisation des arcs
+
 
 
 
@@ -105,25 +92,22 @@ class Example(wx.Frame):
         self.xL2=self.robotx+(10*self.coordx2)
         self.yL1=self.roboty+(10*self.coordy1)
         self.yL2=self.roboty+(10*self.coordy2)
-        if self.direction==1:
-            a = math.sin(math.radians(90))
-            print "sin90:%d" % a
-            print "robotx:%d" % self.robotx
-            print "roboty:%d" % self.roboty
-            print "xL1 :%d" % self.xL1
-            print "yL1 :%d" % self.yL1
-            print "xL2 :%d" % self.xL2
-            print "yL2 :%d" % self.yL2
-            self.dc.DrawLine(self.robotx,self.roboty,self.xL1,self.yL1)
-            self.dc.DrawLine(self.robotx,self.roboty,self.xL2,self.yL2)
-            self.dc.DrawLine(self.xL2,self.yL2,self.xL1,self.yL1)
+        print "robotx:%d" % self.robotx
+        print "roboty:%d" % self.roboty
+        print "xL1 :%d" % self.xL1
+        print "yL1 :%d" % self.yL1
+        print "xL2 :%d" % self.xL2
+        print "yL2 :%d" % self.yL2
+        self.dc.DrawLine(self.robotx,self.roboty,self.xL1,self.yL1)
+        self.dc.DrawLine(self.robotx,self.roboty,self.xL2,self.yL2)
+        self.dc.DrawLine(self.xL2,self.yL2,self.xL1,self.yL1)
         if self.Action==True:
             self.Action=False
-            self.button = wx.Button(self.panel, label="Obstacle", pos=(500, 500),size=(100,50))
-            self.Affiche = wx.Button(self.panel, label="Affiche", pos=(700, 500),size=(100,50))
-            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 300), size=(130, 50))
-            self.__loggingArea = wx.TextCtrl(self.panel, pos=(275,0), size=(500,250), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(650, 300), size=(100, 50))
+            self.button = wx.Button(self.panel, label="Obstacle", pos=(50, 500),size=(100,25))
+            self.Affiche = wx.Button(self.panel, label="Affiche", pos=(50, 550),size=(100,25))
+            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(50, 600), size=(130, 25))
+            self.__loggingArea = wx.TextCtrl(self.panel, pos=(350,500), size=(200,200), style=wx.TE_MULTILINE)
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(200, 600), size=(100, 25))
             self.bindHandlers()
 
     def __onConnectButtonClicked(self, event):
@@ -132,33 +116,37 @@ class Example(wx.Frame):
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
 
     def __logReceived(self, message):
-        if self.countAction < 2:
+
+        if self.countAction==0:
             wx.CallAfter(self.__printToLoggingArea, message)
-        elif self.countAction == 2:
-            self.dc.Clear()
-            self.robotx =message
-            self.DrawLine()
-        elif self.countAction == 3:
-            self.dc.Clear()
-            self.roboty = message
-            self.DrawLine()
-        elif self.countAction == 4:
-            Angle= message
-            self.RotationTriangle(Angle)
-            self.countAction = -1
-        self.countAction = self.countAction+1
+            self.mes = message
+            self.countAction = self.countAction+1
+        elif self.countAction == 1:
+            if self.mes =="Received pose:" :
+                self.dc.Clear()
+                Angle= message.theta
+                self.RotationTriangle(Angle)
+                self.robotx = message.x
+                self.roboty = message.y
+                self.countAction = -1
+                self.DrawLine()
+                self.countAction =0
+            elif self.mes =="Received Line:" :
+                self.dc.DrawLine(message.x1,message.y1,message.x2,message.y2)
 
     def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
         self.__loggingArea.AppendText(currentTime + ' : ' + message +'\n')
 
     def RotationTriangle(self,angle):
-        x = (( self.robotx-self.xL1 )/ 10)
+        x = ((self.robotx-self.xL1 )/ 10)
         y = ((self.roboty-self.yL1)/10)
+        print "x :%d" % x
+        print "y :%d" % y
         _angle = angle - self.angleActuelle
         self.angleActuelle = self.angleActuelle + _angle
-        #print "x1 :%d" % x
-        #print "y1 :%d" % y
+        print "_angle :%d" % _angle
+        print "angleActuelle :%d" % self.angleActuelle
         self.coordx1 = 0-(x*math.cos(math.radians(_angle)) - (y*math.sin(math.radians(_angle))))
         self.coordy1 = 0-(x*math.sin(math.radians(_angle)) + (y*math.cos(math.radians(_angle))))
         #print "coordy :%d" % self.coordy1
@@ -170,11 +158,11 @@ class Example(wx.Frame):
         self.coordx2 = 0-(x1*math.cos(math.radians(_angle)) - (y1*math.sin(math.radians(_angle))))
         self.coordy2 = 0-(x1*math.sin(math.radians(_angle)) + (y1*math.cos(math.radians(_angle))))
 
-    def onButtonClicked(self, event):
+    def onButtonClicked(self):
+        O = Obstacle()
+        O.Show()
 
-        self.__fetchCurrentPose()
-
-    def onAfficheClicked(self, event):
+    def onAfficheClicked(self):
 
         #Affiche les obstacle
         #self.x1=self.O.getx1()+self.d
@@ -184,319 +172,18 @@ class Example(wx.Frame):
         #Valeur par default pour bu de test
         self.x1=140+self.d
         self.y1=250+self.d
-
-        self.Ox11=35+self.x1
-        self.Ox12=35+self.x1
-        self.Ox13=self.x1-20
-        self.Ox14=self.x1-20
-        self.Oy11=35+self.y1
-        self.Oy12=self.y1-20
-        self.Oy13=35+self.y1
-        self.Oy14=self.y1-20
-
         self.x2=140+self.d
         self.y2=150+self.d
 
-        self.Ox21=35+self.x2
-        self.Ox22=35+self.x2
-        self.Ox23=self.x2-20
-        self.Ox24=self.x2-20
-        self.Oy21=35+self.y2
-        self.Oy22=self.y2-20
-        self.Oy23=35+self.y2
-        self.Oy24=self.y2-20
+
 
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#000000'))
         self.dc.DrawRectangle(self.x1, self.y1, 20, 20)
         self.dc.DrawRectangle(self.x2, self.y2, 20, 20)
-        #Affichage des noeuds des obstacle 1
-        self.dc.SetBrush(wx.Brush('#0000ff'))
-        self.dc.DrawRectangle(self.Ox21,self.Oy21, 5, 5)
-        self.dc.DrawRectangle(self.Ox22,self.Oy22, 5, 5)
-        self.dc.DrawRectangle(self.Ox23,self.Oy23, 5, 5)
-        self.dc.DrawRectangle(self.Ox24,self.Oy24, 5, 5)
-        #Affichage des noeuds des obstacle 1
-        self.dc.DrawRectangle(self.Ox11,self.Oy11, 5, 5)
-        self.dc.DrawRectangle(self.Ox12,self.Oy12, 5, 5)
-        self.dc.DrawRectangle(self.Ox13,self.Oy13, 5, 5)
-        self.dc.DrawRectangle(self.Ox14,self.Oy14, 5, 5)
-        #Ajout des noueds des obstacle
-        #Ajout des chemein possible
-        self.posDepartx =150.00
-        self.posDeparty =350.00
-        self.posFinx =210.00
-        self.posFiny =70.00
-        self.Trouvetrajectoire(150.00,350.00,210.00,70.00)
-        self.grs = nx.Graph()
-        self.grs = nx.shortest_path(self.gr,"Depart","Fin")
-        print self.grs
-        self.TrouverDistanceAngle()
+        #Affichage des noeuds des obstacles
 
-
-
-    def Trouvetrajectoire(self,Posdx,Posdy,Posfx,Posfy):
-        self.TrouveO = True
-        self.TrouveO1 = False
-        self.TrouveO2 = False
-        self.ParcourireLigne(Posdx,Posdy,Posfx,Posfy,"Depart")
-        while(self.TrouveO == True):
-            self.TrouveO=False
-            if self.TrouveO1==True:
-                self.TrouveO1=False
-                self.ParcourireLigne(self.Ox12,self.Oy12,Posfx,Posfy,"O12")
-                self.ParcourireLigne(self.Ox14,self.Oy14,Posfx,Posfy,"O14")
-            if self.TrouveO2==True:
-                self.TrouveO2=False
-                self.ParcourireLigne(self.Ox22,self.Oy22,Posfx,Posfy,"O22")
-                self.ParcourireLigne(self.Ox24,self.Oy24,Posfx,Posfy,"O24")
-
-
-    def ParcourireLigne(self,Posdx,Posdy,Posfx,Posfy,depart):
-        ad = abs(Posdx-Posfx)
-        bd = abs(Posdy-Posfy)
-        tanA = ad/bd
-
-
-        #self.dc.DrawLine(Posdx,Posdy, Posfx, Posfy)
-        b =1
-
-        self.TrouveO = False
-        while bd > b and self.TrouveO ==False :
-            a = (tanA * b)
-            posx = a + Posdx
-            #print "a :%d" % a
-            #print "b :%d" % b
-            #print "posx :%d" % posx
-            posy = Posdy - b
-            #print "posy :%d" % posy
-            if posy>= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
-                # Calcule des distances
-                disty=self.Oy21 - Posdy
-                self.verifierTrajectoire(Posdx,Posdy,self.Ox21,self.Oy21)
-                if self.Ox21 < 220  and self.Ox21 >0 and self.TrouveVO == False :
-                    distx= self.Ox21 - Posdx
-                    c = distx**2 + disty**2
-                    dist = math.sqrt(c)
-
-                    self.dc.DrawLine(Posdx, Posdy, self.Ox21, self.Oy21)
-                    self.gr.add_edge(depart,"O21" , weight=dist )
-                    self.gr.add_edge("O21","O22" , weight=5.00 )
-                    self.dc.DrawLine(self.Ox21, self.Oy21, self.Ox22, self.Oy22)
-                self.verifierTrajectoire(Posdx,Posdy,self.Ox23,self.Oy23)
-                if self.Ox23 < 220  and self.Ox23 > 0 and self.TrouveVO == False :
-                    distx= self.Ox23 - Posdx
-                    c = distx**2 + disty**2
-                    dist = math.sqrt(c)
-                    self.dc.DrawLine(Posdx, Posdy, self.Ox23, self.Oy23)
-                    self.gr.add_edge(depart,"O23" , weight=dist )
-                    self.gr.add_edge("O23","O24" , weight=5.00 )
-                    self.dc.DrawLine(self.Ox23, self.Oy23, self.Ox24, self.Oy24)
-                self.TrouveO = True
-                self.TrouveO2=True
-
-            if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
-                self.verifierTrajectoire(Posdx,Posdy,self.Ox11,self.Oy11)
-                # Calcule des distances
-                disty=self.Oy21 - Posdy
-                if self.Ox11 < 220  and self.Ox11 >0 and self.TrouveVO == False :
-                    distx= self.Ox11 - Posdx
-                    disty=self.Oy11 - Posdy
-                    c = distx**2 + disty**2
-                    dist = math.sqrt(c)
-                    self.gr.add_edge(depart,"O11" , weight=dist )
-                    self.gr.add_edge("O11","O12" , weight=5.00 )
-                    self.dc.DrawLine(self.Ox11, self.Oy11, self.Ox12, self.Oy12)
-                    self.dc.DrawLine(Posdx, Posdy, self.Ox11, self.Oy11)
-                self.verifierTrajectoire(Posdx,Posdy,self.Ox13,self.Oy13)
-                if self.Ox13 < 220  and self.Ox13 >0 and self.TrouveVO == False :
-                    distx= self.Ox22 - Posdx
-                    c = distx**2 + disty**2
-                    dist = math.sqrt(c)
-                    self.gr.add_edge(depart,"O13" , weight=dist )
-                    self.gr.add_edge("O13","O14" , weight=5.00 )
-                    self.dc.DrawLine(Posdx, Posdy, self.Ox13, self.Oy13)
-                    #Ajout des arcs
-                    self.dc.DrawLine(self.Ox13, self.Oy13, self.Ox14, self.Oy14)
-                self.TrouveO = True
-                self.TrouveO1 = True
-            b = b+1
-        if self.TrouveO == False and  Posdx < 220  and Posdx > 0 :
-            self.dc.DrawLine(Posdx,Posdy,Posfx,Posfy)
-            distx= Posfx- Posdx
-            disty=Posfy- Posdy
-            c = distx**2 + disty**2
-            dist = math.sqrt(c)
-            self.gr.add_edge(depart,"Fin" , weight=dist)
-
-
-    def verifierTrajectoire(self,Posdx,Posdy,Posfx,Posfy):
-        ad = abs(Posdx-Posfx)
-        bd = abs(Posdy-Posfy)
-        tanA = ad/bd
-        b =1
-        self.TrouveVO = False
-        while bd > b and self.TrouveVO ==False :
-            a = (tanA * b)
-            posx = a + Posdx
-            posy = Posdy - b
-            if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
-                self.TrouveVO = True
-            if posy >= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
-                self.TrouveVO = True
-            b = b + 1
-
-
-
-
-    def __fetchCurrentPose(self):
-        self.dc.Clear()
-        #self.roboty = self.roboty+10
-        if self.i == 1:
-             self.direction=1
-             self.RotationTriangle(180)
-        elif self.i == 2:
-            self.RotationTriangle(180)
-        elif self.i == 3:
-            self.RotationTriangle(180)
-        elif self.i == 4:
-             self.RotationTriangle(180)
-             self.i = 0
-        self.i=self.i+1
-        #self.roboty = self.roboty + 10
-        self.DrawLine()
-        threading.Timer(1, self.__fetchCurrentPose).start()
-        #self.__send(GetPose())
-
-    def TrouverDistanceAngle(self):
-        i = 0
-        n1 = ""
-        for n in self.grs:
-            if  n != "Depart" :
-                 eattr = self.gr.edge[n1][n]
-                 data= eattr['weight']
-                 Posdx  = self.TrouverValeurX(n1)
-                 Posdy  = self.TrouverValeurY(n1)
-                 Posfx  = self.TrouverValeurX(n)
-                 Posfy  = self.TrouverValeurY(n)
-                 angles = self.TrouverAngle(Posdx,Posdy,Posfx,Posfy)
-                 print n1
-                 print n
-                 print "Angle :%d" % angles
-                 print "Distance  :%d" % data
-                 print "-----------------"
-            n1 = n
-            i = i+1
-
-
-    def TrouverAngle(self,Posdx,Posdy,Posfx,Posfy):
-
-        a =  Posdx- Posfx
-        #print "a :%d" % a
-        b =   Posdy-Posfy
-       # print "b :%d" % b
-        c = 0.0001
-        if b !=0 :
-            c = a/b
-           # print "c :%d" % c
-            d=math.degrees(math.atan(c))
-            #print "d :%d" % d
-        else:
-            d=0
-        return d
-
-    def TrouverValeurX(self,point):
-        if (point =="Depart"):
-            return self.posDepartx
-        elif (point =="O11"):
-            return self.Ox11
-        elif (point =="O12"):
-            return self.Ox12
-        elif (point =="O13"):
-            return self.Ox13
-        elif (point =="O14"):
-            return self.Ox14
-        elif (point =="O21"):
-            return self.Ox21
-        elif (point =="O22"):
-            return self.Ox22
-        elif (point =="O23"):
-            return self.Ox23
-        elif (point =="O24"):
-            return self.Ox24
-        elif (point =="Fin"):
-            return self.posFinx
-
-
-    def TrouverValeurY(self,point):
-        if (point =="Depart"):
-            return self.posDeparty
-        elif (point =="O11"):
-            return self.Oy11
-        elif (point =="O12"):
-            return self.Oy12
-        elif (point =="O13"):
-            return self.Oy13
-        elif (point =="O14"):
-            return self.Oy14
-        elif (point =="O21"):
-            return self.Oy21
-        elif (point =="O22"):
-            return self.Oy22
-        elif (point =="O23"):
-            return self.Oy23
-        elif (point =="O24"):
-            return self.Oy24
-        elif (point =="Fin"):
-            return self.posFiny
-
-
-class Obstacle(wx.Frame):
-    def __init__( self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(300,300))
-        self.initUi()
-        self.bindHandlers()
-        self.Show()
-
-
-    def initUi(self):
-        panel1 = wx.Panel(self, -1)
-
-        self.label1 = wx.StaticText(panel1, -1, 'x1 :' ,pos=(30, 50))
-        self.label1 = wx.StaticText(panel1, -1, 'y1 :' ,pos=(130, 50))
-        self.label1 = wx.StaticText(panel1, -1, 'x2 :' ,pos=(30, 150))
-        self.label1 = wx.StaticText(panel1, -1, 'y2 :' ,pos=(130, 150))
-        self.x1 = wx.TextCtrl(panel1,-1,value=u"",pos=(50, 50),size=(50,20))
-        self.y1 = wx.TextCtrl(panel1,-1,value=u"",pos=(150, 50),size=(50,20))
-        self.x2 = wx.TextCtrl(panel1,-1,value=u"",pos=(50, 150),size=(50,20))
-        self.y2 = wx.TextCtrl(panel1,-1,value=u"",pos=(150, 150),size=(50,20))
-        self.ajoute = wx.Button(panel1, label="Ajouter", pos=(50, 200),size=(75,20))
-        self.annule = wx.Button(panel1, label="Annuler", pos=(150, 200),size=(75,20))
-
-
-
-
-    def bindHandlers(self):
-        self.Bind(wx.EVT_BUTTON, self.onAjouteClicked, self.ajoute)
-
-    def onAjouteClicked(self, event):
-        self.dx1 = self.x1.GetValue()
-        self.dx2 = self.x2.GetValue()
-        self.dy1 = self.y1.GetValue()
-        self.dy2 = self.y2.GetValue()
-        self.Show(False)
-
-    def getx1(self):
-        return int(self.dx1)
-
-    def getx2(self):
-        return int(self.dx2)
-
-    def gety1(self):
-        return int(self.dy1)
-
-    def gety2(self):
-        return int(self.dy2)
+        t = Trajectoire(150.00,350.00,210.00,70.00)
 
 if __name__ == '__main__':
     app = wx.App()

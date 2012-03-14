@@ -11,7 +11,7 @@ class ActionDispatcher():
             LogEvent.fire(obj.message)
         elif moduleName == sendpose.__name__:
             LogEvent.fire('Received pose:')
-            LogEvent.fire('x: ' + str(obj.x) + ', y: ' + str(obj.y) + ', theta: ' + str(obj.theta))
-            LogEvent.fire(obj.x)
-            LogEvent.fire(obj.y)
-            LogEvent.fire(obj.theta)
+            LogEvent.fire(obj)
+        elif moduleName == sendpose.__name__:
+            LogEvent.fire('Received Line:')
+            LogEvent.fire(obj)
