@@ -7,15 +7,15 @@ import networkx as nx
 from src.base.ui.Obstacle import  Obstacle
 
 class Trajectoire():
-    def __init__(self,Departx,Finx,Departy,Finy):
+    def __init__(self,Departx,Departy,Finx,Finy):
         self.x1=140
         self.y1=250
         self.x2=140
         self.y2=150
-        self.posDepartx =150.00
-        self.posDeparty =350.00
-        self.posFinx =210.00
-        self.posFiny =70.00
+        self.posDepartx =Departx
+        self.posDeparty =Departy
+        self.posFinx =Finx
+        self.posFiny =Finy
         self.Ox21=35+self.x2
         self.Ox22=35+self.x2
         self.Ox23=self.x2-20
@@ -33,7 +33,7 @@ class Trajectoire():
         self.Oy13=35+self.y1
         self.Oy14=self.y1-20
         self.gr = nx.Graph()
-        self.Trouvetrajectoire(150.00,350.00,210.00,70.00)
+        self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin")
         print self.grs
@@ -132,9 +132,13 @@ class Trajectoire():
             b = b + 1
 
     def TrouverDistanceAngle(self):
-        i = 0
+        self.listex = []
+        self.listey = []
+        self.nbrelement = 0
         n1 = ""
         for n in self.grs:
+            self.listex.append(self.TrouverValeurX(n))
+            self.listey.append(self.TrouverValeurY(n))
             if  n != "Depart" :
                 eattr = self.gr.edge[n1][n]
                 data= eattr['weight']
@@ -149,7 +153,7 @@ class Trajectoire():
                 print "Distance  :%d" % data
                 print "-----------------"
             n1 = n
-            i = i+1
+            self.nbrelement = self.nbrelement+1
 
 
     def TrouverAngle(self,Posdx,Posdy,Posfx,Posfy):
@@ -210,3 +214,11 @@ class Trajectoire():
             return self.Oy24
         elif point =="Fin":
             return self.posFiny
+
+    def getListeX(self):
+        return self.listex
+
+    def getListeY(self):
+            return self.listey
+    def getLongueurListe(self):
+        return self.nbrelement

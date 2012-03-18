@@ -22,175 +22,166 @@ from src.base.ui.Obstacle import  Obstacle
 from src.shared.actions.basetorobot.startrobot import StartRobot
 
 
-
-
 class Example(wx.Frame):
     def __init__(self, parent, title):
         super(Example, self).__init__(parent, title=title,
             size=(1000, 1000))
         self.panel = wx.Panel(self, -1)
-        self.countAction = 0
-        self.Action=True
-        self.robotx = 50
-        self.angleActuelle=0
-        self.roboty = 50
-        self.coordx1 = -1
-        self.coordy1 = -1
-        self.coordx2 = 1
-        self.coordy2 = -1
+        self.__countAction = 0
+        self.__Action = True
+        self.__robotx = 50
+        self.__roboty = 50
+        self.__angleActuelle = 0
+        self.__coordx1 = -1
+        self.__coordy1 = -1
+        self.__coordx2 = 1
+        self.__coordy2 = -1
         self.__base = Base()
-        self.i = 0
-        wx.FutureCall(2000, self.DrawLine)
-        self.direction=1
-        self.gr = nx.Graph()
+        wx.FutureCall(2000, self.__DrawLine)
         self.Centre()
         self.Show()
         LogEvent.addHandler(self.__logReceived)
 
 
-    def bindHandlers(self):
-        self.Bind(wx.EVT_BUTTON, self.onButtonClicked, self.button)
-        self.Bind(wx.EVT_BUTTON, self.onAfficheClicked, self.Affiche)
+    def __bindHandlers(self):
+        self.Bind(wx.EVT_BUTTON, self.__onButtonClicked, self.__button)
+        self.Bind(wx.EVT_BUTTON, self.__onAfficheClicked, self.__Affiche)
         self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
 
 
-
-
-
-    def DrawLine(self):
+    def __DrawLine(self):
         #option de décalage
 
-        self.d  = 10
+        self.__offset = 10
         self.dc = wx.ClientDC(self.panel)
         # La zone de jeux
         self.dc.SetBrush(wx.Brush('#ffffff'))
-        self.dc.DrawRectangle(0+self.d, 0+self.d, 220, 460)
-        self.dc.DrawRectangle(230+self.d, 0+self.d, 242,242)
+        self.dc.DrawRectangle(0 + self.__offset, 0 + self.__offset, 220, 460)
+        self.dc.DrawRectangle(230 + self.__offset, 0 + self.__offset, 242, 242)
         # Aire de dessin
         self.dc.SetBrush(wx.Brush('#00ff00'))
-        self.dc.DrawRectangle(44+self.d, 228+self.d, 133, 133)
+        self.dc.DrawRectangle(44 + self.__offset, 228 + self.__offset, 133, 133)
         self.dc.SetBrush(wx.Brush('#ffffff'))
-        self.dc.DrawRectangle(50+self.d, 234+self.d, 121, 121)
+        self.dc.DrawRectangle(50 + self.__offset, 234 + self.__offset, 121, 121)
         #ligne rouge
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.dc.DrawRectangle(0+self.d, 158+self.d, 220, 4)
+        self.dc.DrawRectangle(0 + self.__offset, 158 + self.__offset, 220, 4)
         # Point d'arriver pour les dessins
         self.dc.SetBrush(wx.Brush('#00ff00'))
-        self.dc.DrawRectangle(20+self.d, 10+self.d, 5, 5)
-        self.dc.DrawRectangle(70+self.d, 10+self.d, 5, 5)
-        self.dc.DrawRectangle(130+self.d, 10+self.d, 5, 5)
-        self.dc.DrawRectangle(190+self.d, 10+self.d, 5, 5)
-        self.dc.DrawRectangle(20+self.d, 30+self.d, 5, 5)
-        self.dc.DrawRectangle(20+self.d, 60+self.d, 5, 5)
-        self.dc.DrawRectangle(190+self.d, 30+self.d, 5, 5)
-        self.dc.DrawRectangle(190+self.d, 60+self.d, 5, 5)
+        self.dc.DrawRectangle(20 + self.__offset, 10 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(70 + self.__offset, 10 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(130 + self.__offset, 10 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(190 + self.__offset, 10 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(20 + self.__offset, 30 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(20 + self.__offset, 60 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(190 + self.__offset, 30 + self.__offset, 5, 5)
+        self.dc.DrawRectangle(190 + self.__offset, 60 + self.__offset, 5, 5)
         # Point d'arriver pour la zone de  dessins
-        self.dc.DrawRectangle(55+self.d, 240+self.d, 5, 5)
+        self.dc.DrawRectangle(55 + self.__offset, 240 + self.__offset, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.xL1=self.robotx+(10*self.coordx1)
-        self.xL2=self.robotx+(10*self.coordx2)
-        self.yL1=self.roboty+(10*self.coordy1)
-        self.yL2=self.roboty+(10*self.coordy2)
-        print "robotx:%d" % self.robotx
-        print "roboty:%d" % self.roboty
-        print "xL1 :%d" % self.xL1
-        print "yL1 :%d" % self.yL1
-        print "xL2 :%d" % self.xL2
-        print "yL2 :%d" % self.yL2
-        self.dc.DrawLine(self.robotx,self.roboty,self.xL1,self.yL1)
-        self.dc.DrawLine(self.robotx,self.roboty,self.xL2,self.yL2)
-        self.dc.DrawLine(self.xL2,self.yL2,self.xL1,self.yL1)
-        if self.Action==True:
-            self.Action=False
-            self.button = wx.Button(self.panel, label="Obstacle", pos=(50, 500),size=(100,25))
-            self.Affiche = wx.Button(self.panel, label="Affiche", pos=(50, 550),size=(100,25))
+        self.__xL1 = self.__robotx + (10 * self.__coordx1)
+        self.__xL2 = self.__robotx + (10 * self.__coordx2)
+        self.__yL1 = self.__roboty + (10 * self.__coordy1)
+        self.__yL2 = self.__roboty + (10 * self.__coordy2)
+        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL1, self.__yL1)
+        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL2, self.__yL2)
+        self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
+        if self.__Action:
+            self.__Action = False
+            self.__button = wx.Button(self.panel, label="Obstacle", pos=(50, 500), size=(100, 25))
+            self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(50, 550), size=(100, 25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(50, 600), size=(130, 25))
-            self.__loggingArea = wx.TextCtrl(self.panel, pos=(350,500), size=(200,200), style=wx.TE_MULTILINE)
+            self.__loggingArea = wx.TextCtrl(self.panel, pos=(350, 500), size=(200, 200), style=wx.TE_MULTILINE)
             self.__ipTextCtrl = wx.TextCtrl(self.panel, value='localhost', pos=(200, 600), size=(100, 25))
-            self.bindHandlers()
+            self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
-        self.__base.setObstacle(100,100,100,100)
+        self.__base.setObstacle(100, 100, 100, 100)
         self.__base.StartRobot()
         self.__base._fetchCurrentPose()
 
     def __logReceived(self, message):
-
-        if self.countAction==0:
+        mes = ""
+        if self.__countAction == 0:
             wx.CallAfter(self.__printToLoggingArea, message)
-            self.mes = message
-            self.countAction = self.countAction+1
+            mes = message
+            self.__countAction = self.countAction + 1
         elif self.countAction == 1:
-            if self.mes =="Received pose:" :
+            if mes == "Received pose:":
                 self.dc.Clear()
-                Angle= message.theta
-                self.RotationTriangle(Angle)
+                Angle = message.theta
+                self.__RotationTriangle(Angle)
                 self.robotx = message.x
                 self.roboty = message.y
-                self.DrawLine()
-            elif self.mes =="Received lineDes:" :
-                self.dc.DrawLine(message.x1+240,message.y1+10,message.x2+240,message.y2+10)
-            elif self.mes =="Received lineTra:" :
-                self.dc.DrawLine(message.x1+10,message.y1+10,message.x2+10,message.y2+10)
-            elif self.mes =="Received message:" :
+                self.__DrawLine()
+            elif mes == "Received lineDes:":
+                self.AfficherDessin(self, message.listex, message.listeY, message.LongueurListe)
+            elif mes == "Received lineTra:":
+                self.AfficherTrajectoire(self, message.listeX, message.listeY, message.LongueurListe)
+            elif mes == "Received message:":
                 wx.CallAfter(self.__printToLoggingArea, message)
+            self.__countAction = 0
 
-            self.countAction =0
+
+    def __AfficherTrajectoire(self, listeX, listeY, LongueurListe):
+        i = 0
+        while i < LongueurListe - 1:
+            self.dc.DrawLine(listeX[i] + 10, listeY[i] + 10, listeX[i + 1] + 10, listeY[i + 1] + 10)
+            i = i + 1
+
+    def __AfficherDessin(self, listeX, listeY, LongueurListe):
+        while i < LongueurListe - 1:
+            self.dc.DrawLine(listeX[i] + 240, listeY[i] + 10, listeX[i + 1] + 240, listeY[i + 1] + 10)
+            i = i + 1
 
     def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
-        self.__loggingArea.AppendText(currentTime + ' : ' + message +'\n')
+        self.__loggingArea.AppendText(currentTime + ' : ' + message + '\n')
 
-    def RotationTriangle(self,angle):
-        x = ((self.robotx-self.xL1 )/ 10)
-        y = ((self.roboty-self.yL1)/10)
-        print "x :%d" % x
-        print "y :%d" % y
-        _angle = angle - self.angleActuelle
-        self.angleActuelle = self.angleActuelle + _angle
-        print "_angle :%d" % _angle
-        print "angleActuelle :%d" % self.angleActuelle
-        self.coordx1 = 0-(x*math.cos(math.radians(_angle)) - (y*math.sin(math.radians(_angle))))
-        self.coordy1 = 0-(x*math.sin(math.radians(_angle)) + (y*math.cos(math.radians(_angle))))
-        #print "coordy :%d" % self.coordy1
-        #print "coordx :%d" % self.coordx1
-        x1 = ((self.robotx- self.xL2)/ 10)
-        y1 = ((self.roboty-self.yL2)/10)
-        #print "x2 :%d" % x1
-        #print "y2 :%d" % y1
-        self.coordx2 = 0-(x1*math.cos(math.radians(_angle)) - (y1*math.sin(math.radians(_angle))))
-        self.coordy2 = 0-(x1*math.sin(math.radians(_angle)) + (y1*math.cos(math.radians(_angle))))
+    def __RotationTriangle(self, angle):
+        x = ((self.robotx - self.xL1 ) / 10)
+        y = ((self.roboty - self.yL1) / 10)
+        _angle = angle - self._angleActuelle
+        self.__angleActuelle = self._angleActuelle + _angle
+        self.__coordx1 = 0 - (x * math.cos(math.radians(_angle)) - (y * math.sin(math.radians(_angle))))
+        self.__coordy1 = 0 - (x * math.sin(math.radians(_angle)) + (y * math.cos(math.radians(_angle))))
+        x1 = ((self.__robotx - self.__xL2) / 10)
+        y1 = ((self.__roboty - self.__yL2) / 10)
+        self.__coordx2 = 0 - (x1 * math.cos(math.radians(_angle)) - (y1 * math.sin(math.radians(_angle))))
+        self.__coordy2 = 0 - (x1 * math.sin(math.radians(_angle)) + (y1 * math.cos(math.radians(_angle))))
 
-    def onButtonClicked(self):
+    def __onButtonClicked(self, event):
         O = Obstacle()
         O.Show()
 
-    def onAfficheClicked(self):
-
+    def __onAfficheClicked(self, event):
         #Affiche les obstacle
         #self.x1=self.O.getx1()+self.d
         #self.x2=self.O.getx2()+self.d
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.x1=140+self.d
-        self.y1=250+self.d
-        self.x2=140+self.d
-        self.y2=150+self.d
-
-
-
+        self.__x1 = 140 + self.__offset
+        self.__y1 = 250 + self.__offset
+        self.__x2 = 140 + self.__offset
+        self.__y2 = 150 + self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#000000'))
-        self.dc.DrawRectangle(self.x1, self.y1, 20, 20)
-        self.dc.DrawRectangle(self.x2, self.y2, 20, 20)
+        self.dc.DrawRectangle(self.__x1, self.__y1, 20, 20)
+        self.dc.DrawRectangle(self.__x2, self.__y2, 20, 20)
         #Affichage des noeuds des obstacles
-
-        t = Trajectoire(150.00,350.00,210.00,70.00)
+        t = Trajectoire(150.00, 350.00, 210.00, 70.00)
+        listex = t.getListeX()
+        listey = t.getListeY()
+        n = t.getLongueurListe()
+        i = 0
+        while i < n - 1:
+            self.dc.DrawLine(listex[i], listey[i], listex[i + 1], listey[i + 1])
+            i = i + 1
 
 if __name__ == '__main__':
     app = wx.App()
