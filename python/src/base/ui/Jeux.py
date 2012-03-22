@@ -25,7 +25,7 @@ from src.shared.actions.basetorobot.startrobot import StartRobot
 class Example(wx.Frame):
     def __init__(self, parent, title):
         super(Example, self).__init__(parent, title=title,
-            size=(1000, 1000))
+            size=(700, 550))
         self.panel = wx.Panel(self, -1)
         self.__countAction = 0
         self.__Action = True
@@ -92,11 +92,11 @@ class Example(wx.Frame):
         self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
         if self.__Action:
             self.__Action = False
-            self.__button = wx.Button(self.panel, label="Obstacle", pos=(50, 500), size=(100, 25))
-            self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(50, 550), size=(100, 25))
-            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(50, 600), size=(130, 25))
-            self.__loggingArea = wx.TextCtrl(self.panel, pos=(350, 500), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='localhost', pos=(200, 600), size=(100, 25))
+            self.__button = wx.Button(self.panel, label="Obstacle", pos=(500, 10), size=(100, 25))
+            self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
+            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
+            self.__loggingArea = wx.TextCtrl(self.panel, pos=(250, 260), size=(200, 200), style=wx.TE_MULTILINE)
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='localhost', pos=(500, 140), size=(100, 25))
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
@@ -250,7 +250,8 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.__x1, self.__y1, 20, 20)
         self.dc.DrawRectangle(self.__x2, self.__y2, 20, 20)
         #Affichage des noeuds des obstacles
-        t = Trajectoire(150.00, 350.00, 210.00, 70.00)
+        #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
+        t = Trajectoire(210.00, 70.00, 150.00, 350.00)
         liste = t.getListe()
         self.__AfficherTrajectoire(liste)
 

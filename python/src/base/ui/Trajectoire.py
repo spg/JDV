@@ -8,14 +8,22 @@ from src.base.ui.Obstacle import  Obstacle
 
 class Trajectoire():
     def __init__(self,Departx,Departy,Finx,Finy):
+        self.Envers = False
+        if Departy-Finy <= 0 :
+            self.Envers = True
+            self.posDepartx =Finx
+            self.posDeparty =Finy
+            self.posFinx =Departx
+            self.posFiny =Departy
+        else :
+            self.posDepartx =Departx
+            self.posDeparty =Departy
+            self.posFinx =Finx
+            self.posFiny =Finy
         self.x1=140
         self.y1=250
         self.x2=140
         self.y2=150
-        self.posDepartx =Departx
-        self.posDeparty =Departy
-        self.posFinx =Finx
-        self.posFiny =Finy
         self.Ox21=35+self.x2
         self.Ox22=35+self.x2
         self.Ox23=self.x2-20
@@ -136,7 +144,10 @@ class Trajectoire():
         self.nbrelement = 0
         n1 = ""
         for n in self.grs:
-            self.liste.append((self.TrouverValeurX(n),self.TrouverValeurY(n)))
+            if self.Envers==True:
+                self.liste.append((self.TrouverValeurX(n),self.TrouverValeurY(n)))
+            else:
+                self.liste.insert(0,(self.TrouverValeurX(n),self.TrouverValeurY(n)))
             if  n != "Depart" :
                 eattr = self.gr.edge[n1][n]
                 data= eattr['weight']
@@ -153,6 +164,10 @@ class Trajectoire():
             n1 = n
             self.nbrelement = self.nbrelement+1
 
+    def inverseListe(self):
+        liste = []
+
+        return listeinvese
 
     def TrouverAngle(self,Posdx,Posdy,Posfx,Posfy):
         a =  Posdx- Posfx
