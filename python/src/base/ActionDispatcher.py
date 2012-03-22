@@ -1,6 +1,10 @@
 import cPickle
 from src.base.logevent import LogEvent
 from src.shared.actions.robottobase import log, sendpose,senddesssin,sendtrajectoire
+from src.base.logevent import LogEvent
+from src.base.poseevent import PoseEventvent
+from src.base.trajectoireevent import TrajectoireEvent
+from src.base.dessinevent import DessinEvent
 
 class ActionDispatcher():
     def dispatch(self, msg):
@@ -12,10 +16,10 @@ class ActionDispatcher():
             LogEvent.fire(obj.message)
         elif moduleName == sendpose.__name__:
             LogEvent.fire('Received pose:')
-            LogEvent.fire(obj)
+            PoseEventvent.fire(obj)
         elif moduleName == senddesssin.__name__:
-            LogEvent.fire('Received lineDes:')
-            LogEvent.fire(obj)
+            LogEvent.fire('Received draw:')
+            TrajectoireEvent.fire(obj)
         elif moduleName == sendtrajectoire.__name__:
-            LogEvent.fire('Received lineTra:')
-            LogEvent.fire(obj)
+            LogEvent.fire('Received path:')
+            DessinEvent.fire(obj)
