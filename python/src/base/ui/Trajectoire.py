@@ -132,13 +132,11 @@ class Trajectoire():
             b = b + 1
 
     def TrouverDistanceAngle(self):
-        self.listex = []
-        self.listey = []
+        self.liste = []
         self.nbrelement = 0
         n1 = ""
         for n in self.grs:
-            self.listex.append(self.TrouverValeurX(n))
-            self.listey.append(self.TrouverValeurY(n))
+            self.liste.append((self.TrouverValeurX(n),self.TrouverValeurY(n)))
             if  n != "Depart" :
                 eattr = self.gr.edge[n1][n]
                 data= eattr['weight']
@@ -215,10 +213,5 @@ class Trajectoire():
         elif point =="Fin":
             return self.posFiny
 
-    def getListeX(self):
-        return self.listex
-
-    def getListeY(self):
-            return self.listey
-    def getLongueurListe(self):
-        return self.nbrelement
+    def getListe(self):
+        return self.liste
