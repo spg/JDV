@@ -4,8 +4,8 @@ from Logger import Logger
 #from src.shared.actions import startrobot
 from src.shared.actions.basetorobot import getpose,getlinedes, getlinetra, startrobot
 from src.shared.actions.robottobase.sendpose import SendPose
-from src.shared.actions.robottobase.sendlinedes import SendLineDes
-from src.shared.actions.robottobase.sendlinetra import SendLineTra
+from src.shared.actions.robottobase.senddesssin import SendLineDes
+from src.shared.actions.robottobase.sendtrajectoire import SendLineTra
 
 class ActionDispatcher:
     def __init__(self, robot):

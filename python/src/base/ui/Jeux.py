@@ -41,6 +41,9 @@ class Example(wx.Frame):
         self.Centre()
         self.Show()
         LogEvent.addHandler(self.__logReceived)
+        LogEvent.addHandler(self.__logReceived)
+        LogEvent.addHandler(self.__logReceived)
+        LogEvent.addHandler(self.__logReceived)
 
 
     def __bindHandlers(self):
@@ -104,6 +107,7 @@ class Example(wx.Frame):
         self.__base.StartRobot()
         self.__base._fetchCurrentPose()
 
+
     def __logReceived(self, message):
         mes = ""
         if self.__countAction == 0:
@@ -126,12 +130,84 @@ class Example(wx.Frame):
                 wx.CallAfter(self.__printToLoggingArea, message)
             self.__countAction = 0
 
+    def __logReceived(self, message):
+        mes = ""
+        if self.__countAction == 0:
+            wx.CallAfter(self.__printToLoggingArea, message)
+            mes = message
+            self.__countAction = self.countAction + 1
+        elif self.countAction == 1:
+            if mes == "Received pose:":
+                self.dc.Clear()
+                Angle = message.theta
+                self.__RotationTriangle(Angle)
+                self.robotx = message.x
+                self.roboty = message.y
+                self.__DrawLine()
+            elif mes == "Received lineDes:":
+                self.AfficherDessin(self, message.listex, message.listeY, message.LongueurListe)
+            elif mes == "Received lineTra:":
+                self.AfficherTrajectoire(self, message.listeX, message.listeY, message.LongueurListe)
+            elif mes == "Received message:":
+                wx.CallAfter(self.__printToLoggingArea, message)
+            self.__countAction = 0
+    def __logReceived(self, message):
+        mes = ""
+        if self.__countAction == 0:
+            wx.CallAfter(self.__printToLoggingArea, message)
+            mes = message
+            self.__countAction = self.countAction + 1
+        elif self.countAction == 1:
+            if mes == "Received pose:":
+                self.dc.Clear()
+                Angle = message.theta
+                self.__RotationTriangle(Angle)
+                self.robotx = message.x
+                self.roboty = message.y
+                self.__DrawLine()
+            elif mes == "Received lineDes:":
+                self.AfficherDessin(self, message.listex, message.listeY, message.LongueurListe)
+            elif mes == "Received lineTra:":
+                self.AfficherTrajectoire(self, message.listeX, message.listeY, message.LongueurListe)
+            elif mes == "Received message:":
+                wx.CallAfter(self.__printToLoggingArea, message)
+            self.__countAction = 0
 
-    def __AfficherTrajectoire(self, listeX, listeY, LongueurListe):
+    def __logReceived(self, message):
+        mes = ""
+        if self.__countAction == 0:
+            wx.CallAfter(self.__printToLoggingArea, message)
+            mes = message
+            self.__countAction = self.countAction + 1
+        elif self.countAction == 1:
+            if mes == "Received pose:":
+                self.dc.Clear()
+                Angle = message.theta
+                self.__RotationTriangle(Angle)
+                self.robotx = message.x
+                self.roboty = message.y
+                self.__DrawLine()
+            elif mes == "Received lineDes:":
+                self.AfficherDessin(self, message.listex, message.listeY, message.LongueurListe)
+            elif mes == "Received lineTra:":
+                self.AfficherTrajectoire(self, message.listeX, message.listeY, message.LongueurListe)
+            elif mes == "Received message:":
+                wx.CallAfter(self.__printToLoggingArea, message)
+            self.__countAction = 0
+
+    def __AfficherTrajectoire(self, liste):
         i = 0
-        while i < LongueurListe - 1:
-            self.dc.DrawLine(listeX[i] + 10, listeY[i] + 10, listeX[i + 1] + 10, listeY[i + 1] + 10)
-            i = i + 1
+        Depart = True
+        x = x1 = y = y1 = 0
+        for  x, y  in liste :
+            if Depart == True :
+                Depart = False
+            else:
+                self.dc.DrawLine(x1, y1, x, y)
+            x1 = x
+            y1 = y
+
+
 
     def __AfficherDessin(self, listeX, listeY, LongueurListe):
         while i < LongueurListe - 1:
@@ -175,13 +251,8 @@ class Example(wx.Frame):
         self.dc.DrawRectangle(self.__x2, self.__y2, 20, 20)
         #Affichage des noeuds des obstacles
         t = Trajectoire(150.00, 350.00, 210.00, 70.00)
-        listex = t.getListeX()
-        listey = t.getListeY()
-        n = t.getLongueurListe()
-        i = 0
-        while i < n - 1:
-            self.dc.DrawLine(listex[i], listey[i], listex[i + 1], listey[i + 1])
-            i = i + 1
+        liste = t.getListe()
+        self.__AfficherTrajectoire(liste)
 
 if __name__ == '__main__':
     app = wx.App()
