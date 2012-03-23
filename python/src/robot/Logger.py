@@ -1,3 +1,4 @@
+from src.robot.sendevent import SendEvent
 from src.shared.actions.robottobase.log import Log
 
 class Logger:
@@ -6,4 +7,4 @@ class Logger:
 
     def log(self, message):
         logAction = Log(message)
-        self._robot.send(logAction)
+        SendEvent.send(logAction)

@@ -1,8 +1,6 @@
 import cPickle
 import threading
 from Client import client
-from src.shared.actions.basetorobot.getpose import GetPose
-from src.shared.actions.basetorobot.getlinedes import GetLineDes
 from src.shared.actions.basetorobot.getlinetra import GetLineTra
 from src.shared.actions.basetorobot.startrobot import StartRobot
 

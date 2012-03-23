@@ -5,4 +5,5 @@ class Singleton:
     def __init__( self ):
         if Singleton.instance:
             raise SingletonAccessException()
+        print "singleton created"
         Singleton.instance = self

@@ -1,31 +1,40 @@
 import socket
 from ActionDispatcher import ActionDispatcher
+from src.robot.ai.singletonaccessexception import SingletonAccessException
+from src.robot.sendevent import SendEvent
 from src.shared.network.communicationthread import CommunicationThread
 
 class Server():
-    def __init__(self, port):
-        self.port = port
+    instance = None
 
+    def __init__( self, port ):
+        if Server.instance:
+            raise SingletonAccessException()
+        print "sever created"
+        Server.instance = self
+
+        self.port = port
         self._initializeSocket()
         self._setConnections()
+        SendEvent.addHandler(self.send)
 
     def _initializeSocket(self):
         self.soc = socket.socket()
-        self.soc.bind(('',self.port))
+        self.soc.bind(('', self.port))
         self.soc.listen(5)
 
     def _setConnections(self):
-        (c1,a1) = self.soc.accept()
-        (c2,a2) = self.soc.accept()
-        self.dict = self._setConn(c1,c2)
+        (c1, a1) = self.soc.accept()
+        (c2, a2) = self.soc.accept()
+        self.dict = self._setConn(c1, c2)
 
     def _setConn(self, con1, con2):
-        dict={}
+        dict = {}
         print 'connexion set'
         state = con1.recv(9)
         print 'state: ', state
         con2.recv(9)
-        if state =='WILL RECV':
+        if state == 'WILL RECV':
             dict['send'] = con1 # server will send data to reciever
             dict['recv'] = con2
         else:
@@ -50,5 +59,5 @@ class Server():
             conn.send(str(999))
             if conn.recv(2) == 'OK':
                 conn.send(msg[:999])
-                self._msend(conn,msg[1000:]) # calling recursive
+                self._msend(conn, msg[1000:]) # calling recursive
 
