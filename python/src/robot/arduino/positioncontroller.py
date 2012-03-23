@@ -9,7 +9,7 @@ class PositionController:
         ser.setDTR(level=0)
         time.sleep(1)
 
-        ser.write('D' + distanceInCentimeters + '.')
+        ser.write('D' + str(distanceInCentimeters) + '.')
         ser.write('A0.')
         ser.write('V5.')
         ser.write('M.')
