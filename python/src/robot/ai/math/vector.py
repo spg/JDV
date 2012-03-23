@@ -2,7 +2,11 @@ import math
 
 class Vector:
     @staticmethod
-    def angle(v1, v2):
+    def length(vector):
+        return math.sqrt(math.pow(vector[0], 2) + math.pow(vector[1], 2))
+
+    @staticmethod
+    def angleBetween(v1, v2):
         return math.atan2(v2[1],v2[0]) - math.atan2(v1[1],v1[0])
 
     @staticmethod
@@ -17,3 +21,7 @@ class Vector:
         deltaY = y2 - y1
 
         return [deltaX, deltaY]
+
+    @staticmethod
+    def buildFromRobotPose(robotPose):
+        return []
