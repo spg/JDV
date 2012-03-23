@@ -2,14 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-ZetCode wxPython tutorial
 
-This program draws a line on the
-frame window after a while
-
-author: Jan Bodnar
-website: zetcode.com
-last edited: November 2010
+author: Equipe 5
 """
 import math
 import time
@@ -29,7 +23,6 @@ class MainWindow(wx.Frame):
         super(MainWindow, self).__init__(parent, title=title,
             size=(700, 550))
         self.panel = wx.Panel(self, -1)
-        self.__countAction = 0
         self.__Action = True
         self.__robotx = 50
         self.__roboty = 50
@@ -129,23 +122,28 @@ class MainWindow(wx.Frame):
         self.AfficherTrajectoire(message.liste)
 
     def __AfficherTrajectoire(self, liste):
-        i = 0
         Depart = True
         x = x1 = y = y1 = 0
         for  x, y  in liste :
             if Depart == True :
                 Depart = False
             else:
-                self.dc.DrawLine(x1, y1, x, y)
+                self.dc.DrawLine(x1+self.__offset, y1+self.__offset, x+self.__offset, y+self.__offset)
             x1 = x
             y1 = y
 
 
 
-    def __AfficherDessin(self, listeX, listeY, LongueurListe):
-        while i < LongueurListe - 1:
-            self.dc.DrawLine(listeX[i] + 240, listeY[i] + 10, listeX[i + 1] + 240, listeY[i + 1] + 10)
-            i = i + 1
+    def __AfficherDessin(self,liste):
+        Depart = True
+        x = x1 = y = y1 = 0
+        for  x, y  in liste :
+            if Depart == True :
+                Depart = False
+            else:
+                self.dc.DrawLine(x1+ 240, y1+self.__offset, x+240, y+self.__offset)
+            x1 = x
+            y1 = y
 
     def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())

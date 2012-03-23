@@ -45,7 +45,7 @@ class Trajectoire():
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin")
         print self.grs
-        self.TrouverDistanceAngle()
+        self.FaireListe()
 
 
 
@@ -139,7 +139,7 @@ class Trajectoire():
                 self.TrouveVO = True
             b = b + 1
 
-    def TrouverDistanceAngle(self):
+    def FaireListe(self):
         self.liste = []
         self.nbrelement = 0
         n1 = ""
@@ -148,40 +148,7 @@ class Trajectoire():
                 self.liste.append((self.TrouverValeurX(n),self.TrouverValeurY(n)))
             else:
                 self.liste.insert(0,(self.TrouverValeurX(n),self.TrouverValeurY(n)))
-            if  n != "Depart" :
-                eattr = self.gr.edge[n1][n]
-                data= eattr['weight']
-                Posdx  = self.TrouverValeurX(n1)
-                Posdy  = self.TrouverValeurY(n1)
-                Posfx  = self.TrouverValeurX(n)
-                Posfy  = self.TrouverValeurY(n)
-                angles = self.TrouverAngle(Posdx,Posdy,Posfx,Posfy)
-                print n1
-                print n
-                print "Angle :%d" % angles
-                print "Distance  :%d" % data
-                print "-----------------"
-            n1 = n
-            self.nbrelement = self.nbrelement+1
 
-    def inverseListe(self):
-        liste = []
-
-        return listeinvese
-
-    def TrouverAngle(self,Posdx,Posdy,Posfx,Posfy):
-        a =  Posdx- Posfx
-        #print "a :%d" % a
-        b =   Posdy-Posfy
-        # print "b :%d" % b
-        if b !=0 :
-            c = a/b
-            # print "c :%d" % c
-            d=math.degrees(math.atan(c))
-            #print "d :%d" % d
-        else:
-            d=0
-        return d
 
     def TrouverValeurX(self,point):
         if point =="Depart":
