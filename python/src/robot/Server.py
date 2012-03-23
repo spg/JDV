@@ -19,7 +19,7 @@ class Server():
 
     def _initializeSocket(self):
         self.soc = socket.socket()
-        self.soc.bind(('', 0))
+        self.soc.bind(('', 12800))
 
         print "bound to socket: " + str(self.soc.getsockname()[1])
 
