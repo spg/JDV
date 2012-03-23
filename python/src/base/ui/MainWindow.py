@@ -50,7 +50,7 @@ class MainWindow(wx.Frame):
         #option de décalage
 
 
-        self.__offset = 10
+        self.__offset = 0
         self.dc = wx.ClientDC(self.panel)
         # La zone de jeux
         self.dc.SetBrush(wx.Brush('#ffffff'))
@@ -173,16 +173,18 @@ class MainWindow(wx.Frame):
         #Valeur par default pour bu de test
         self.__x1 = 250 + self.__offset
         self.__y1 = 100 + self.__offset
-        self.__x2 = 150 + self.__offset
+        self.__x2 = 130 + self.__offset
         self.__y2 = 110 + self.__offset
         #Affichage des obstacle
-        self.dc.SetBrush(wx.Brush('#000000'))
+        self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1, self.__y1, 20, 20)
+        self.dc.SetBrush(wx.Brush('#ff0000'))
         self.dc.DrawRectangle(self.__x2, self.__y2, 20, 20)
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
-        t = Trajectoire(350.00, 110.00,50.00, 110.00 )
-        liste = t.getListe()
+        t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
+
+        liste = t.PathFinding(350.00, 110.00,50.00, 110.00 )
         self.__AfficherTrajectoire(liste)
 
 
