@@ -10,3 +10,7 @@ class PositionController:
         time.sleep(1)
 
         ser.write('D' + distanceInCentimeters + '.')
+
+if __name__=="__main__":
+    positionctrl = PositionController()
+    positionctrl.advance(10)
