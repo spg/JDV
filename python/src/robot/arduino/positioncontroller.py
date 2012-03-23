@@ -10,6 +10,9 @@ class PositionController:
         time.sleep(1)
 
         ser.write('D' + distanceInCentimeters + '.')
+        ser.write('A0.')
+        ser.write('V5.')
+        ser.write('M.')
 
 if __name__=="__main__":
     positionctrl = PositionController()
