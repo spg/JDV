@@ -11,11 +11,10 @@ import wx
 from python.src.base.ui.Trajectoire import  Trajectoire
 from python.src.base.Base import Base
 from python.src.base.logevent import LogEvent
-from python.src.base.poseevent import PoseEventvent
+from python.src.base.poseevent import PoseEvent
 from python.src.base.trajectoireevent import TrajectoireEvent
 from python.src.base.dessinevent import DessinEvent
 from python.src.base.ui.Obstacle import  Obstacle
-from python.src.shared.actions.basetorobot.startrobot import StartRobot
 
 
 class MainWindow(wx.Frame):
@@ -36,7 +35,7 @@ class MainWindow(wx.Frame):
         self.Centre()
         self.Show()
         LogEvent.addHandler(self.__logReceived)
-        PoseEventvent.addHandler(self.__PoseReceived)
+        PoseEvent.addHandler(self.__PoseReceived)
         TrajectoireEvent.addHandler(self.__TrajectoireReceived)
         DessinEvent.addHandler(self.__DessinReceived)
 
