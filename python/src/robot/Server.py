@@ -7,20 +7,22 @@ from python.src.shared.network.communicationthread import CommunicationThread
 class Server():
     instance = None
 
-    def __init__( self, port ):
+    def __init__(self):
         if Server.instance:
             raise SingletonAccessException()
         print "sever created"
         Server.instance = self
 
-        self.port = port
         self._initializeSocket()
         self._setConnections()
         SendEvent.addHandler(self.send)
 
     def _initializeSocket(self):
         self.soc = socket.socket()
-        self.soc.bind(('', self.port))
+        self.soc.bind(('', 0))
+
+        print "bound to socket: " + str(self.soc.getsockname()[1])
+
         self.soc.listen(5)
 
     def _setConnections(self):
