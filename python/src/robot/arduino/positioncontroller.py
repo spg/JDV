@@ -1,11 +1,12 @@
 from serial import Serial
-
-ser = Serial('COM3',9600,timeout=.2)
-ser.write('A')
-ser.close()
-
-
+import time
 
 class PositionController:
     def advance(self, distanceInCentimeters):
-        pass
+        ser = Serial('/dev/ttyAMC0', 9600)
+
+        time.sleep(1)
+        ser.setDTR(level=0)
+        time.sleep(1)
+
+        ser.write('D' + distanceInCentimeters + '.')
