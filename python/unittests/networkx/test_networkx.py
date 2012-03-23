@@ -1,7 +1,7 @@
 import unittest
 import networkx as nx
 from networkx.algorithms.shortest_paths.generic import shortest_path
-from src.robot.ai.graph.node import Node
+from python.src.robot.ai.graph.node import Node
 
 class TestNetworkx(unittest.TestCase):
     def test_simple(self):

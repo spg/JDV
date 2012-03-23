@@ -1,4 +1,4 @@
-from src.robot.ai.singletonaccessexception import SingletonAccessException
+from python.src.robot.ai.singletonaccessexception import SingletonAccessException
 
 class Singleton:
     instance = None

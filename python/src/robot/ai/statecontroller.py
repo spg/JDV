@@ -1,5 +1,5 @@
-from src.robot.ai.singleton import Singleton
-from src.robot.ai.singletonaccessexception import SingletonAccessException
+from python.src.robot.ai.singleton import Singleton
+from python.src.robot.ai.singletonaccessexception import SingletonAccessException
 
 class StateController():
     instance = None

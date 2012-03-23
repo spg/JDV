@@ -1,5 +1,5 @@
 from networkx.algorithms.shortest_paths.generic import shortest_path
-from src.robot.ai.graph.node import Node
+from python.src.robot.ai.graph.node import Node
 import networkx as nx
 
 class SimpleGraph:

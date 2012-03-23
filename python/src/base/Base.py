@@ -1,8 +1,8 @@
 import cPickle
 import threading
 from Client import client
-from src.shared.actions.basetorobot.getlinetra import GetLineTra
-from src.shared.actions.basetorobot.startrobot import StartRobot
+from python.src.shared.actions.basetorobot.getlinetra import GetLineTra
+from python.src.shared.actions.basetorobot.startrobot import StartRobot
 
 class Base():
     def __init__(self):

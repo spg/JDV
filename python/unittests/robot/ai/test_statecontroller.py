@@ -1,6 +1,6 @@
 import unittest
-from src.robot.ai.states.advancestate import AdvanceState
-from src.robot.ai.statecontroller import StateController
+from python.src.robot.ai.states.advancestate import AdvanceState
+from python.src.robot.ai.statecontroller import StateController
 
 class TestStateController(unittest.TestCase):
     def setUp(self):

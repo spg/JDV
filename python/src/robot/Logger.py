@@ -1,5 +1,5 @@
-from src.robot.sendevent import SendEvent
-from src.shared.actions.robottobase.log import Log
+from python.src.robot.sendevent import SendEvent
+from python.src.shared.actions.robottobase.log import Log
 
 class Logger:
     def __init__(self, robot):

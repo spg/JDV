@@ -4,7 +4,7 @@
 
 import math
 import networkx as nx
-from src.base.ui.Obstacle import  Obstacle
+from python.src.base.ui.Obstacle import  Obstacle
 
 class Trajectoire():
     def __init__(self,Departx,Departy,Finx,Finy):

@@ -1,6 +1,6 @@
 import unittest
 import math
-from src.robot.ai.graph.node import Node
+from python.src.robot.ai.graph.node import Node
 
 class TestNode(unittest.TestCase):
     def test_distanceBetween(self):

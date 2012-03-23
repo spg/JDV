@@ -1,9 +1,9 @@
 import time
-from src.robot.ai.statecontroller import StateController
-from src.robot.ai.states.advancestate import AdvanceState
-from src.robot.ai.states.state import State
-from src.robot.sendevent import SendEvent
-from src.shared.actions.robottobase.log import Log
+from python.src.robot.ai.statecontroller import StateController
+from python.src.robot.ai.states.advancestate import AdvanceState
+from python.src.robot.ai.states.state import State
+from python.src.robot.sendevent import SendEvent
+from python.src.shared.actions.robottobase.log import Log
 
 class SearchLocation(State):
     def __init__(self):

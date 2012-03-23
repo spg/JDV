@@ -1,8 +1,8 @@
 import socket
 from ActionDispatcher import ActionDispatcher
-from src.robot.ai.singletonaccessexception import SingletonAccessException
-from src.robot.sendevent import SendEvent
-from src.shared.network.communicationthread import CommunicationThread
+from python.src.robot.ai.singletonaccessexception import SingletonAccessException
+from python.src.robot.sendevent import SendEvent
+from python.src.shared.network.communicationthread import CommunicationThread
 
 class Server():
     instance = None

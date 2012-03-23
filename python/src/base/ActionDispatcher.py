@@ -1,10 +1,9 @@
 import cPickle
-from src.base.logevent import LogEvent
-from src.shared.actions.robottobase import log, sendpose,senddesssin,sendtrajectoire
-from src.base.logevent import LogEvent
-from src.base.poseevent import PoseEventvent
-from src.base.trajectoireevent import TrajectoireEvent
-from src.base.dessinevent import DessinEvent
+from python.src.shared.actions.robottobase import log, sendpose,senddesssin,sendtrajectoire
+from python.src.base.logevent import LogEvent
+from python.src.base.poseevent import PoseEventvent
+from python.src.base.trajectoireevent import TrajectoireEvent
+from python.src.base.dessinevent import DessinEvent
 
 class ActionDispatcher():
     def dispatch(self, msg):

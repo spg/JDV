@@ -1,8 +1,8 @@
 import cPickle
 from Logger import Logger
-from src.robot.ai.statecontroller import StateController
-from src.robot.ai.states.beginstate import BeginState
-from src.shared.actions.basetorobot import    startrobot
+from python.src.robot.ai.statecontroller import StateController
+from python.src.robot.ai.states.beginstate import BeginState
+from python.src.shared.actions.basetorobot import    startrobot
 
 class ActionDispatcher:
     def __init__(self, robot):

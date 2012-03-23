@@ -8,14 +8,14 @@ author: Equipe 5
 import math
 import time
 import wx
-from src.base.ui.Trajectoire import  Trajectoire
-from src.base.Base import Base
-from src.base.logevent import LogEvent
-from src.base.poseevent import PoseEventvent
-from src.base.trajectoireevent import TrajectoireEvent
-from src.base.dessinevent import DessinEvent
-from src.base.ui.Obstacle import  Obstacle
-from src.shared.actions.basetorobot.startrobot import StartRobot
+from python.src.base.ui.Trajectoire import  Trajectoire
+from python.src.base.Base import Base
+from python.src.base.logevent import LogEvent
+from python.src.base.poseevent import PoseEventvent
+from python.src.base.trajectoireevent import TrajectoireEvent
+from python.src.base.dessinevent import DessinEvent
+from python.src.base.ui.Obstacle import  Obstacle
+from python.src.shared.actions.basetorobot.startrobot import StartRobot
 
 
 class MainWindow(wx.Frame):

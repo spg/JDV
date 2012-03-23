@@ -1,6 +1,6 @@
 import unittest
-from src.robot.ai.graph.node import Node
-from src.robot.ai.graph.simplegraph import SimpleGraph
+from python.src.robot.ai.graph.node import Node
+from python.src.robot.ai.graph.simplegraph import SimpleGraph
 
 class TestSimpleGraph(unittest.TestCase):
     def test_constructor(self):
