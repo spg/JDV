@@ -1,5 +1,5 @@
 import wx
-from src.base.ui.MainWindow import MainWindow
+from python.src.base.ui.MainWindow import MainWindow
 
 class Main():
     def __init__(self):
