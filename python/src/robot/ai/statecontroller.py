@@ -1,8 +1,15 @@
 from src.robot.ai.singleton import Singleton
+from src.robot.ai.singletonaccessexception import SingletonAccessException
 
-class StateController(Singleton):
-    def __init__(self, initialState):
-        Singleton.__init__(self)
+class StateController():
+    instance = None
+
+    def __init__( self, initialState ):
+        if StateController.instance:
+            raise SingletonAccessException()
+        print "State Controller created"
+        StateController.instance = self
+
         self.__mainLoopIsOver = False
         self.__currentState = initialState
 

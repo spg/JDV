@@ -1,4 +1,5 @@
+from src.robot.Server import Server
 from src.robot.robot import Robot
 
-robot = Robot()
-robot.startLIstening()
+Server(12800)
+Server.instance.listen(Robot())

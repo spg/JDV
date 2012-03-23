@@ -1,5 +1,5 @@
 import unittest
-from src.robot.ai.advancestate import AdvanceState
+from src.robot.ai.states.advancestate import AdvanceState
 from src.robot.ai.statecontroller import StateController
 
 class TestStateController(unittest.TestCase):

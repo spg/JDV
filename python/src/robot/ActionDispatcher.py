@@ -1,11 +1,8 @@
 import cPickle
-#import serial
 from Logger import Logger
-#from src.shared.actions import startrobot
-from src.shared.actions.basetorobot import getpose,getlinedes, getlinetra, startrobot
-from src.shared.actions.robottobase.sendpose import SendPose
-from src.shared.actions.robottobase.senddesssin import SendLineDes
-from src.shared.actions.robottobase.sendtrajectoire import SendLineTra
+from src.robot.ai.statecontroller import StateController
+from src.robot.ai.states.beginstate import BeginState
+from src.shared.actions.basetorobot import    startrobot
 
 class ActionDispatcher:
     def __init__(self, robot):
@@ -22,20 +19,10 @@ class ActionDispatcher:
 
         if moduleName == startrobot.__name__:
             self.__logger.log('Robot started')
-            self.__robot.activate()
+            stateController = StateController(BeginState())
+            stateController.beginMainLopp()
             self.x1 = obj.obstacle_1_x
             self.y1 = obj.obstacle_1_y
             self.x2 = obj.obstacle_2_x
             self.y2 = obj.obstacle_2_y
-        elif moduleName == getpose.__name__:
-            self.__robot.send(SendPose(20, 40, 120))
-
-        elif moduleName == getlinedes.__name__:
-            self.y2 = self.y2 + 10
-            self.y1 = self.y1 + 10
-            self.__robot.send(SendLineDes(20, self.y1, 50,self.y2))
-        elif moduleName == getlinetra.__name__:
-            self.y2 = self.y2 + 10
-            self.y1 = self.y1 + 10
-            self.__robot.send(SendLineTra(20, self.y1, 50,self.y2))
 
