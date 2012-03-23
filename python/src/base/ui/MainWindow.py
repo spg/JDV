@@ -91,7 +91,7 @@ class MainWindow(wx.Frame):
             self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.235.187', pos=(500, 140), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 140), size=(100, 25))
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
