@@ -3,56 +3,60 @@ from __future__ import division
 import unittest
 import math
 from python.src.robot.ai.math.vector import Vector
-from python.src.robot.pathplanning.pose import Pose
 
 class TestVector(unittest.TestCase):
     def test_angleBetween_ninetyDegrees(self):
-        expectedAngle = math.radians(90)
-
-        self.assertEqual(expectedAngle, Vector.angleBetween([1, 0], [0, 1]))
+        self.assertEqual(90, Vector.angleBetween([1, 0], [0, 1]))
 
     def test_angleBetween_minusNinetyDegrees(self):
-        expectedAngle = math.radians(-90)
-
-        self.assertEqual(expectedAngle, Vector.angleBetween([0, 1], [1, 0]))
+        self.assertEqual(-90, Vector.angleBetween([0, 1], [1, 0]))
 
     def test_angleBetween_zeroDegrees(self):
-        expectedAngle = math.radians(0)
-
-        self.assertEqual(expectedAngle, Vector.angleBetween([1, 1], [2, 2]))
+        self.assertEqual(0, Vector.angleBetween([1, 1], [2, 2]))
 
     def test_angleBetween_oneEightyDegrees(self):
-        expectedAngle = math.radians(180)
-
-        self.assertEqual(expectedAngle, Vector.angleBetween([1, 0], [-1, 0]))
+        self.assertEqual(180, Vector.angleBetween([1, 0], [-1, 0]))
 
     def test_angleBetween_minusOneEightyDegrees(self):
-        expectedAngle = math.radians(-180)
-
-        self.assertEqual(expectedAngle, Vector.angleBetween([-1, 0], [1, 0]))
+        self.assertEqual(-180, Vector.angleBetween([-1, 0], [1, 0]))
 
     def test_angleBetween_fortyFiveDegrees(self):
-        expectedAngle = math.radians(45)
+        expectedAngle = 45
 
         self.assertEqual(expectedAngle, Vector.angleBetween([1, 0], [1, 1]))
 
     def test_angleBetween_minusFortyFiveDegrees(self):
-        expectedAngle = math.radians(-45)
+        expectedAngle = -45
 
         self.assertEqual(expectedAngle, Vector.angleBetween([1, 1], [1, 0]))
 
     def test_angleBetween_thirtyDegrees(self):
-        expectedAngle = math.radians(30)
+        expectedAngle = 30
 
         self.assertAlmostEqual(expectedAngle,
             Vector.angleBetween([-math.sqrt(3) / 2, -1 / 2], [-1 / 2, -math.sqrt(3) / 2]),
             delta=0.000000001)
 
     def test_angleBetween_minusThirtyDegrees(self):
-        expectedAngle = math.radians(-30)
+        self.assertAlmostEqual(-30,
+            Vector.angleBetween([-1 / 2, -math.sqrt(3) / 2], [-math.sqrt(3) / 2, -1 / 2]),
+            delta=0.000000001)
+
+    def test_angleBetween_largeRotation(self):
+        expectedAngle = math.degrees(math.acos(2/math.sqrt(1229)))
 
         self.assertAlmostEqual(expectedAngle,
-            Vector.angleBetween([-1 / 2, -math.sqrt(3) / 2], [-math.sqrt(3) / 2, -1 / 2]),
+            Vector.angleBetween([-1, 0], [-2, -35]),
+            delta=0.000000001)
+
+    def test_angleBetween_ninetyDegreesLargeRotation(self):
+        self.assertAlmostEqual(90,
+            Vector.angleBetween([-1, 0], [0, -1]),
+            delta=0.000000001)
+
+    def test_angleBetween_minusNinetyDegreesLargeRotation(self):
+        self.assertAlmostEqual(-90,
+            Vector.angleBetween([0, -1],[-1, 0]),
             delta=0.000000001)
 
     def test_buildFromTwoPoints_simpleCase(self):
@@ -140,9 +144,19 @@ class TestVector(unittest.TestCase):
     def test_length_negativeValues(self):
         self.assertEqual(math.sqrt(20), Vector.length([-2, -4]))
 
-    def test_buildFromRobotPose_zero(self):
-        robotPose = Pose(0, 0, 0)
-
-        vector = Vector.buildFromRobotPose(robotPose)
+    def test_buildUnitaryVectorFromAngle_zero(self):
+        vector = Vector.buildUnitaryVectorFromAngle(0)
 
         self.assertEqual([1, 0], vector)
+
+    def test_buildUnitaryVectorFromAngle_ninety(self):
+        vector = Vector.buildUnitaryVectorFromAngle(90)
+
+        self.assertAlmostEqual(0, vector[0], delta=0.000001)
+        self.assertEqual(1, vector[1])
+
+    def test_buildUnitaryVectorFromAngle_210(self):
+        vector = Vector.buildUnitaryVectorFromAngle(210)
+
+        self.assertAlmostEqual(-math.sqrt(3)/2, vector[0], delta=0.000001)
+        self.assertAlmostEqual(-0.5, vector[1], delta=0.0000001)

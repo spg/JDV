@@ -7,7 +7,15 @@ class Vector:
 
     @staticmethod
     def angleBetween(v1, v2):
-        return math.atan2(v2[1],v2[0]) - math.atan2(v1[1],v1[0])
+        angle = math.degrees(math.atan2(v2[1],v2[0]) - math.atan2(v1[1],v1[0]))
+
+        if math.fabs(angle) > 180:
+            if angle < 0:
+                angle += 360
+            else:
+                angle -= 360
+
+        return angle
 
     @staticmethod
     def buildFromTwoPoints(p1, p2):
@@ -22,6 +30,12 @@ class Vector:
 
         return [deltaX, deltaY]
 
+    #builds a vector of magnitude 1, from an angle in degrees
     @staticmethod
-    def buildFromRobotPose(robotPose):
-        return []
+    def buildUnitaryVectorFromAngle(angleInDegrees):
+        angleInRadians = math.radians(angleInDegrees)
+
+        x = math.cos(angleInRadians)
+        y = math.sin(angleInRadians)
+
+        return [x, y]
