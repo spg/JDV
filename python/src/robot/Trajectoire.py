@@ -42,8 +42,9 @@ class Trajectoire():
         self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin")
-        print self.grs
+       #print self.grs
         self.FaireListe()
+        print self.liste
         return self.liste
 
     def Trouvetrajectoire(self,Posdx,Posdy,Posfx,Posfy):
