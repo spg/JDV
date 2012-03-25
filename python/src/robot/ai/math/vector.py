@@ -7,7 +7,7 @@ class Vector:
 
     @staticmethod
     def angleBetween(v1, v2):
-        angle = math.degrees(math.atan2(v2[1],v2[0]) - math.atan2(v1[1],v1[0]))
+        angle = math.degrees(math.atan2(v1[1],v1[0])- math.atan2(v2[1],v2[0]))
 
         if math.fabs(angle) > 180:
             if angle < 0:
@@ -33,7 +33,7 @@ class Vector:
     #builds a vector of magnitude 1, from an angle in degrees
     @staticmethod
     def buildUnitaryVectorFromAngle(angleInDegrees):
-        angleInRadians = math.radians(angleInDegrees)
+        angleInRadians = math.radians(-1*angleInDegrees)
 
         x = math.cos(angleInRadians)
         y = math.sin(angleInRadians)
