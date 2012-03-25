@@ -5,7 +5,7 @@ import math
 from python.src.robot.pathplanning.movementplanner import MovementPlanner
 from python.src.robot.pathplanning.pose import Pose
 
-class TestMovementPlanner(unittest.TestCase):
+class TestSnakeMovementPlanner(unittest.TestCase):
     def setUp(self):
         self.movementPlanner = MovementPlanner()
         self.currentPose = Pose(0, 0, 0)
@@ -33,7 +33,7 @@ class TestMovementPlanner(unittest.TestCase):
         moves = self.movementPlanner.planMovement(self.currentPose, path)
 
         self.assertEqual(2, len(moves))
-        self.assertEqual(90, moves[0].angleInDegrees)
+        self.assertEqual(-90, moves[0].angleInDegrees)
         self.assertEqual(1, moves[1].distanceInCentimeters)
 
     def test_planMovement_twoSimpleAngles(self):
@@ -42,9 +42,9 @@ class TestMovementPlanner(unittest.TestCase):
         moves = self.movementPlanner.planMovement(self.currentPose, path)
 
         self.assertEqual(4, len(moves))
-        self.assertEqual(90, moves[0].angleInDegrees)
+        self.assertEqual(-90, moves[0].angleInDegrees)
         self.assertEqual(1, moves[1].distanceInCentimeters)
-        self.assertEqual(-90, moves[2].angleInDegrees)
+        self.assertEqual(90, moves[2].angleInDegrees)
         self.assertEqual(1, moves[3].distanceInCentimeters)
 
     def test_planMovement_complexMovement_1(self):
@@ -57,11 +57,11 @@ class TestMovementPlanner(unittest.TestCase):
         delta = 0.0000001
 
         self.assertEqual(8, len(moves))
-        self.assertAlmostEqual(math.degrees(math.acos(2/math.sqrt(1229))), moves[0].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(-1*math.degrees(math.acos(2/math.sqrt(1229))), moves[0].angleInDegrees, delta=delta)
         self.assertAlmostEqual(math.sqrt(1229), moves[1].distanceInCentimeters, delta=delta)
-        self.assertAlmostEqual(-1*math.degrees(math.acos(-33/math.sqrt(2458))), moves[2].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(math.degrees(math.acos(-33/math.sqrt(2458))), moves[2].angleInDegrees, delta=delta)
         self.assertAlmostEqual(math.sqrt(450), moves[3].distanceInCentimeters, delta=delta)
-        self.assertAlmostEqual(math.degrees(math.acos(-13/math.sqrt(218))), moves[4].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(-1*math.degrees(math.acos(-13/math.sqrt(218))), moves[4].angleInDegrees, delta=delta)
         self.assertAlmostEqual(math.sqrt(109), moves[5].distanceInCentimeters, delta=delta)
-        self.assertAlmostEqual(math.degrees(math.acos(-15/math.sqrt(3706))), moves[6].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(-1*math.degrees(math.acos(-15/math.sqrt(3706))), moves[6].angleInDegrees, delta=delta)
         self.assertAlmostEqual(math.sqrt(34), moves[7].distanceInCentimeters, delta=delta)
