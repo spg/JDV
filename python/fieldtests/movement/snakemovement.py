@@ -1,6 +1,6 @@
 from python.src.robot.arduino.positioncontroller import PositionController
 from python.src.robot.pathplanning.advance import Advance
-from python.src.robot.pathplanning.movementplanner import MovementPlanner
+from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
 from python.src.robot.pathplanning.pose import Pose
 from python.src.robot.pathplanning.rotate import Rotate
 
@@ -19,7 +19,7 @@ currentPose = Pose(9, 27, 180)
 
 path = [(7, -8), (-8, 7), (-5, -3), (0, 0)]
 
-movementPlanner = MovementPlanner()
+movementPlanner = SnakeMovementPlanner()
 moves = movementPlanner.planMovement(currentPose, path)
 
 robotMover = RobotMover()

@@ -2,12 +2,12 @@ from __future__ import division
 
 import unittest
 import math
-from python.src.robot.pathplanning.movementplanner import MovementPlanner
+from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
 from python.src.robot.pathplanning.pose import Pose
 
 class TestSnakeMovementPlanner(unittest.TestCase):
     def setUp(self):
-        self.movementPlanner = MovementPlanner()
+        self.movementPlanner = SnakeMovementPlanner()
         self.currentPose = Pose(0, 0, 0)
 
     def test_planMovement_basicAdvanceMovement(self):
