@@ -17,13 +17,10 @@ class RobotMover:
 
 currentPose = Pose(0, 0, 0)
 
-path = [(7, -8), (-8, 7), (-5, -3), (0, 0)]
+path = [(10, 0), (10, 10), (20, 10), (0, 0)]
 
 movementPlanner = SnakeMovementPlanner()
 moves = movementPlanner.planMovement(currentPose, path)
 
 robotMover = RobotMover()
 robotMover.executeMoves(moves)
-
-positionctrl = PositionController()
-positionctrl.advance(10)
