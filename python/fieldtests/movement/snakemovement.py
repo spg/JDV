@@ -15,7 +15,7 @@ class RobotMover:
             elif type(move) is Rotate:
                 self.positionController.rotate(move.angleInDegrees)
 
-currentPose = Pose(9, 27, 180)
+currentPose = Pose(0, 0, 0)
 
 path = [(7, -8), (-8, 7), (-5, -3), (0, 0)]
 
