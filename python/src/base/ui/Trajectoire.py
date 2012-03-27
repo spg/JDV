@@ -8,6 +8,12 @@ from python.src.base.ui.Obstacle import  Obstacle
 
 class Trajectoire():
     def __init__(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
+        self.obstacle_1_x = obstacle_1_x
+        self.obstacle_1_y = obstacle_1_y
+        self.obstacle_2_x = obstacle_2_x
+        self.obstacle_2_y = obstacle_2_y
+
+    def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
         self.Ox21=40+obstacle_2_x
         self.Ox22=40+obstacle_2_x
         self.Ox23=obstacle_2_x-20
@@ -25,19 +31,45 @@ class Trajectoire():
         self.Oy13=40+obstacle_1_y
         self.Oy14=obstacle_1_y-20
 
-    def PathFinding(self,Departx,Departy,Finx,Finy):
+    def InitialisationChemin(self,Departx,Departy,Finx,Finy):
         self.Envers = False
-        if Departx-Finx < 0 :
+        self.Inverse = False
+        if Departx-Finx == 0 and Departy-Finy >= 0 :
+            self.Inverse = True
+            self.posDepartx =Finy
+            self.posDeparty =Finx
+            self.posFinx = Departy
+            self.posFiny =Departx
+            self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
+            self.SortieMax = 460
+        elif Departx-Finx == 0 and Departy-Finy < 0 :
+            self.Inverse = True
+            self.Envers = True
+            self.posDepartx =Finy
+            self.posDeparty =Finx
+            self.posFinx = Departy
+            self.posFiny =Departx
+            self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
+            self.SortieMax = 460
+        elif Departx-Finx < 0 :
             self.Envers = True
             self.posDepartx =Finx
             self.posDeparty =Finy
             self.posFinx =Departx
             self.posFiny =Departy
-        else :
+            self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
+            self.SortieMax = 220
+        elif Departx-Finx > 0:
             self.posDepartx =Departx
             self.posDeparty =Departy
             self.posFinx =Finx
             self.posFiny =Finy
+            self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
+            self.SortieMax = 220
+
+
+    def PathFinding(self,Departx,Departy,Finx,Finy):
+        self.InitialisationChemin(Departx,Departy,Finx,Finy)
         self.gr = nx.Graph()
         self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
@@ -217,14 +249,14 @@ class Trajectoire():
                         self.TrouveO = True
                         self.TrouveO22 = True
             b = b+1
-        if self.TrouveO == False and  Posdy < 220  and Posdy > 0 :
+        if self.TrouveO == False :
             print("fin")
             dist = self.CalculeDiagonal(Posfx- Posdx,Posfy- Posdy)
             self.gr.add_edge(depart,"Fin" , weight=dist)
 
 
     def EstSortie(self,Position):
-        if Position < 220  and Position >0:
+        if Position < self.SortieMax  and Position >0:
             return False
         else:
             print "Sorite"
@@ -259,10 +291,15 @@ class Trajectoire():
         self.nbrelement = 0
         n1 = ""
         for n in self.grs:
-            if self.Envers==False:
+            if self.Envers==False and self.Inverse==False:
                 self.liste.append((self.TrouverValeurX(n),self.TrouverValeurY(n)))
-            else:
+            if self.Envers==False and self.Inverse==True:
+                self.liste.append((self.TrouverValeurY(n),self.TrouverValeurX(n)))
+            if self.Envers==True and self.Inverse==True:
+                self.liste.insert(0,(self.TrouverValeurY(n),self.TrouverValeurX(n)))
+            if self.Envers==True and self.Inverse==False:
                 self.liste.insert(0,(self.TrouverValeurX(n),self.TrouverValeurY(n)))
+
 
     def CalculeDiagonal(self,x,y):
         c = x**2 + y**2
