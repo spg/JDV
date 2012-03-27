@@ -1,4 +1,7 @@
 class Terrain:
+    OBSTACLE_1 = ()
+    OBSTACLE_2 = ()
+
     ORIGIN = (0, 0)
 
     RED_LINE_NORTH = (795, 1110)
