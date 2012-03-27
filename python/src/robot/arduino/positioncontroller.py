@@ -1,5 +1,6 @@
 from serial import Serial
 import time
+from python.src.robot.logger import Logger
 
 class PositionController:
     def advance(self, distanceInCentimeters):
@@ -9,6 +10,7 @@ class PositionController:
         ser.setDTR(level=0)
         time.sleep(1)
 
+        Logger.logEverywhere("ROBOT: advancing of " + str(distanceInCentimeters) + " cm")
         ser.write('D' + str(distanceInCentimeters) + '.')
         ser.write('A0.')
         ser.write('V5.')
@@ -18,8 +20,6 @@ class PositionController:
 
 
     def rotate(self, angleInDegrees):
-        inversedAngle = -angleInDegrees #this is because the angles in the python code are positive in counter-clockwise direction,
-                                        #whereas angles in the arduino are positive in clockwise direction.
 
         ser = Serial('/dev/ttyACM0', 115200)
 
@@ -27,7 +27,8 @@ class PositionController:
         ser.setDTR(level=0)
         time.sleep(1)
 
-        ser.write('R' + str(inversedAngle) + '.')
+        Logger.logEverywhere("ROBOT: rotating of " + str(angleInDegrees) + " degrees")
+        ser.write('R' + str(angleInDegrees) + '.')
 
         self.__checkIfOperationIsOver(ser)
 
@@ -38,11 +39,5 @@ class PositionController:
         while not operationOver:
             time.sleep(0.1)
             line = ser.readline()
-            print line
             if str(line) == "over\n":
                 operationOver = True
-
-if __name__== '__main__':
-    posctrl = PositionController()
-    posctrl.advance(10)
-    posctrl.rotate(90)
