@@ -1,17 +1,6 @@
-from python.src.robot.arduino.positioncontroller import PositionController
+from python.src.robot.arduino.robotmover import RobotMover
 from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
 from python.src.robot.pathplanning.pose import Pose
-
-class RobotMover:
-    def __init__(self):
-        self.positionController = PositionController()
-
-    def executeMoves(self, moves):
-        for move in moves:
-            if move.getType() == "Advance":
-                self.positionController.advance(move.distanceInCentimeters)
-            elif move.getType() == "Rotate":
-                self.positionController.rotate(move.angleInDegrees)
 
 currentPose = Pose(0, 0, 0)
 
