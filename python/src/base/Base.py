@@ -21,9 +21,6 @@ class Base():
         self._client.connect(ip, 12800)
         self._client.listen()
 
-    def _fetchCurrentPose(self):
-        threading.Timer(3, self._fetchCurrentPose).start()
-        self.__send(GetLineTra())
 
     def StartRobot(self):
         self.__send(StartRobot(self.Ox1,self.Oy1,self.Ox2,self.Oy2))
