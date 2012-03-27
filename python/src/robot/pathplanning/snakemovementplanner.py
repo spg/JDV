@@ -17,7 +17,10 @@ class SnakeMovementPlanner():
             rotationAngle = Vector.angleBetween(currentPoseVector, destinationVector)
 
             if rotationAngle:
-                moves.append(Rotate(rotationAngle))
+                correctedRotationAngle = rotationAngle
+                if correctedRotationAngle < 0:
+                    correctedRotationAngle += 360
+                moves.append(Rotate(correctedRotationAngle))
 
             distanceToAdvance = Vector.length(destinationVector)
             if distanceToAdvance:
