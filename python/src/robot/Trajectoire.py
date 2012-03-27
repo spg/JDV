@@ -34,7 +34,7 @@ class Trajectoire():
     def InitialisationChemin(self,Departx,Departy,Finx,Finy):
         self.Envers = False
         self.Inverse = False
-        if Departx-Finx == 0 and Departy-Finy >= 0 :
+        if Departx-Finx == 0 and Departy-Finy <= 0 :
             self.Inverse = True
             self.posDepartx =Finy
             self.posDeparty =Finx
@@ -42,13 +42,13 @@ class Trajectoire():
             self.posFiny =Departx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 460
-        elif Departx-Finx == 0 and Departy-Finy < 0 :
+        elif Departx-Finx == 0 and Departy-Finy > 0 :
             self.Inverse = True
             self.Envers = True
-            self.posDepartx =Finy
-            self.posDeparty =Finx
-            self.posFinx = Departy
-            self.posFiny =Departx
+            self.posDepartx =Departy
+            self.posDeparty =Departx
+            self.posFinx = Finy
+            self.posFiny =Finx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 460
         elif Departx-Finx < 0 :
@@ -120,7 +120,7 @@ class Trajectoire():
             posy = a + Posdy
             posx = Posdx - b
             #print "posx: %d" % posx
-           # print "posy: %d" % posy
+            # print "posy: %d" % posy
             if posy>= self.Oy24 and posy<=self.Oy21  and posx>= self.Ox24 and posx<=self.Ox21:
                 print(" O2")
                 # Calcule des distances
