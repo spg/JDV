@@ -59,9 +59,9 @@ class MainWindow(wx.Frame):
         self.dc.DrawRectangle(0 + self.__offset, 230 + self.__offset, 242, 242)
         # Aire de dessin
         self.dc.SetBrush(wx.Brush('#00ff00'))
-        self.dc.DrawRectangle(228+ self.__offset,44  + self.__offset, 133, 133)
+        self.dc.DrawRectangle(284+ self.__offset,44  + self.__offset, 133, 133)
         self.dc.SetBrush(wx.Brush('#ffffff'))
-        self.dc.DrawRectangle(234 + self.__offset, 50 + self.__offset, 121, 121)
+        self.dc.DrawRectangle(290 + self.__offset, 50 + self.__offset, 121, 121)
         #ligne rouge
         self.dc.SetBrush(wx.Brush('#ff0000'))
         self.dc.DrawRectangle(158 + self.__offset, 0 + self.__offset, 4,220 )
@@ -76,7 +76,7 @@ class MainWindow(wx.Frame):
         self.dc.DrawRectangle( 30+ self.__offset, 190 + self.__offset, 5, 5)
         self.dc.DrawRectangle( 60+ self.__offset, 190 + self.__offset, 5, 5)
         # Point d'arriver pour la zone de  dessins
-        self.dc.DrawRectangle( 240 + self.__offset, 55 + self.__offset, 5, 5)
+        self.dc.DrawRectangle( 295 + self.__offset, 55 + self.__offset, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
         self.__xL1 = self.__robotx + (10 * self.__coordx1)
@@ -172,10 +172,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 = 160+ self.__offset
-        self.__y1 = 200+ self.__offset
-        self.__x2 = 180+ self.__offset
-        self.__y2 = 200+ self.__offset
+        self.__x1 = 350+ self.__offset
+        self.__y1 = 130+ self.__offset
+        self.__x2 = 330+ self.__offset
+        self.__y2 = 130+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1, self.__y1, 20, 20)
@@ -185,7 +185,7 @@ class MainWindow(wx.Frame):
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
 
-        liste = t.PathFinding(350.00, 210.00,50.00, 210.00 )
+        liste = t.PathFinding(340.00, 10.00,340.00, 200.00)
         self.__AfficherTrajectoire(liste)
 
 
