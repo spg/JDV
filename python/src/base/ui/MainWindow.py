@@ -56,7 +56,7 @@ class MainWindow(wx.Frame):
         # La zone de jeux
         self.dc.SetBrush(wx.Brush('#ffffff'))
         self.dc.DrawRectangle(0 + self.__offset, 0 + self.__offset, 460, 220)
-        self.dc.DrawRectangle(0 + self.__offset, 230 + self.__offset, 242, 242)
+        self.dc.DrawRectangle(0 + self.__offset, 230 + self.__offset, 240, 240)
         # Aire de dessin
         self.dc.SetBrush(wx.Brush('#00ff00'))
         self.dc.DrawRectangle(284+ self.__offset,44  + self.__offset, 133, 133)
@@ -92,14 +92,14 @@ class MainWindow(wx.Frame):
             self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 140), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.235.187', pos=(500, 140), size=(100, 25))
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
-        self.__base.setObstacle(100, 100, 100, 100)
+        self.__base.setObstacle(100, 100, 200, 130)
         self.__base.StartRobot()
 
 
@@ -141,7 +141,7 @@ class MainWindow(wx.Frame):
             if Depart :
                 Depart = False
             else:
-                self.dc.DrawLine(x1+ 240, y1+self.__offset, x+240, y+self.__offset)
+                self.dc.DrawLine((x1*4)+self.__offset, (-y1*4)+ 470, (x*4)+self.__offset, (-y*4)+470)
             x1 = x
             y1 = y
 
