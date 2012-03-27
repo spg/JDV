@@ -1,43 +1,40 @@
-from serial import Serial
-import time
+from python.src.robot.arduino.arduinointerface import ArduinoInterface
 from python.src.robot.logger import Logger
 
 class PositionController:
-    def advance(self, distanceInCentimeters):
-        ser = Serial('/dev/ttyACM0', 115200)
+    def __init__(self):
+        self.arduinoInterface = ArduinoInterface()
 
-        time.sleep(1)
-        ser.setDTR(level=0)
-        time.sleep(1)
+    def advance(self, distanceInCentimeters):
+        ser = self.arduinoInterface.connect()
 
         Logger.logEverywhere("ROBOT: advancing of " + str(distanceInCentimeters) + " cm")
+
         ser.write('D' + str(distanceInCentimeters) + '.')
         ser.write('A0.')
         ser.write('V5.')
         ser.write('M.')
 
-        self.__checkIfOperationIsOver(ser)
-
+        self.arduinoInterface.checkIfOperationIsOver(ser)
 
     def rotate(self, angleInDegrees):
-
-        ser = Serial('/dev/ttyACM0', 115200)
-
-        time.sleep(1)
-        ser.setDTR(level=0)
-        time.sleep(1)
+        ser = self.arduinoInterface.connect()
 
         Logger.logEverywhere("ROBOT: rotating of " + str(angleInDegrees) + " degrees")
+
         ser.write('R' + str(angleInDegrees) + '.')
 
-        self.__checkIfOperationIsOver(ser)
+        self.arduinoInterface.checkIfOperationIsOver(ser)
 
-    def __checkIfOperationIsOver(self, ser):
+    def shuffle(self, distanceInCentimeters, relativeAngleInDegrees):
+        ser = self.arduinoInterface.connect()
 
-        operationOver = False
+        Logger.logEverywhere("ROBOT: shuffling of " + str(distanceInCentimeters) + " cm at angle " + str(
+            relativeAngleInDegrees) + " degrees")
 
-        while not operationOver:
-            time.sleep(0.1)
-            line = ser.readline()
-            if line.find("over") != -1:
-                operationOver = True
+        ser.write('D' + str(distanceInCentimeters) + '.')
+        ser.write('A' + str(relativeAngleInDegrees) + '.')
+        ser.write('V5.')
+        ser.write('M.')
+
+        self.arduinoInterface.checkIfOperationIsOver(ser)
