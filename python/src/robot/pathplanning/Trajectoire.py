@@ -1,10 +1,7 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
+from __future__ import division
 
 import math
 import networkx as nx
-from python.src.base.ui.Obstacle import  Obstacle
 
 class Trajectoire():
     def __init__(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):

@@ -6,23 +6,16 @@ from python.src.robot.logger import Logger
 from python.src.shared.actions.basetorobot import    startrobot
 
 class ActionDispatcher:
-    def __init__(self, robot):
-        self.__robot = robot
-        self.x1 = 0
-        self.y1 = 0
-        self.x2 = 0
-        self.y2 = 0
-
     def dispatch(self, msg):
         obj = cPickle.loads(msg)
         moduleName = obj.__module__
 
         if moduleName == startrobot.__name__:
             Logger.logToBase('Robot started')
-            stateController = StateController(BeginState())
+
+            obstacle1 = (obj.obstacle_1_x, obj.obstacle_1_y)
+            obstacle2 = (obj.obstacle_2_x, obj.obstacle_2_y)
+
+            stateController = StateController(BeginState(obstacle1, obstacle2))
             stateController.beginMainLopp()
-            self.x1 = obj.obstacle_1_x
-            self.y1 = obj.obstacle_1_y
-            self.x2 = obj.obstacle_2_x
-            self.y2 = obj.obstacle_2_y
 
