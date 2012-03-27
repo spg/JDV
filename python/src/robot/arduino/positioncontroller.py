@@ -39,5 +39,5 @@ class PositionController:
         while not operationOver:
             time.sleep(0.1)
             line = ser.readline()
-            if str(line) == "over\n":
+            if line.find("over") != -1:
                 operationOver = True
