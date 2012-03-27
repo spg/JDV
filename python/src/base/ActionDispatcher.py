@@ -18,7 +18,7 @@ class ActionDispatcher():
             PoseEvent.fire(obj)
         elif moduleName == senddesssin.__name__:
             LogEvent.fire('Received draw:')
-            TrajectoireEvent.fire(obj)
+            DessinEvent.fire(obj)
         elif moduleName == sendtrajectoire.__name__:
             LogEvent.fire('Received path:')
-            DessinEvent.fire(obj)
+            TrajectoireEvent.fire(obj)
