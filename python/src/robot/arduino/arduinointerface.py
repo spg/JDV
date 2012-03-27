@@ -1,4 +1,4 @@
-from serial.serialjava import Serial
+from serial import Serial
 import time
 
 class ArduinoInterface:
