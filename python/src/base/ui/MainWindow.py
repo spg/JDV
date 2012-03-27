@@ -96,10 +96,19 @@ class MainWindow(wx.Frame):
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
+        __x1 = 140+ self.__offset
+        __y1 = 200+ self.__offset
+        __x2 = 180+ self.__offset
+        __y2 = 180+ self.__offset
+        #Affichage des obstacle
+        self.dc.SetBrush(wx.Brush('#0000ff'))
+        self.dc.DrawRectangle(__x1, __y1, 20, 20)
+        self.dc.SetBrush(wx.Brush('#ff0000'))
+        self.dc.DrawRectangle(__x2, __y2, 20, 20)
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
-        self.__base.setObstacle(100, 100, 200, 130)
+        self.__base.setObstacle(__x1, __y1, __x2, __y2)
         self.__base.StartRobot()
 
 
@@ -172,10 +181,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 = 350+ self.__offset
-        self.__y1 = 130+ self.__offset
-        self.__x2 = 330+ self.__offset
-        self.__y2 = 130+ self.__offset
+        self.__x1 = 140+ self.__offset
+        self.__y1 = 200+ self.__offset
+        self.__x2 = 180+ self.__offset
+        self.__y2 = 180+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1, self.__y1, 20, 20)
@@ -185,7 +194,7 @@ class MainWindow(wx.Frame):
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
 
-        liste = t.PathFinding(340.00, 10.00,340.00, 200.00)
+        liste = t.PathFinding(350.00, 210.00,50.00, 210.00)
         self.__AfficherTrajectoire(liste)
 
 
