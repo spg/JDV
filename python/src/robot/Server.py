@@ -44,8 +44,8 @@ class Server():
             dict['send'] = con2
         return dict
 
-    def listen(self, robot):
-        cThread = CommunicationThread(self.dict['recv'], ActionDispatcher(robot))
+    def listen(self):
+        cThread = CommunicationThread(self.dict['recv'], ActionDispatcher())
         cThread.start()
 
     def send(self, data):
