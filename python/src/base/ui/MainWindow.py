@@ -96,6 +96,11 @@ class MainWindow(wx.Frame):
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
+        #Affiche les obstacle
+        # __x1=self.O.getx1()+self.__offset
+        #__x2=self.O.getx2()+self.__offset
+        #__y1=self.O.gety1()+self.__offset
+        #__y1=self.O.gety2()+self.__offset
         __x1 = 140+ self.__offset
         __y1 = 200+ self.__offset
         __x2 = 180+ self.__offset
@@ -137,7 +142,7 @@ class MainWindow(wx.Frame):
             if Depart :
                 Depart = False
             else:
-                self.dc.DrawLine(x1+self.__offset, y1+self.__offset, x+self.__offset, y+self.__offset)
+                self.dc.DrawLine((x1*2)+self.__offset, (y1*2)+self.__offset, (x*2)+self.__offset, (y*2)+self.__offset)
             x1 = x
             y1 = y
 
