@@ -9,7 +9,7 @@ class PositionController:
     def advance(self, distanceInCentimeters):
         ser = self.arduinoInterface.connect()
 
-        Logger.logEverywhere("ROBOT: advancing of " + str(distanceInCentimeters) + " cm")
+        #Logger.logEverywhere("ROBOT: advancing of " + str(distanceInCentimeters) + " cm")
 
         time.sleep(0.1)
         ser.write('D' + str(distanceInCentimeters) + '.')
@@ -25,7 +25,7 @@ class PositionController:
     def rotate(self, angleInDegrees):
         ser = self.arduinoInterface.connect()
 
-        Logger.logEverywhere("ROBOT: rotating of " + str(angleInDegrees) + " degrees")
+        #Logger.logEverywhere("ROBOT: rotating of " + str(angleInDegrees) + " degrees")
 
         ser.write('R' + str(angleInDegrees) + '.')
 
@@ -34,8 +34,8 @@ class PositionController:
     def shuffle(self, distanceInCentimeters, relativeAngleInDegrees):
         ser = self.arduinoInterface.connect()
 
-        Logger.logEverywhere("ROBOT: shuffling of " + str(distanceInCentimeters) + " cm at angle " + str(
-            relativeAngleInDegrees) + " degrees")
+        #Logger.logEverywhere("ROBOT: shuffling of " + str(distanceInCentimeters) + " cm at angle " + str(
+            #relativeAngleInDegrees) + " degrees")
 
         ser.write('D' + str(distanceInCentimeters) + '.')
         ser.write('A' + str(relativeAngleInDegrees) + '.')

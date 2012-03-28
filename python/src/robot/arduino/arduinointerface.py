@@ -19,6 +19,7 @@ class ArduinoInterface:
         while not operationOver:
             time.sleep(0.1)
             line = ser.readline()
+            print "arduino: " + str(line)
             if line.find("over") != -1:
                 logger = Logger.logToFileAndScreen("operation over")
                 operationOver = True
