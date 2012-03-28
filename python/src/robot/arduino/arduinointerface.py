@@ -5,6 +5,7 @@ from python.src.robot.logger import Logger
 class ArduinoInterface:
     def __init__(self):
         self.ser = Serial('/dev/ttyACM0', 115200)
+        time.sleep(2)
 
     def connect(self):
         ser = self.ser
