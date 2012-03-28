@@ -1,3 +1,4 @@
+import time
 from python.src.robot.arduino.arduinointerface import ArduinoInterface
 from python.src.robot.logger import Logger
 
@@ -10,9 +11,13 @@ class PositionController:
 
         Logger.logEverywhere("ROBOT: advancing of " + str(distanceInCentimeters) + " cm")
 
+        time.sleep(0.1)
         ser.write('D' + str(distanceInCentimeters) + '.')
+        time.sleep(0.1)
         ser.write('A0.')
+        time.sleep(0.1)
         ser.write('V5.')
+        time.sleep(0.1)
         ser.write('M.')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
