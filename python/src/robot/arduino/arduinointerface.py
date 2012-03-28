@@ -3,8 +3,11 @@ import time
 from python.src.robot.logger import Logger
 
 class ArduinoInterface:
+    def __init__(self):
+        self.ser = Serial('/dev/ttyACM0', 115200)
+
     def connect(self):
-        ser = Serial('/dev/ttyACM0', 115200)
+        ser = self.ser
 
         time.sleep(1)
         ser.setDTR(level=0)
