@@ -4,9 +4,9 @@ from python.src.robot.pathplanning.rotate import Rotate
 
 class SnakeMovementPlanner():
     def planMovement(self, currentPose, nextNodes):
-        currentX = currentPose.x
-        currentY = currentPose.y
-        currentTheta = currentPose.theta
+        currentX = currentPose[0]
+        currentY = currentPose[1]
+        currentTheta = currentPose[2]
 
         moves = []
 
