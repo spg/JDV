@@ -4,3 +4,6 @@ class Rotate:
 
     def getType(self):
         return "Rotate"
+
+    def __repr__(self):
+        return "Rotate: " + str(self.angleInDegrees)

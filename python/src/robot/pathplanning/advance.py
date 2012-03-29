@@ -4,3 +4,6 @@ class Advance:
 
     def getType(self):
         return "Advance"
+
+    def __repr__(self):
+        return "Advance: " + str(self.distanceInCentimeters)
