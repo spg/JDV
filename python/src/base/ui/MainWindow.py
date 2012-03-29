@@ -101,10 +101,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        __x1 = 0+ self.__offset
-        __y1 = 0+ self.__offset
-        __x2 = 65+ self.__offset
-        __y2 = 65+ self.__offset
+        __x1 = 90+ self.__offset
+        __y1 = 70+ self.__offset
+        __x2 = 0+ self.__offset
+        __y2 = 0+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(__x1*2, abs(__y1-110)*2, 20, 20)
@@ -186,10 +186,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 = 100+ self.__offset
-        self.__y1 = 65+ self.__offset
-        self.__x2 = 50+ self.__offset
-        self.__y2 = 65+ self.__offset
+        self.__x1 = 90+ self.__offset
+        self.__y1 = 70+ self.__offset
+        self.__x2 = 0+ self.__offset
+        self.__y2 = 0+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
@@ -198,7 +198,7 @@ class MainWindow(wx.Frame):
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        liste = t.PathFinding(175.00, 65.00,25.00, 65.00 )
+        liste = t.PathFinding(207.00, 22.50,20.00, 95.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(207.8, 88.5, 174.8 , 55.5)
         #self.__AfficherTrajectoire(liste)
