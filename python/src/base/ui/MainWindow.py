@@ -92,7 +92,7 @@ class MainWindow(wx.Frame):
             self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.235.187', pos=(500, 140), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.247.59', pos=(500, 140), size=(100, 25))
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
@@ -101,15 +101,15 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        __x1 = 140+ self.__offset
-        __y1 = 200+ self.__offset
-        __x2 = 180+ self.__offset
-        __y2 = 180+ self.__offset
+        __x1 = 50+ self.__offset-110
+        __y1 = 50+ self.__offset
+        __x2 = 100+ self.__offset
+        __y2 = 100+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
-        self.dc.DrawRectangle(__x1, __y1, 20, 20)
+        self.dc.DrawRectangle(__x1*2, abs((__y1*2)-110), 20, 20)
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.dc.DrawRectangle(__x2, __y2, 20, 20)
+        self.dc.DrawRectangle(__x2*2, abs((__y2*2)-110), 20, 20)
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
@@ -142,7 +142,7 @@ class MainWindow(wx.Frame):
             if Depart :
                 Depart = False
             else:
-                self.dc.DrawLine((x1*2)+self.__offset, (y1*2)+self.__offset, (x*2)+self.__offset, (y*2)+self.__offset)
+                self.dc.DrawLine((x1*2)+self.__offset, abs((y1*2)+self.__offset-110), (x*2)+self.__offset,abs((y*2)+self.__offset-110))
             x1 = x
             y1 = y
 
