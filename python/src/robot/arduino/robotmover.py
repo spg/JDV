@@ -23,7 +23,7 @@ class RobotMover:
         pathBuilder = PathBuilder()
         path = pathBuilder.build(destination)
 
-        moves = SnakeMovementPlanner().planMovement(Robot.currentPose, path)
+        moves = SnakeMovementPlanner().planMovement(Robot.getCurrentPose(), path)
 
         currentRobotVector = Vector.buildUnitaryVectorFromAngle(Robot.getCurrentAngle())
         finalRobotVector = Vector.buildUnitaryVectorFromAngle(finalAbsoluteAngle)
