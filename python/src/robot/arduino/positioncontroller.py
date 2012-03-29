@@ -16,7 +16,7 @@ class PositionController:
         time.sleep(0.1)
         ser.write('A0.')
         time.sleep(0.1)
-        ser.write('V5.')
+        ser.write('V15.')
         time.sleep(0.1)
         ser.write('M.')
 
