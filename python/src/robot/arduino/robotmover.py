@@ -22,6 +22,8 @@ class RobotMover:
     def doSnakeMovement(self, destination, finalAbsoluteAngle):
         pathBuilder = PathBuilder()
         path = pathBuilder.build(destination)
+        del path[0]
+        print path
 
         moves = SnakeMovementPlanner().planMovement(Robot.getCurrentPose(), path)
 
@@ -30,5 +32,8 @@ class RobotMover:
         rotationAngle = Vector.angleBetween(currentRobotVector, finalRobotVector)
 
         moves.append(Rotate(rotationAngle))
+
+        print moves
+        print "about to execute moves..."
 
         self.executeMoves(moves)
