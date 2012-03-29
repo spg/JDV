@@ -20,7 +20,7 @@ class BeginState(State):
         robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
         print "snake movement 1 over!"
 
-        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 180))
+        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 270))
 
         time.sleep(3)
 
