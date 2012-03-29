@@ -25,13 +25,7 @@ class RobotMover:
         del path[0]
         print path
 
-        moves = SnakeMovementPlanner().planMovement(Robot.getCurrentPose(), path)
-
-        currentRobotVector = Vector.buildUnitaryVectorFromAngle(Robot.getCurrentAngle())
-        finalRobotVector = Vector.buildUnitaryVectorFromAngle(finalAbsoluteAngle)
-        rotationAngle = Vector.angleBetween(currentRobotVector, finalRobotVector)
-
-        moves.append(Rotate(rotationAngle))
+        moves = SnakeMovementPlanner().planMovement(Robot.getCurrentPose(), path, finalAbsoluteAngle)
 
         print moves
         print "about to execute moves..."
