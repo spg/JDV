@@ -49,7 +49,6 @@ class Server():
         cThread.start()
 
     def send(self, data):
-        print 'sending back to base'
         self._msend(self.dict['send'], data)
 
     def _msend(self, conn, msg):
