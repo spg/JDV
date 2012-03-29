@@ -12,15 +12,20 @@ class BeginState(State):
         Terrain.OBSTACLE_2 = obstacle2
 
     def run(self):
+        print "running..."
         robotMover = RobotMover()
 
+        print "doing snake movement 1..."
         robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
+        print "snake movement 1 over!"
 
         Robot.currentPose = Pose(Terrain.FIGURE_5_FACE[0], Terrain.FIGURE_5_FACE[1], 180)
 
         time.sleep(3)
 
+        print "doing snake movement 2..."
         robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_CENTER, 270)
+        print "snake movement 2 over!"
 
         Robot.currentPose = Pose(Terrain.DRAWING_ZONE_CENTER[0], Terrain.FIGURE_5_FACE[1], 180)
 
