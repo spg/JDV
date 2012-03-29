@@ -9,8 +9,8 @@ class Camera:
         self.drawingExtractor = DrawingExtractor()
         self.contourExtractor = ContourExtractor()
 
-    def getDrawingContour(self):
-        image = self.camera.getFrame()
+    def getDrawingContour(self, image):
+        #image = self.camera.getFrame()
         drawingImage = self.drawingExtractor.ExtractShape(image)
         contourPoints = self.contourExtractor.findContours(drawingImage)
         size = cv.GetSize(drawingImage)
