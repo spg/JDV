@@ -18,10 +18,10 @@ class BeginState(State):
         robotMover = RobotMover()
 
         print "doing snake movement 1..."
-        robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
+        robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 180)
         print "snake movement 1 over!"
 
-        Robot.setCurrentPose((Terrain.FIGURE_5_FACE[0], Terrain.FIGURE_5_FACE[1], 180))
+        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 180))
 
         time.sleep(3)
 
@@ -29,6 +29,6 @@ class BeginState(State):
         robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_CENTER, 270)
         print "snake movement 2 over!"
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.FIGURE_5_FACE[1], 180))
+        #Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.FIGURE_5_FACE[1], 180))
 
         StateController.instance.endMainLoop()
