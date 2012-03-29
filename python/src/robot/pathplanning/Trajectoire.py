@@ -130,7 +130,7 @@ class Trajectoire():
                     self.gr.add_edge("O21","O23" , weight=30.00 )
                     self.gr.add_edge(depart,"O21" , weight=dist )
                     self.TrouveO = True
-                    self.TrouveO21=True
+                    self.T#rouveO21=True
                 TrouveVO22=self.verifierTrajectoire(Posdx,Posdy,self.Ox22,self.Oy22,0)
                 Colision22=self.verifierTrajectoire(self.Ox22,self.Oy22,self.Ox24,self.Oy24,2)
                 Sortie22 = self.EstSortie(self.Oy22)
