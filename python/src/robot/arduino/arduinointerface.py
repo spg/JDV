@@ -3,9 +3,17 @@ import time
 from python.src.robot.logger import Logger
 
 class ArduinoInterface:
+    instance = None
+
     def __init__(self):
         self.ser = Serial('/dev/ttyACM0', 115200)
         time.sleep(2)
+
+    @staticmethod
+    def getInstance():
+        if ArduinoInterface.instance is None:
+            ArduinoInterface.instance = ArduinoInterface()
+        return ArduinoInterface.instance
 
     def connect(self):
         ser = self.ser

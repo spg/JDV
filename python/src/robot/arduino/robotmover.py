@@ -1,5 +1,10 @@
+from python.src.robot.ai.math.vector import Vector
 from python.src.robot.arduino.positioncontroller import PositionController
 from python.src.robot.pathplanning import advance, rotate, shuffle
+from python.src.robot.pathplanning.pathbuilder import PathBuilder
+from python.src.robot.pathplanning.rotate import Rotate
+from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
+from python.src.robot.robot import Robot
 
 class RobotMover:
     def __init__(self):
@@ -13,3 +18,17 @@ class RobotMover:
                 self.positionController.rotate(move.angleInDegrees)
             elif move.__module__ == shuffle.__name__:
                 self.positionController.shuffle(move.distanceInCentimeters, move.relativeAngleInDegrees)
+
+    def doSnakeMovement(self, destination, finalAbsoluteAngle):
+        pathBuilder = PathBuilder()
+        path = pathBuilder.build(destination)
+
+        moves = SnakeMovementPlanner().planMovement(Robot.currentPose, path)
+
+        currentRobotVector = Vector.buildUnitaryVectorFromAngle(Robot.getCurrentAngle())
+        finalRobotVector = Vector.buildUnitaryVectorFromAngle(finalAbsoluteAngle)
+        rotationAngle = Vector.angleBetween(currentRobotVector, finalRobotVector)
+
+        moves.append(Rotate(rotationAngle))
+
+        self.executeMoves(moves)
