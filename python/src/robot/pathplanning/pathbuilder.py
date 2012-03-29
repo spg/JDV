@@ -9,6 +9,8 @@ class PathBuilder:
         trajectoire = Trajectoire(Terrain.OBSTACLE_1[0], Terrain.OBSTACLE_1[1], Terrain.OBSTACLE_2[0], Terrain.OBSTACLE_2[1])
 
         currentRobotPosition = Robot.getCurrentPosition
+        print currentRobotPosition[1]
+        print destination[1]
 
         path = trajectoire.PathFinding(currentRobotPosition[0], currentRobotPosition[1], destination[0], destination[1])
 
