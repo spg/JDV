@@ -8,7 +8,7 @@ class PathBuilder:
     def build(self, destination):
         trajectoire = Trajectoire(Terrain.OBSTACLE_1[0], Terrain.OBSTACLE_1[1], Terrain.OBSTACLE_2[0], Terrain.OBSTACLE_2[1])
 
-        currentRobotPosition = Robot.getCurrentPosition
+        currentRobotPosition = Robot.getCurrentPosition()
         print currentRobotPosition[1]
         print destination[1]
 

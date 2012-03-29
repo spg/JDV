@@ -1,7 +1,7 @@
 from python.src.robot.pathplanning.pose import Pose
 
 class Robot:
-    currentPose = ()
+    currentPose = (0,0,0)
 
     @staticmethod
     def getCurrentPosition():
