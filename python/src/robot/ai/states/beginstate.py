@@ -2,7 +2,6 @@ import time
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.ai.states.state import State
 from python.src.robot.arduino.robotmover import RobotMover
-from python.src.robot.pathplanning.pose import Pose
 from python.src.robot.robot import Robot
 from python.src.robot.terrain import Terrain
 
@@ -18,7 +17,7 @@ class BeginState(State):
         robotMover = RobotMover()
 
         print "doing snake movement 1..."
-        robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 180)
+        robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
         print "snake movement 1 over!"
 
         Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 180))
