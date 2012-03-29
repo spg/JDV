@@ -68,7 +68,7 @@ class Trajectoire():
     def PathFinding(self,Departx,Departy,Finx,Finy):
         self.InitialisationChemin(Departx,Departy,Finx,Finy)
         self.gr = nx.Graph()
-        self.Trouvetrajectoire(self.posDepartx,abs(self.posDeparty-110),self.posFinx,abs(self.posFiny-110))
+        self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin",weight=True)
         print self.grs
