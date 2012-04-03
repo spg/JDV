@@ -189,11 +189,14 @@ class MainWindow(wx.Frame):
         x1 = y1 = 0
         for  x, y  in liste :
             if Depart :
+                xdepart = x
+                ydepart = y
                 Depart = False
             else:
                 self.dc.DrawLine((x1*4)+self.__offset, (-y1*4)+ 470, (x*4)+self.__offset, (-y*4)+470)
             x1 = x
             y1 = y
+        self.dc.DrawLine((x*4)+self.__offset, (-y*4)+ 470, (xdepart*4)+self.__offset, (-ydepart*4)+470)
 
     def __printToLoggingArea(self, message):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
@@ -222,10 +225,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 = 90+ self.__offset
-        self.__y1 = 70+ self.__offset
-        self.__x2 = 150+ self.__offset
-        self.__y2 = 50+ self.__offset
+        self.__x1 = 80+ self.__offset
+        self.__y1 = 60+ self.__offset
+        self.__x2 = 120+ self.__offset
+        self.__y2 = 30+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
