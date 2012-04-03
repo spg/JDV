@@ -1,4 +1,4 @@
-import cv
+﻿import cv
 import numpy
 
 class CameraAccessor:
