@@ -1,11 +1,20 @@
-from python.src.robot.util.tuplescaler import TupleScaler
+from python.src.robot.util.tuplescaler import TupleOperations
 
-class PointsCloudScaler:
+class PointsCloudOperations:
     @staticmethod
-    def scalePointsCloud(pointsCloud, scaleFactor):
+    def scale(pointsCloud, scaleFactor):
         scaled = []
 
         for point in pointsCloud:
-            scaled.append(TupleScaler.scaleTuple(point, scaleFactor))
+            scaled.append(TupleOperations.scale(point, scaleFactor))
 
         return scaled
+
+    @staticmethod
+    def move(pointsCloud, deltaX, deltaY):
+        moved = []
+
+        for point in pointsCloud:
+            moved.append(TupleOperations.move(point, deltaX, deltaY))
+
+        return moved
