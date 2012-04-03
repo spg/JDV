@@ -1,4 +1,4 @@
-import cv
+﻿import cv
 import numpy
 
 class CameraAccessor:
@@ -16,8 +16,8 @@ class CameraAccessor:
         return undistortedFrame
 
     def __getCalibrationParameters__(self):
-        self.intrinsecParameters = numpy.load("intrinsec.npy")
-        self.distortionParameter = numpy.load("distortion.npy")
+        self.intrinsecParameters = numpy.load("vision/intrinsec.npy")
+        self.distortionParameter = numpy.load("vision/distortion.npy")
 
     def __initialiseCamera__(self):
         self.camera = cv.CaptureFromCAM(0)

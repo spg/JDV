@@ -1,8 +1,8 @@
-import cv2.cv as cv
+﻿import cv2.cv as cv
 import math
 
 class ContourExtractor:
-    MIN_CONTOUR_AREA = 40000
+    MIN_CONTOUR_AREA = 30000
     MIN_DISTANCE_BETWEEN_POINTS = 20
 
     def findContours(self,image):
@@ -13,13 +13,13 @@ class ContourExtractor:
         size = cv.GetSize(image)
         middleOfSideImage = size[0]/2
         minTreshold = cv.GetReal2D(tmp, middleOfSideImage, middleOfSideImage)
-
-        cv.Threshold(tmp,tmp, minTreshold+20,255,cv.CV_THRESH_BINARY)
+        minTreshold = minTreshold+(255-minTreshold)*80/255
+        cv.Threshold(tmp,tmp, minTreshold,255,cv.CV_THRESH_BINARY)
         cv.Dilate(tmp, tmp)
         cv.Dilate(tmp, tmp)
         cv.Erode(tmp, tmp)
         cv.Erode(tmp, tmp)
-
+        cv.SaveImage("treshold.jpg", tmp)
         storage = cv.CreateMemStorage()
         contours = cv.FindContours(tmp,
             storage,cv.CV_RETR_LIST,

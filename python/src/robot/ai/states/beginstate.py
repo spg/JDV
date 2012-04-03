@@ -10,6 +10,7 @@ from python.src.robot.sendevent import SendEvent
 from python.src.robot.terrain import Terrain
 from python.src.robot.util.pointscloudscaler import PointsCloudOperations
 from python.src.robot.vision.Camera import Camera
+
 from python.src.shared.actions.robottobase.senddesssin import SendDessin
 
 class BeginState(State):
@@ -17,18 +18,18 @@ class BeginState(State):
         Terrain.OBSTACLE_1 = obstacle1
         Terrain.OBSTACLE_2 = obstacle2
 
-        self.robotMover = RobotMover()
+        #self.robotMover = RobotMover()
 
     def run(self):
-        Robot.setCurrentPose((207.8, 22.5, 90))
+        #Robot.setCurrentPose((207.8, 22.5, 90))
 
         print "running..."
 
         print "doing snake movement 1..."
-        self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 180)
+        #self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
         print "snake movement 1 over!"
 
-        time.sleep(3)
+        #time.sleep(3)
 
         self.doDrawing()
 
@@ -56,11 +57,12 @@ class BeginState(State):
         scaledPoints = PointsCloudOperations.scale(points, scaleFactor)
 
         SendEvent.send(SendDessin(scaledPoints))
+        return
 
-        movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
+        #movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
 
         print "going to first drawing point"
-        self.robotMover.doSnakeMovement(movedPoints[0], 270)
+        #self.robotMover.doSnakeMovement(movedPoints[0], 270)
         print "arrived at first drawing point!"
 
         prehensorController = PrehensorController()
