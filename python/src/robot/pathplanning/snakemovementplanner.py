@@ -1,3 +1,4 @@
+import math
 from python.src.robot.ai.math.vector import Vector
 from python.src.robot.pathplanning.advance import Advance
 from python.src.robot.pathplanning.rotate import Rotate
@@ -31,6 +32,7 @@ class SnakeMovementPlanner():
         finalRobotVector = Vector.buildUnitaryVectorFromAngle(finalAbsoluteAngle)
         rotationAngle = Vector.angleBetween(currentRobotVector, finalRobotVector)
 
-        moves.append(Rotate(rotationAngle))
+        if math.fabs(rotationAngle) > 0.01:
+            moves.append(Rotate(rotationAngle))
 
         return moves
