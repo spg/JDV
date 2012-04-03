@@ -24,6 +24,7 @@ class MainWindow(wx.Frame):
             size=(700, 550))
         self.panel = wx.Panel(self, -1)
         self.__Action = True
+        self.__Obstacle = False
         self.__robotx = 60
         self.__roboty = 60
         self.__angleActuelle = 0
@@ -86,13 +87,47 @@ class MainWindow(wx.Frame):
         self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL1, self.__yL1)
         self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL2, self.__yL2)
         self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
+        if self.__Obstacle:
+            self.dc.SetBrush(wx.Brush('#0000ff'))
+            self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
+            self.dc.SetBrush(wx.Brush('#ff0000'))
+            self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
+
+            self.x21=25+self.__x2
+            self.x22=25+self.__x2
+            self.x23=self.__x2-35
+            self.x24=self.__x2-35
+            self.y21=self.__y2-35
+            self.y22=25+self.__y2
+            self.y23=self.__y2-35
+            self.y24=25+self.__y2
+            self.x11=25+self.__x1
+            self.x12=25+self.__x1
+            self.x13=self.__x1-35
+            self.x14=self.__x1-35
+            self.y11=25+self.__y1
+            self.y12=self.__y1-35
+            self.y13=25+self.__y1
+            self.y14=self.__y1-35
+            self.dc.SetBrush(wx.Brush('#ff0000'))
+            self.dc.DrawRectangle(self.x21*2, (110-self.y21)*2, 5, 5)
+            self.dc.DrawRectangle(self.x22*2, (110-self.y22)*2, 5, 5)
+            self.dc.DrawRectangle(self.x23*2, (110-self.y23)*2, 5, 5)
+            self.dc.DrawRectangle(self.x24*2, (110-self.y24)*2, 5, 5)
+            self.dc.SetBrush(wx.Brush('#0000ff'))
+            self.dc.DrawRectangle(self.x11*2, (110-self.y11)*2, 5, 5)
+            self.dc.DrawRectangle(self.x12*2, (110-self.y12)*2, 5, 5)
+            self.dc.DrawRectangle(self.x13*2, (110-self.y13)*2, 5, 5)
+            self.dc.DrawRectangle(self.x14*2, (110-self.y14)*2, 5, 5)
+
         if self.__Action:
             self.__Action = False
             self.__button = wx.Button(self.panel, label="Obstacle", pos=(500, 10), size=(100, 25))
             self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.247.59', pos=(500, 140), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 140), size=(100, 25))
+            # mac mini 254.168
             self.__bindHandlers()
 
     def __onConnectButtonClicked(self, event):
@@ -101,19 +136,18 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        __x1 = 90+ self.__offset
-        __y1 = 70+ self.__offset
-        __x2 = 0+ self.__offset
-        __y2 = 0+ self.__offset
+        self.__x1 = 90+ self.__offset
+        self.__y1 = 70+ self.__offset
+        self.__x2 = 0+ self.__offset
+        self.__y2 = 0+ self.__offset
         #Affichage des obstacle
-        self.dc.SetBrush(wx.Brush('#0000ff'))
-        self.dc.DrawRectangle(__x1*2, abs(__y1-110)*2, 20, 20)
-        self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.dc.DrawRectangle(__x2*2, abs(__y2-110)*2, 20, 20)
+        self.__Obstacle= True
+        self.dc.Clear()
+        self.__DrawLine()
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
-        self.__base.setObstacle(__x1, __y1, __x2, __y2)
+        self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
         self.__base.StartRobot()
 
 
@@ -136,6 +170,8 @@ class MainWindow(wx.Frame):
         self.__AfficherTrajectoire(message.liste)
 
     def __AfficherTrajectoire(self, liste):
+        self.dc.Clear()
+        self.__DrawLine()
         Depart = True
         x1  = y1 = 0
         for  x, y  in liste :
@@ -188,17 +224,18 @@ class MainWindow(wx.Frame):
         #Valeur par default pour bu de test
         self.__x1 = 90+ self.__offset
         self.__y1 = 70+ self.__offset
-        self.__x2 = 0+ self.__offset
-        self.__y2 = 0+ self.__offset
+        self.__x2 = 150+ self.__offset
+        self.__y2 = 50+ self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
         self.dc.SetBrush(wx.Brush('#ff0000'))
         self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
+        self.__Obstacle= True
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        liste = t.PathFinding(207.00, 22.50,20.00, 95.00 )
+        liste = t.PathFinding(207.8, 22.5,23.00, 91 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(207.8, 88.5, 174.8 , 55.5)
         #self.__AfficherTrajectoire(liste)

@@ -1,4 +1,6 @@
-from __future__ import division
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 
 import math
 import networkx as nx
@@ -11,22 +13,22 @@ class Trajectoire():
         self.obstacle_2_y = obstacle_2_y
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        self.Ox21=20+obstacle_2_x
-        self.Ox22=20+obstacle_2_x
-        self.Ox23=obstacle_2_x-10
-        self.Ox24=obstacle_2_x-10
-        self.Oy21=20+obstacle_2_y
-        self.Oy22=obstacle_2_y-20
-        self.Oy23=20+obstacle_2_y
-        self.Oy24=obstacle_2_y-20
-        self.Ox11=20+obstacle_1_x
-        self.Ox12=20+obstacle_1_x
-        self.Ox13=obstacle_1_x-10
-        self.Ox14=obstacle_1_x-10
-        self.Oy11=20+obstacle_1_y
-        self.Oy12=obstacle_1_y-20
-        self.Oy13=20+obstacle_1_y
-        self.Oy14=obstacle_1_y-20
+        self.Ox21=25+obstacle_2_x
+        self.Ox22=25+obstacle_2_x
+        self.Ox23=obstacle_2_x-35
+        self.Ox24=obstacle_2_x-35
+        self.Oy21=25+obstacle_2_y
+        self.Oy22=obstacle_2_y-35
+        self.Oy23=25+obstacle_2_y
+        self.Oy24=obstacle_2_y-35
+        self.Ox11=25+obstacle_1_x
+        self.Ox12=25+obstacle_1_x
+        self.Ox13=obstacle_1_x-35
+        self.Ox14=obstacle_1_x-35
+        self.Oy11=25+obstacle_1_y
+        self.Oy12=obstacle_1_y-35
+        self.Oy13=25+obstacle_1_y
+        self.Oy14=obstacle_1_y-35
 
     def InitialisationChemin(self,Departx,Departy,Finx,Finy):
         self.Envers = False
@@ -38,7 +40,7 @@ class Trajectoire():
             self.posFinx = Departy
             self.posFiny =Departx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
-            self.SortieMax = 230
+            self.SortieMax = 216
         elif Departx-Finx == 0 and Departy-Finy > 0 :
             self.Inverse = True
             self.Envers = True
@@ -47,7 +49,7 @@ class Trajectoire():
             self.posFinx = Finy
             self.posFiny =Finx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
-            self.SortieMax = 230
+            self.SortieMax = 216
         elif Departx-Finx < 0 :
             self.Envers = True
             self.posDepartx =Finx
@@ -55,14 +57,14 @@ class Trajectoire():
             self.posFinx =Departx
             self.posFiny =Departy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
-            self.SortieMax = 110
+            self.SortieMax = 96
         elif Departx-Finx > 0:
             self.posDepartx =Departx
             self.posDeparty =Departy
             self.posFinx =Finx
             self.posFiny =Finy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
-            self.SortieMax = 110
+            self.SortieMax = 96
 
 
     def PathFinding(self,Departx,Departy,Finx,Finy):
@@ -71,7 +73,9 @@ class Trajectoire():
         self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin","weight")
+        print self.grs
         self.FaireListe()
+        print self.liste
         return self.liste
 
     def Trouvetrajectoire(self,Posdx,Posdy,Posfx,Posfy):
@@ -85,21 +89,26 @@ class Trajectoire():
             self.TrouveO=False
             if self.TrouveO11==True:
                 self.TrouveO11=False
+                print("Traject 13")
                 self.ParcourireLigne(self.Ox13,self.Oy13,Posfx,Posfy,"O13")
             if self.TrouveO12==True:
                 self.TrouveO12=False
+                print("Traject 14")
                 self.ParcourireLigne(self.Ox14,self.Oy14,Posfx,Posfy,"O14")
 
             if self.TrouveO22==True:
+                print("Traject 24")
                 self.TrouveO22=False
                 self.ParcourireLigne(self.Ox24,self.Oy24,Posfx,Posfy,"O24")
             if self.TrouveO21==True:
+                print("Traject 23")
                 self.TrouveO21=False
                 self.ParcourireLigne(self.Ox23,self.Oy23,Posfx,Posfy,"O23")
 
     def ParcourireLigne(self,Posdx,Posdy,Posfx,Posfy,depart):
         ad = Posfy-Posdy
         bd = Posdx-Posfx
+        print "bd: %d" % bd
         if bd ==0:
             bd = bd+1
         tanA = ad/bd
@@ -109,7 +118,10 @@ class Trajectoire():
             a = (tanA * b)
             posy = a + Posdy
             posx = Posdx - b
+            #print "posx: %d" % posx
+            # print "posy: %d" % posy
             if posy>= self.Oy24 and posy<=self.Oy21  and posx>= self.Ox24 and posx<=self.Ox21:
+                print(" O2")
                 # Calcule des distances
                 distx=self.Ox21 - Posdx
                 Colision21 = self.verifierTrajectoire(self.Ox21,self.Oy21,self.Ox23,self.Oy23,2)
@@ -144,6 +156,7 @@ class Trajectoire():
                     self.TrouveO11 = True
                     self.TrouveO12 = True
                 if  Colision21 and Sortie21==False:
+                    print "Colisiont 21"
                     dist = self.CalculeDiagonal(distx,self.Oy11 - Posdy)
                     self.gr.add_edge(depart,"O11" , weight=dist)
                     dist = self.Ox11-self.Ox13
@@ -151,6 +164,7 @@ class Trajectoire():
                     self.TrouveO = True
                     self.TrouveO11 = True
                 if  Colision22 and Sortie22==False:
+                    print "Colisiont 22"
                     dist = self.CalculeDiagonal(distx,self.Oy12 - Posdy)
                     self.gr.add_edge(depart,"O12" , weight=dist)
                     dist = self.Ox12-self.Ox14
@@ -158,9 +172,11 @@ class Trajectoire():
                     self.TrouveO = True
                     self.TrouveO12 = True
                 if  Colision21 and Sortie22:
+                    print "Perdu"
                     if Sortie21 == False:
                         TrouveTO12 =self.verifierTrajectoire(self.Ox11,self.Ox11,self.Ox12,self.Oy12,0)
                         if TrouveTO12 == False:
+                            print "Pas sortie 21"
                             dist = self.CalculeDiagonal(distx,self.Oy21 - Posdy)
                             self.gr.add_edge(depart,"O21" , weight=dist)
                             dist = self.CalculeDiagonal(distx,self.Oy11 - self.Oy21)
@@ -177,6 +193,7 @@ class Trajectoire():
                             self.TrouveO12 = True
                 if Colision22 and Sortie21:
                     if Sortie22 == False:
+                        print "Pas sortie 22"
                         TrouveTO22 =self.verifierTrajectoire(self.Ox22,self.Oy22,self.Ox12,self.Oy12,0)
                         if TrouveTO22 == False:
                             dist = self.CalculeDiagonal(distx,self.Oy22 - Posdy)
@@ -195,13 +212,16 @@ class Trajectoire():
                             self.TrouveO = True
                             self.TrouveO12 = True
             if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
+                print(" O1")
                 TrouveVO11 =self.verifierTrajectoire(Posdx,Posdy,self.Ox11,self.Oy11,0)
                 Colision11 =self.verifierTrajectoire(self.Ox11,self.Oy11,self.Ox13,self.Oy13,1)
+                print Colision11
                 # Calcule des distance
                 distx= self.Ox11 - Posdx
                 Sortie11 = self.EstSortie(self.Oy11)
                 if Sortie11==False and TrouveVO11 == False and Colision11 == False:
                     dist = self.CalculeDiagonal(distx,self.Oy11 - Posdy)
+                    print dist
                     self.gr.add_edge(depart,"O11" , weight=dist )
                     dist = self.Ox11-self.Ox13
                     self.gr.add_edge("O11","O13" , weight=dist )
@@ -209,9 +229,11 @@ class Trajectoire():
                     self.TrouveO11 = True
                 TrouveVO12 =self.verifierTrajectoire(Posdx,Posdy,self.Ox12,self.Oy12,0)
                 Colision12 =self.verifierTrajectoire(self.Ox12,self.Oy12,self.Ox14,self.Oy14,1)
+                print Colision12
                 Sortie12 = self.EstSortie(self.Oy12)
                 if Sortie12==False and TrouveVO12 == False and Colision12 == False:
                     dist = self.CalculeDiagonal(distx,self.Oy12 - Posdy)
+                    print dist
                     self.gr.add_edge(depart,"O12" , weight=200.0)
                     dist = self.Ox12-self.Ox14
                     self.gr.add_edge("O12","O14" , weight=dist )
@@ -229,13 +251,17 @@ class Trajectoire():
                     self.TrouveO21 = True
                     self.TrouveO22 = True
                 if  Colision11 and Sortie12==False:
+                    print "Colisiont 11"
                     dist = self.CalculeDiagonal(distx,self.Oy21 - Posdy)
+                    print dist
                     self.gr.add_edge(depart,"O21" , weight=dist)
                     dist = self.Ox21-self.Ox23
+                    print dist
                     self.gr.add_edge("O21","O23" , weight=dist)
                     self.TrouveO = True
                     self.TrouveO21 = True
                 if  Colision12 and Sortie11==False:
+                    print "Colisiont 12"
                     dist = self.CalculeDiagonal(distx,self.Oy22 - Posdy)
                     self.gr.add_edge(depart,"O22" , weight=dist)
                     dist = self.Ox22-self.Ox24
@@ -244,6 +270,7 @@ class Trajectoire():
                     self.TrouveO22 = True
                 if  (Colision11 and Sortie12)or(Colision12 and Sortie11):
                     if Sortie11 == False:
+                        print "Pas sortie 11"
                         TrouveTO12 =self.verifierTrajectoire(self.Ox11,self.Ox11,self.Ox12,self.Oy12,0)
                         if TrouveTO12 == False:
                             dist = self.CalculeDiagonal(distx,self.Oy11 - Posdy)
@@ -270,15 +297,18 @@ class Trajectoire():
                         self.TrouveO22 = True
             b = b+1
         if self.TrouveO == False :
+            print("fin")
             dist = self.CalculeDiagonal(Posfx- Posdx,Posfy- Posdy)
+            print dist
             self.gr.add_edge(depart,"Fin" , weight=dist)
 
 
 
     def EstSortie(self,Position):
-        if Position < self.SortieMax  and Position >0:
+        if Position < self.SortieMax  and Position >15:
             return False
         else:
+            print "Sorite"
             return True
 
     def verifierTrajectoire(self,Posdx,Posdy,Posfx,Posfy,obstacle):
@@ -296,9 +326,11 @@ class Trajectoire():
             posx = Posdx - b
             if obstacle!=1:
                 if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
+                    print "O1Autre"
                     return  True
             if obstacle!=2:
                 if posy >= self.Oy24 and posy<=self.Oy21  and posx>=self.Ox24 and posx<=self.Ox21:
+                    print "O2Autre"
                     return  True
             b = b + 1
         return False
@@ -366,6 +398,7 @@ class Trajectoire():
             return self.Oy24
         elif point =="Fin":
             return self.posFiny
+
 
     def getgr(self):
         return self.gr

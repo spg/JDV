@@ -13,22 +13,22 @@ class Trajectoire():
         self.obstacle_2_y = obstacle_2_y
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        self.Ox21=20+obstacle_2_x
-        self.Ox22=20+obstacle_2_x
-        self.Ox23=obstacle_2_x-10
-        self.Ox24=obstacle_2_x-10
-        self.Oy21=20+obstacle_2_y
-        self.Oy22=obstacle_2_y-20
-        self.Oy23=20+obstacle_2_y
-        self.Oy24=obstacle_2_y-20
-        self.Ox11=20+obstacle_1_x
-        self.Ox12=20+obstacle_1_x
-        self.Ox13=obstacle_1_x-10
-        self.Ox14=obstacle_1_x-10
-        self.Oy11=20+obstacle_1_y
-        self.Oy12=obstacle_1_y-20
-        self.Oy13=20+obstacle_1_y
-        self.Oy14=obstacle_1_y-20
+        self.Ox21=25+obstacle_2_x
+        self.Ox22=25+obstacle_2_x
+        self.Ox23=obstacle_2_x-35
+        self.Ox24=obstacle_2_x-35
+        self.Oy21=25+obstacle_2_y
+        self.Oy22=obstacle_2_y-35
+        self.Oy23=25+obstacle_2_y
+        self.Oy24=obstacle_2_y-35
+        self.Ox11=25+obstacle_1_x
+        self.Ox12=25+obstacle_1_x
+        self.Ox13=obstacle_1_x-35
+        self.Ox14=obstacle_1_x-35
+        self.Oy11=25+obstacle_1_y
+        self.Oy12=obstacle_1_y-35
+        self.Oy13=25+obstacle_1_y
+        self.Oy14=obstacle_1_y-35
 
     def InitialisationChemin(self,Departx,Departy,Finx,Finy):
         self.Envers = False
@@ -40,7 +40,7 @@ class Trajectoire():
             self.posFinx = Departy
             self.posFiny =Departx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
-            self.SortieMax = 230
+            self.SortieMax = 216
         elif Departx-Finx == 0 and Departy-Finy > 0 :
             self.Inverse = True
             self.Envers = True
@@ -49,7 +49,7 @@ class Trajectoire():
             self.posFinx = Finy
             self.posFiny =Finx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
-            self.SortieMax = 230
+            self.SortieMax = 216
         elif Departx-Finx < 0 :
             self.Envers = True
             self.posDepartx =Finx
@@ -57,14 +57,14 @@ class Trajectoire():
             self.posFinx =Departx
             self.posFiny =Departy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
-            self.SortieMax = 110
+            self.SortieMax = 96
         elif Departx-Finx > 0:
             self.posDepartx =Departx
             self.posDeparty =Departy
             self.posFinx =Finx
             self.posFiny =Finy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
-            self.SortieMax = 110
+            self.SortieMax = 96
 
 
     def PathFinding(self,Departx,Departy,Finx,Finy):
@@ -305,7 +305,7 @@ class Trajectoire():
 
 
     def EstSortie(self,Position):
-        if Position < self.SortieMax  and Position >0:
+        if Position < self.SortieMax  and Position >15:
             return False
         else:
             print "Sorite"
