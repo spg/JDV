@@ -21,15 +21,15 @@ class BeginState(State):
         #self.robotMover = RobotMover()
 
     def run(self):
-        #Robot.setCurrentPose((207.8, 22.5, 90))
+        Robot.setCurrentPose((207.8, 22.5, 90))
 
         print "running..."
 
         print "doing snake movement 1..."
-        #self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
+        self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
         print "snake movement 1 over!"
 
-        #time.sleep(3)
+        time.sleep(3)
 
         self.doDrawing()
 
@@ -59,10 +59,10 @@ class BeginState(State):
         SendEvent.send(SendDessin(scaledPoints))
         return
 
-        #movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
+        movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
 
         print "going to first drawing point"
-        #self.robotMover.doSnakeMovement(movedPoints[0], 270)
+        self.robotMover.doSnakeMovement(movedPoints[0], 270)
         print "arrived at first drawing point!"
 
         prehensorController = PrehensorController()
