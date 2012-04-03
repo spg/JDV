@@ -136,10 +136,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 = 90+ self.__offset
-        self.__y1 = 70+ self.__offset
-        self.__x2 = 0+ self.__offset
-        self.__y2 = 0+ self.__offset
+        self.__x1 = 80+ self.__offset
+        self.__y1 = 60+ self.__offset
+        self.__x2 = 120+ self.__offset
+        self.__y2 = 30+ self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -238,7 +238,7 @@ class MainWindow(wx.Frame):
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        liste = t.PathFinding(207.8, 22.5,23.00, 91 )
+        liste = t.PathFinding(207.8, 22.5,23.00, 70 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(207.8, 88.5, 174.8 , 55.5)
         #self.__AfficherTrajectoire(liste)
