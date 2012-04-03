@@ -43,11 +43,11 @@ class TestCircleDeterminator(unittest.TestCase):
 
         circleDeterminator = CircleDeterminator()
 
-        center, radius = circleDeterminator.determineCircle(angle, p1, p2)
+        circle = circleDeterminator.determineCircle(angle, p1, p2)
 
-        self.assertAlmostEqual(0, center[0], delta=0.00001)
-        self.assertAlmostEqual(0, center[1], delta=0.00001)
-        self.assertAlmostEqual(1, radius, delta=0.00001)
+        self.assertAlmostEqual(0, circle.center[0], delta=0.00001)
+        self.assertAlmostEqual(0, circle.center[1], delta=0.00001)
+        self.assertAlmostEqual(1, circle.radius, delta=0.00001)
 
     def test_determineCircle_complexCase(self):
         angle = math.degrees(math.acos(26/(5*math.sqrt(29))))
@@ -56,11 +56,11 @@ class TestCircleDeterminator(unittest.TestCase):
 
         circleDeterminator = CircleDeterminator()
 
-        center, radius = circleDeterminator.determineCircle(angle, p1, p2)
+        circle = circleDeterminator.determineCircle(angle, p1, p2)
 
-        self.assertAlmostEqual(5.28571, center[0], delta=0.00001)
-        self.assertAlmostEqual(1.28571, center[1], delta=0.00001)
-        self.assertAlmostEqual(5.43984, radius, delta=0.00001)
+        self.assertAlmostEqual(5.28571, circle.center[0], delta=0.00001)
+        self.assertAlmostEqual(1.28571, circle.center[1], delta=0.00001)
+        self.assertAlmostEqual(5.43984, circle.radius, delta=0.00001)
 
     def test_determineCircle_moreComplexCase(self):
         angle = math.degrees(1.11649)
@@ -69,8 +69,8 @@ class TestCircleDeterminator(unittest.TestCase):
 
         circleDeterminator = CircleDeterminator()
 
-        center, radius = circleDeterminator.determineCircle(angle, p1, p2)
+        circle = circleDeterminator.determineCircle(angle, p1, p2)
 
-        self.assertAlmostEqual(-2.63081, center[0], delta=0.001)
-        self.assertAlmostEqual(6.63081, center[1], delta=0.001)
-        self.assertAlmostEqual(6.56182, radius, delta=0.001)
+        self.assertAlmostEqual(-2.63081, circle.center[0], delta=0.001)
+        self.assertAlmostEqual(6.63081, circle.center[1], delta=0.001)
+        self.assertAlmostEqual(6.56182, circle.radius, delta=0.001)

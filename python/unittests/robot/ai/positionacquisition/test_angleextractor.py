@@ -89,5 +89,5 @@ class TestAngleExtractor(unittest.TestCase):
 
         a1, a2 = self.angleExtractor.extractAngle(focalDistance, "p1", 20, "p2", 35, "p3", 58)
 
-        self.assertAlmostEqual(19.2414, a1, delta=0.0001)
-        self.assertAlmostEqual(21.3534, a2, delta=0.0001)
+        self.assertAlmostEqual(7.9801, a1, delta=0.0001)
+        self.assertAlmostEqual(10.8236, a2, delta=0.0001)

@@ -3,9 +3,9 @@ from python.src.robot.pathplanning.shuffle import Shuffle
 
 class ShuffleMovementPlanner:
     def planMovement(self, currentPose, nextNodes):
-        currentX = currentPose.x
-        currentY = currentPose.y
-        currentTheta = currentPose.theta
+        currentX = currentPose[0]
+        currentY = currentPose[1]
+        currentTheta = currentPose[2]
 
         currentPoseVector = Vector.buildUnitaryVectorFromAngle(currentTheta)
 
