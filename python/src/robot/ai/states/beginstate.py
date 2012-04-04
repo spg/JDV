@@ -26,7 +26,6 @@ class BeginState(State):
         print "running..."
 
         print "doing snake movement 1..."
-        #self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 180)
 
         self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 265)
         print "snake movement 1 over!"
@@ -60,7 +59,6 @@ class BeginState(State):
 
         SendEvent.send(SendDessin(scaledPoints))
 
-
         movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
 
         print "going to first drawing point"
@@ -70,11 +68,6 @@ class BeginState(State):
         prehensorController = PrehensorController()
         prehensorController.dropPrehensor()
 
-        self.robotMover.doShuffleMovement(scaledPoints)
+        self.robotMover.doShuffleMovement(movedPoints)
 
         prehensorController.raisePrehensor()
-        return
-
-
-
-
