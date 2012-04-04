@@ -1,4 +1,5 @@
-from python.src.robot.pathplanning.pose import Pose
+from python.src.robot.sendevent import SendEvent
+from python.src.shared.actions.robottobase.sendpose import SendPose
 
 class Robot:
     currentPose = (0,0,0)
@@ -18,3 +19,4 @@ class Robot:
     @staticmethod
     def setCurrentPose(pose):
         Robot.currentPose = pose
+        SendEvent.send(SendPose(pose[0], pose[1], pose[2]))

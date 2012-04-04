@@ -6,7 +6,7 @@ from python.src.robot.pathplanning.shufflemovementplanner import ShuffleMovement
 class TestShuffleMovementPlanner(unittest.TestCase):
     def setUp(self):
         self.movementPlanner = ShuffleMovementPlanner()
-        self.currentPose = Pose(0, 0, 0)
+        self.currentPose = (0, 0, 0)
 
     def test_simpleMovement(self):
         path = [(1, 0)]
@@ -44,7 +44,7 @@ class TestShuffleMovementPlanner(unittest.TestCase):
         self.assertEqual(90, moves[3].relativeAngleInDegrees)
 
     def test_equilateralTriangle(self):
-        self.currentPose = Pose(2, 3, 180)
+        self.currentPose = (2, 3, 180)
 
         path = [(5, 3), (3.5, 3 + 3 * math.cos(math.radians(30))), (2, 3)]
 
