@@ -41,8 +41,11 @@ class RobotMover:
         Robot.setCurrentPose((destination[0], destination[1], finalAbsoluteAngle))
 
     def doShuffleMovement(self, path):
+        print "about to delete first node on shuffle path..."
+        print "node to delete is: " + str(path[0])
         del path[0] # path[0] is the current robot's pose
 
+        print "planning shuffle movement..."
         moves = ShuffleMovementPlanner().planMovement(Robot.getCurrentPose(), path)
 
         print "about to execute shuffle moves..."
