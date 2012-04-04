@@ -136,10 +136,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 = 80+ self.__offset
-        self.__y1 = 60+ self.__offset
-        self.__x2 = 120+ self.__offset
-        self.__y2 = 30+ self.__offset
+        self.__x1 = 0+ self.__offset
+        self.__y1 = 0+ self.__offset
+        self.__x2 = 0+ self.__offset
+        self.__y2 = 0+ self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()

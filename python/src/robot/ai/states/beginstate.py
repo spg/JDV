@@ -70,7 +70,7 @@ class BeginState(State):
         prehensorController = PrehensorController()
         prehensorController.dropPrehensor()
 
-        self.robotMover.doShuffleMovement(movedPoints)
+        self.robotMover.doShuffleMovement(scaledPoints)
 
         prehensorController.raisePrehensor()
         return
