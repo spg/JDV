@@ -59,7 +59,7 @@ class BeginState(State):
         scaledPoints = PointsCloudOperations.scale(points, scaleFactor)
 
         SendEvent.send(SendDessin(scaledPoints))
-        return
+
 
         movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
 
@@ -73,7 +73,7 @@ class BeginState(State):
         self.robotMover.doShuffleMovement(movedPoints)
 
         prehensorController.raisePrehensor()
-
+        return
 
 
 
