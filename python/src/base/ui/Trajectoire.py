@@ -13,24 +13,24 @@ class Trajectoire():
         self.obstacle_2_y = obstacle_2_y
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        #gap = 25
-        #gap2 = gap +10
-        self.Ox21=35+obstacle_2_x
-        self.Ox22=35+obstacle_2_x
-        self.Ox23=obstacle_2_x-25
-        self.Ox24=obstacle_2_x-25
-        self.Oy21=25+obstacle_2_y
-        self.Oy22=obstacle_2_y-35
-        self.Oy23=35+obstacle_2_y
-        self.Oy24=obstacle_2_y-35
-        self.Ox11=35+obstacle_1_x
-        self.Ox12=35+obstacle_1_x
-        self.Ox13=obstacle_1_x-25
-        self.Ox14=obstacle_1_x-25
-        self.Oy11=35+obstacle_1_y
-        self.Oy12=obstacle_1_y-35
-        self.Oy13=25+obstacle_1_y
-        self.Oy14=obstacle_1_y-35
+        gap = 15
+        gap2 = gap +10
+        self.Ox21=gap2+obstacle_2_x
+        self.Ox22=gap2+obstacle_2_x
+        self.Ox23=obstacle_2_x-gap
+        self.Ox24=obstacle_2_x-gap
+        self.Oy21=gap+obstacle_2_y
+        self.Oy22=obstacle_2_y-gap2
+        self.Oy23=gap+obstacle_2_y
+        self.Oy24=obstacle_2_y-gap2
+        self.Ox11=gap2+obstacle_1_x
+        self.Ox12=gap2+obstacle_1_x
+        self.Ox13=obstacle_1_x-gap
+        self.Ox14=obstacle_1_x-gap
+        self.Oy11=gap+obstacle_1_y
+        self.Oy12=obstacle_1_y-gap2
+        self.Oy13=gap+obstacle_1_y
+        self.Oy14=obstacle_1_y-gap2
 
     def InitialisationChemin(self,Departx,Departy,Finx,Finy):
         self.Envers = False

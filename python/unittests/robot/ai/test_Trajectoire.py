@@ -3,6 +3,7 @@ from python.src.base.ui.Trajectoire import  Trajectoire
 
 class Test_Trajectoire(unittest.TestCase):
 
+    """ Commrny
     def test_Un_Obstacle_(self):
         liste = [(175.0, 65.0), (85, 85), (55, 85), (25.0, 65.0)]
         t = Trajectoire(0,0 ,65 ,65)
@@ -126,3 +127,4 @@ class Test_Trajectoire(unittest.TestCase):
         t = Trajectoire(170.00,70.00,170.00 ,50.00)
         chemin = t.PathFinding(175.00, 100.00,175.00, 10.00)
         self.assertEqual(chemin,liste)
+    """
