@@ -18,9 +18,9 @@ class ArduinoInterface:
     def connect(self):
         ser = self.ser
 
-        time.sleep(0.5)
+        time.sleep(1)
         ser.setDTR(level=0)
-        time.sleep(0.5)
+        time.sleep(1)
 
         return ser
 
