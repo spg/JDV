@@ -69,6 +69,8 @@ class BeginState(State):
         prehensorController = PrehensorController()
         prehensorController.dropPrehensor()
 
+        movedPoints.append(movedPoints[0]) # this is to close the figure
+
         self.robotMover.doShuffleMovement(movedPoints)
 
         prehensorController.raisePrehensor()
