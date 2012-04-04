@@ -28,7 +28,7 @@ class BeginState(State):
         print "doing snake movement 1..."
         #self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 180)
 
-        self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 260)
+        self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 265)
         print "snake movement 1 over!"
 
         time.sleep(3)
