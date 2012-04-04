@@ -25,6 +25,8 @@ class MainWindow(wx.Frame):
         self.panel = wx.Panel(self, -1)
         self.__Action = True
         self.__Obstacle = False
+        self.Dessin = False
+        self.gap = 25
         self.__robotx = 60
         self.__roboty = 60
         self.__angleActuelle = 0
@@ -92,23 +94,25 @@ class MainWindow(wx.Frame):
             self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
             self.dc.SetBrush(wx.Brush('#ff0000'))
             self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
+            gap = self.gap
+            gap2 = gap +10
 
-            self.x21=25+self.__x2
-            self.x22=25+self.__x2
-            self.x23=self.__x2-35
-            self.x24=self.__x2-35
-            self.y21=self.__y2-35
-            self.y22=25+self.__y2
-            self.y23=self.__y2-35
-            self.y24=25+self.__y2
-            self.x11=25+self.__x1
-            self.x12=25+self.__x1
-            self.x13=self.__x1-35
-            self.x14=self.__x1-35
-            self.y11=25+self.__y1
-            self.y12=self.__y1-35
-            self.y13=25+self.__y1
-            self.y14=self.__y1-35
+            self.x21=gap2+self.__x2
+            self.x22=gap2+self.__x2
+            self.x23=self.__x2-gap
+            self.x24=self.__x2-gap
+            self.y21=self.__y2-gap2
+            self.y22=gap+self.__y2
+            self.y23=self.__y2-gap2
+            self.y24=gap+self.__y2
+            self.x11=gap2+self.__x1
+            self.x12=gap2+self.__x1
+            self.x13=self.__x1-gap
+            self.x14=self.__x1-gap
+            self.y11=gap+self.__y1
+            self.y12=self.__y1-gap2
+            self.y13=gap+self.__y1
+            self.y14=self.__y1-gap2
             self.dc.SetBrush(wx.Brush('#ff0000'))
             self.dc.DrawRectangle(self.x21*2, (110-self.y21)*2, 5, 5)
             self.dc.DrawRectangle(self.x22*2, (110-self.y22)*2, 5, 5)
@@ -170,8 +174,10 @@ class MainWindow(wx.Frame):
         self.__AfficherTrajectoire(message.liste)
 
     def __AfficherTrajectoire(self, liste):
-        self.dc.Clear()
-        self.__DrawLine()
+        if self.Dessin == False :
+            self.dc.Clear()
+            self.__DrawLine()
+        self.Dessin = False
         Depart = True
         x1  = y1 = 0
         for  x, y  in liste :
@@ -185,6 +191,9 @@ class MainWindow(wx.Frame):
 
 
     def __AfficherDessin(self,liste):
+        self.Dessin = True
+        self.dc.Clear()
+        self.__DrawLine()
         Depart = True
         x1 = y1 = 0
         for  x, y  in liste :
@@ -226,9 +235,9 @@ class MainWindow(wx.Frame):
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
         self.__x1 = 80+ self.__offset
-        self.__y1 = 60+ self.__offset
-        self.__x2 = 120+ self.__offset
-        self.__y2 = 30+ self.__offset
+        self.__y1 = 20+ self.__offset
+        self.__x2 = 80+ self.__offset
+        self.__y2 = 100+self.__offset
         #Affichage des obstacle
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
@@ -238,10 +247,10 @@ class MainWindow(wx.Frame):
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        liste = t.PathFinding(207.8, 22.5,23.00, 70 )
+        liste = t.PathFinding(207,22.5,23.00,90.00 )
         self.__AfficherTrajectoire(liste)
-        #liste = t.PathFinding(207.8, 88.5, 174.8 , 55.5)
-        #self.__AfficherTrajectoire(liste)
+        liste = t.PathFinding(23.00,90.00 ,140.8, 70.5 )
+        self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
 
