@@ -26,7 +26,7 @@ class MainWindow(wx.Frame):
         self.__Action = True
         self.__Obstacle = False
         self.Dessin = False
-        self.gap = 25
+        self.gap = 15
         self.__robotx = 60
         self.__roboty = 60
         self.__angleActuelle = 0
@@ -164,20 +164,25 @@ class MainWindow(wx.Frame):
         self.__RotationTriangle(Angle)
         self.__robotx = message.x
         self.__roboty = message.y
+        self.Dessin = True
         self.__DrawLine()
+        if Dessin:
+            self.__AfficherDessin(self.__listeDessin)
 
     def __DessinReceived(self, message):
-        self.__AfficherDessin(message.liste)
+        self.__Dessin =True
+        self.__listeDessin= message.liste
+        self.__AfficherDessin(self.__listeDessin)
 
 
     def __TrajectoireReceived(self, message):
         self.__AfficherTrajectoire(message.liste)
 
     def __AfficherTrajectoire(self, liste):
-        if self.Dessin == False :
-            self.dc.Clear()
-            self.__DrawLine()
-        self.Dessin = False
+        self.dc.Clear()
+        self.__DrawLine()
+        if self.Dessin:
+            self.__AfficherDessin(self.__listeDessin)
         Depart = True
         x1  = y1 = 0
         for  x, y  in liste :
@@ -235,12 +240,14 @@ class MainWindow(wx.Frame):
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
         self.__x1 = 80+ self.__offset
-        self.__y1 = 20+ self.__offset
+        self.__y1 = 49+ self.__offset
         self.__x2 = 80+ self.__offset
-        self.__y2 = 100+self.__offset
+        self.__y2 = 90+self.__offset
         #Affichage des obstacle
+        # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
         self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
+        # Rouge
         self.dc.SetBrush(wx.Brush('#ff0000'))
         self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
         self.__Obstacle= True
