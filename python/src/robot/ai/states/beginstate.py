@@ -43,7 +43,16 @@ class BeginState(State):
         cam = Camera()
 
         print "Extracting points..."
-        drawingCountour = cam.getDrawingContour()
+        drawingCountoursFound = False
+
+        drawingCountour = []
+
+        while not drawingCountoursFound:
+            try:
+                drawingCountour = cam.getDrawingContour()
+                drawingCountoursFound = True
+            except ValueError:
+                pass
 
         points = drawingCountour[0]
         size = drawingCountour[1]
