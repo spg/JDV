@@ -33,8 +33,6 @@ class BeginState(State):
         self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 265)
         print "snake movement 1 over!"
 
-        time.sleep(3)
-
         self.doDrawing()
 
         StateController.instance.endMainLoop()
