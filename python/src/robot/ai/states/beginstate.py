@@ -18,7 +18,7 @@ class BeginState(State):
         Terrain.OBSTACLE_1 = obstacle1
         Terrain.OBSTACLE_2 = obstacle2
 
-        #self.robotMover = RobotMover()
+        self.robotMover = RobotMover()
 
     def run(self):
         Robot.setCurrentPose((207.8, 22.5, 90))
