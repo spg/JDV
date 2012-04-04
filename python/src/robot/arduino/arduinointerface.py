@@ -9,6 +9,10 @@ class ArduinoInterface:
         self.ser = Serial('/dev/ttyACM0', 115200)
         time.sleep(2)
 
+        time.sleep(1)
+        self.ser.setDTR(level=0)
+        time.sleep(1)
+
     @staticmethod
     def getInstance():
         if ArduinoInterface.instance is None:
@@ -18,9 +22,7 @@ class ArduinoInterface:
     def connect(self):
         ser = self.ser
 
-        time.sleep(1)
-        ser.setDTR(level=0)
-        time.sleep(1)
+
 
         return ser
 

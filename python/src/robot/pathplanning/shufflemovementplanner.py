@@ -11,6 +11,9 @@ class ShuffleMovementPlanner:
 
         moves = []
 
+        print "current pose in shuffle: " + str(currentPose)
+        print "path to be planned in shuffle: " + str(nextNodes)
+
         for nextNode in nextNodes:
             destinationVector = Vector.buildFromTwoPoints((currentX, currentY), (nextNode[0], nextNode[1]))
 
