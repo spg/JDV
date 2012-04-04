@@ -7,13 +7,13 @@ class PrehensorController:
     def dropPrehensor(self):
         ser = self.arduinoInterface.connect()
 
-        ser.write('PD.')
+        ser.write('PD!')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
     def raisePrehensor(self):
         ser = self.arduinoInterface.connect()
 
-        ser.write('PR.')
+        ser.write('PR!')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
