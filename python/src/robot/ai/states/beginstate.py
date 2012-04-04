@@ -18,6 +18,9 @@ class BeginState(State):
         Terrain.OBSTACLE_1 = obstacle1
         Terrain.OBSTACLE_2 = obstacle2
 
+        print "obstacle 1: " + str(obstacle1)
+        print "obstacle 2: " + str(obstacle2)
+
         self.robotMover = RobotMover()
 
     def run(self):
