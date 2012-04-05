@@ -26,6 +26,7 @@ class MainWindow(wx.Frame):
         self.__Action = True
         self.__Obstacle = False
         self.Dessin = False
+        self.Chemin = False
         self.gap = 15
         self.__robotx = 60
         self.__roboty = 60
@@ -67,7 +68,7 @@ class MainWindow(wx.Frame):
         self.dc.DrawRectangle(290 + self.__offset, 50 + self.__offset, 121, 121)
         #ligne rouge
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.dc.DrawRectangle(158 + self.__offset, 0 + self.__offset, 4,220 )
+        self.dc.DrawRectangle(156+ self.__offset, 0 + self.__offset, 4,220 )
         # Point d'arriver pour les dessins
         self.dc.SetBrush(wx.Brush('#00ff00'))
         self.dc.DrawRectangle( 122+ self.__offset, 182 + self.__offset, 5, 5)
@@ -91,9 +92,11 @@ class MainWindow(wx.Frame):
         self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
         if self.__Obstacle:
             self.dc.SetBrush(wx.Brush('#0000ff'))
-            self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x1*2, self.__y1*2, 20, 20)
+            #self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
             self.dc.SetBrush(wx.Brush('#ff0000'))
-            self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x2*2, self.__y2*2, 20, 20)
+            #self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
             gap = self.gap
             gap2 = gap +10
 
@@ -101,28 +104,28 @@ class MainWindow(wx.Frame):
             self.x22=gap2+self.__x2
             self.x23=self.__x2-gap
             self.x24=self.__x2-gap
-            self.y21=self.__y2-gap2
-            self.y22=gap+self.__y2
-            self.y23=self.__y2-gap2
-            self.y24=gap+self.__y2
+            self.y21=self.__y2-gap
+            self.y22=gap2+self.__y2
+            self.y23=self.__y2-gap
+            self.y24=gap2+self.__y2
             self.x11=gap2+self.__x1
             self.x12=gap2+self.__x1
             self.x13=self.__x1-gap
             self.x14=self.__x1-gap
-            self.y11=gap+self.__y1
-            self.y12=self.__y1-gap2
-            self.y13=gap+self.__y1
-            self.y14=self.__y1-gap2
+            self.y11=gap2+self.__y1
+            self.y12=self.__y1-gap
+            self.y13=gap2+self.__y1
+            self.y14=self.__y1-gap
             self.dc.SetBrush(wx.Brush('#ff0000'))
-            self.dc.DrawRectangle(self.x21*2, (110-self.y21)*2, 5, 5)
-            self.dc.DrawRectangle(self.x22*2, (110-self.y22)*2, 5, 5)
-            self.dc.DrawRectangle(self.x23*2, (110-self.y23)*2, 5, 5)
-            self.dc.DrawRectangle(self.x24*2, (110-self.y24)*2, 5, 5)
+            self.dc.DrawRectangle(self.x21*2,self.y21*2, 5, 5)
+            self.dc.DrawRectangle(self.x22*2,self.y22*2, 5, 5)
+            self.dc.DrawRectangle(self.x23*2,self.y23*2, 5, 5)
+            self.dc.DrawRectangle(self.x24*2,self.y24*2, 5, 5)
             self.dc.SetBrush(wx.Brush('#0000ff'))
-            self.dc.DrawRectangle(self.x11*2, (110-self.y11)*2, 5, 5)
-            self.dc.DrawRectangle(self.x12*2, (110-self.y12)*2, 5, 5)
-            self.dc.DrawRectangle(self.x13*2, (110-self.y13)*2, 5, 5)
-            self.dc.DrawRectangle(self.x14*2, (110-self.y14)*2, 5, 5)
+            self.dc.DrawRectangle(self.x11*2, self.y11*2, 5, 5)
+            self.dc.DrawRectangle(self.x12*2, self.y12*2, 5, 5)
+            self.dc.DrawRectangle(self.x13*2, self.y13*2, 5, 5)
+            self.dc.DrawRectangle(self.x14*2, self.y14*2, 5, 5)
 
         if self.__Action:
             self.__Action = False
@@ -162,21 +165,24 @@ class MainWindow(wx.Frame):
         self.dc.Clear()
         Angle = message.theta
         self.__RotationTriangle(Angle)
-        self.__robotx = message.x
-        self.__roboty = message.y
-        self.Dessin = True
+        self.__robotx = message.x*2
+        self.__roboty = (110-message.y)*2
         self.__DrawLine()
-        if Dessin:
+        if self.Dessin:
             self.__AfficherDessin(self.__listeDessin)
+        if self.Chemin:
+            self.__AfficherTrajectoire(self.__listeChemin)
 
     def __DessinReceived(self, message):
-        self.__Dessin =True
+        self.Dessin =True
         self.__listeDessin= message.liste
         self.__AfficherDessin(self.__listeDessin)
 
 
     def __TrajectoireReceived(self, message):
-        self.__AfficherTrajectoire(message.liste)
+        self.Chemin =True
+        self.__listeChemin = message.liste
+        self.__AfficherTrajectoire(self.__listeChemin)
 
     def __AfficherTrajectoire(self, liste):
         self.dc.Clear()
@@ -189,7 +195,7 @@ class MainWindow(wx.Frame):
             if Depart :
                 Depart = False
             else:
-                self.dc.DrawLine((x1*2)+self.__offset,((110-y1)*2)+self.__offset, (x*2)+self.__offset,((110-y)*2)+self.__offset)
+                self.dc.DrawLine((x1*2)+self.__offset,(y1*2)+self.__offset, (x*2)+self.__offset,(y*2)+self.__offset)
             x1 = x
             y1 = y
 
@@ -240,9 +246,9 @@ class MainWindow(wx.Frame):
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
         self.__x1 = 80+ self.__offset
-        self.__y1 = 49+ self.__offset
-        self.__x2 = 80+ self.__offset
-        self.__y2 = 90+self.__offset
+        self.__y1 = 40 +self.__offset
+        self.__x2 = 114+ self.__offset
+        self.__y2 = 80+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -254,9 +260,9 @@ class MainWindow(wx.Frame):
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        liste = t.PathFinding(207,22.5,23.00,90.00 )
-        self.__AfficherTrajectoire(liste)
-        liste = t.PathFinding(23.00,90.00 ,140.8, 70.5 )
+        #liste = t.PathFinding(207,22.5,23.00,90.00 )
+        #self.__AfficherTrajectoire(liste)
+        liste = t.PathFinding(23.00,60.00 ,180.8, 60.0 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
