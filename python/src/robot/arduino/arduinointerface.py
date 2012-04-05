@@ -13,10 +13,8 @@ class ArduinoInterface:
         self.ser = Serial()
         self.ser.baudrate = 115200
         self.ser.port = '/dev/ttyACM0'
-        try:
-            self.ser.open()
-        except SerialException:
-            self.ser.close()
+
+        self.ser.open()
 
 
         time.sleep(2)
