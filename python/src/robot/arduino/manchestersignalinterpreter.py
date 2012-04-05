@@ -43,6 +43,8 @@ class ManchesterSignalInterpreter:
 
         ser.write('SD.')
 
+        time.sleep(0.2)
+
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
         rawManchestSignal = self.arduinoInterface.readLine(ser)
