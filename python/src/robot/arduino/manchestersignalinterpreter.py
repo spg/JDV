@@ -22,6 +22,7 @@ class ManchesterSignalInterpreter:
         self.arduinoInterface = ArduinoInterface.getInstance()
 
     def searchSignal(self):
+        print "searching signal..."
         ser = self.arduinoInterface.connect()
 
         ser.write('SS.')
@@ -34,6 +35,7 @@ class ManchesterSignalInterpreter:
 
 
     def decodeSignal(self):
+        print "decoding signal..."
         ser = self.arduinoInterface.connect()
 
         ser.write('SD.')
