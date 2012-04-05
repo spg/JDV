@@ -31,7 +31,7 @@ class BeginState(State):
 
         print "doing snake movement 1..."
 
-        self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER, 180)
+        #self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER, 180)
         print "snake movement 1 over!"
 
         signalInterpreter = ManchesterSignalInterpreter()
