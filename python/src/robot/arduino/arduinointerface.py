@@ -1,12 +1,24 @@
 from serial import Serial
 import time
+from serial.serialutil import SerialException
 from python.src.robot.logger import Logger
 
 class ArduinoInterface:
     instance = None
 
     def __init__(self):
-        self.ser = Serial('/dev/ttyACM0', 115200)
+
+        #self.ser = Serial('/dev/ttyACM0', 115200)
+
+        self.ser = Serial()
+        self.ser.baudrate = 115200
+        self.ser.port = '/dev/ttyACM0'
+        try:
+            self.ser.open()
+        except SerialException:
+            self.ser.close()
+
+
         time.sleep(2)
 
         time.sleep(1)
