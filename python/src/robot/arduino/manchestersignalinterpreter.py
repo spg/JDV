@@ -1,3 +1,5 @@
+from python.src.robot.arduino.arduinointerface import ArduinoInterface
+
 class ManchesterSignalInterpreter:
     FIGURE_0 = "000"
     FIGURE_1 = "001"
@@ -15,6 +17,32 @@ class ManchesterSignalInterpreter:
 
     FACTOR_2 = "0"
     FACTOR_4 = "1"
+
+    def __init__(self):
+        self.arduinoInterface = ArduinoInterface.getInstance()
+
+    def searchSignal(self):
+        ser = self.arduinoInterface.connect()
+
+        ser.write('SS.')
+
+        self.arduinoInterface.checkIfOperationIsOver(ser)
+
+        distanceTravaled = self.arduinoInterface.readLine(ser)
+
+        print "distance traveled: " + str(distanceTravaled)
+
+
+    def decodeSignal(self):
+        ser = self.arduinoInterface.connect()
+
+        ser.write('SD.')
+
+        self.arduinoInterface.checkIfOperationIsOver(ser)
+
+        manchesterCode = self.arduinoInterface.readLine(ser)
+
+        print "manchesterCode: " + str(manchesterCode)
 
     def interpretSignal(self, signal):
         figure = signal[0:3]

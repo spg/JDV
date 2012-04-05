@@ -22,8 +22,6 @@ class ArduinoInterface:
     def connect(self):
         ser = self.ser
 
-
-
         return ser
 
     def checkIfOperationIsOver(self, ser):
@@ -37,3 +35,6 @@ class ArduinoInterface:
             if line.find("over") != -1:
                 logger = Logger.logToFileAndScreen("operation over")
                 operationOver = True
+
+    def readLine(self, ser):
+        return ser.readline()
