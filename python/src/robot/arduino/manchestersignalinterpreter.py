@@ -1,3 +1,4 @@
+import time
 from python.src.robot.arduino.arduinointerface import ArduinoInterface
 
 class ManchesterSignalInterpreter:
@@ -27,6 +28,8 @@ class ManchesterSignalInterpreter:
 
         ser.write('SS.')
 
+        time.sleep(0.2)
+
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
         distanceTravaled = self.arduinoInterface.readLine(ser)
@@ -42,9 +45,9 @@ class ManchesterSignalInterpreter:
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
-        manchesterCode = self.arduinoInterface.readLine(ser)
+        rawManchestSignal = self.arduinoInterface.readLine(ser)
 
-        print "manchesterCode: " + str(manchesterCode)
+        print "manchesterCode: " + str(rawManchestSignal[0:7])
 
     def interpretSignal(self, signal):
         figure = signal[0:3]
