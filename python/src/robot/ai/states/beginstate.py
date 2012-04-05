@@ -24,13 +24,13 @@ class BeginState(State):
         self.robotMover = RobotMover()
 
     def run(self):
-        Robot.setCurrentPose((207.8, 22.5, 90))
+        Robot.setCurrentPose((142.0, 88.5, 90))
 
         print "running..."
 
         print "doing snake movement 1..."
 
-        self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 265)
+        self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 90)
         print "snake movement 1 over!"
 
         self.doDrawing()
@@ -43,7 +43,16 @@ class BeginState(State):
         cam = Camera()
 
         print "Extracting points..."
-        drawingCountour = cam.getDrawingContour()
+        drawingCountoursFound = False
+
+        drawingCountour = []
+
+        while not drawingCountoursFound:
+            try:
+                drawingCountour = cam.getDrawingContour()
+                drawingCountoursFound = True
+            except ValueError:
+                pass
 
         points = drawingCountour[0]
         size = drawingCountour[1]
