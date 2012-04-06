@@ -28,15 +28,11 @@ class ManchesterSignalInterpreter:
         self.arduinoInterface = ArduinoInterface.getInstance()
 
     def searchSignal(self):
-        distanceTraveled = self.__doSignalSearch('SS.')
+        distance, signal = self.__doSignalSearch('SS.')
 
-        #self.decodeSignal()
+        self.__moveToSecondCorner(distance)
 
-        #self.__moveToSecondCorner(distanceTraveled)
-
-        #self.__doSignalSearch('SB.')
-
-        #self.decodeSignal()
+        self.__doSignalSearch('SB.')
 
     def __doSignalSearch(self, method):
         print "searching signal..."
@@ -47,12 +43,12 @@ class ManchesterSignalInterpreter:
         signalAndDistance = self.arduinoInterface.readLine(ser)
 
         signal = signalAndDistance[0:7]
-        distance = signalAndDistance[7:]
+        distance = signalAndDistance[8:]
 
         print "distance traveled: " + str(distance)
         print "signal: " + str(signal)
 
-        return distance
+        return distance, signal
 
     def __moveToSecondCorner(self, distanceTraveled):
         ancientPose = Robot.getCurrentPose()
@@ -62,7 +58,7 @@ class ManchesterSignalInterpreter:
         Robot.setCurrentPose(newPose)
 
         robotMover = RobotMover()
-        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER, 0)
+        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER, 0)
 
     def decodeSignal(self):
         print "decoding signal..."
