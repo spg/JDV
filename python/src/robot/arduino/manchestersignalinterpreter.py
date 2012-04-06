@@ -30,13 +30,13 @@ class ManchesterSignalInterpreter:
     def searchSignal(self):
         distanceTraveled = self.__doSignalSearch('SS.')
 
-        self.decodeSignal()
+        #self.decodeSignal()
 
-        self.__moveToSecondCorner(distanceTraveled)
+        #self.__moveToSecondCorner(distanceTraveled)
 
-        self.__doSignalSearch('SB.')
+        #self.__doSignalSearch('SB.')
 
-        self.decodeSignal()
+        #self.decodeSignal()
 
     def __doSignalSearch(self, method):
         print "searching signal..."
@@ -44,11 +44,15 @@ class ManchesterSignalInterpreter:
         ser.write(method)
         time.sleep(0.2)
         self.arduinoInterface.checkIfOperationIsOver(ser)
-        distanceTraveled = self.arduinoInterface.readLine(ser)
+        signalAndDistance = self.arduinoInterface.readLine(ser)
 
-        print "distance traveled: " + str(distanceTraveled)
+        signal = signalAndDistance[0:7]
+        distance = signalAndDistance[7:]
 
-        return distanceTraveled
+        print "distance traveled: " + str(distance)
+        print "signal: " + str(signal)
+
+        return distance
 
     def __moveToSecondCorner(self, distanceTraveled):
         ancientPose = Robot.getCurrentPose()
