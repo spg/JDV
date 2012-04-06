@@ -245,10 +245,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 = 80+ self.__offset
-        self.__y1 = 40 +self.__offset
-        self.__x2 = 114+ self.__offset
-        self.__y2 = 80+self.__offset
+        self.__x1 =  114+ self.__offset
+        self.__y1 =  80+self.__offset
+        self.__x2 =  80+ self.__offset
+        self.__y2 = 40+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
