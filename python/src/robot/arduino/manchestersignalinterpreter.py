@@ -53,7 +53,7 @@ class ManchesterSignalInterpreter:
     def __moveToSecondCorner(self, distanceTraveled):
         ancientPose = Robot.getCurrentPose()
 
-        newPose = (ancientPose[0] - (distanceTraveled/10), ancientPose[1], ancientPose[0])
+        newPose = (ancientPose[0] - (int(distanceTraveled)/10), ancientPose[1], ancientPose[0])
 
         Robot.setCurrentPose(newPose)
 
