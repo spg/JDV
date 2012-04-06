@@ -3,6 +3,7 @@ from __future__ import division
 import time
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.ai.states.state import State
+from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
 from python.src.robot.arduino.robotmover import RobotMover
 from python.src.robot.robot import Robot
@@ -24,16 +25,18 @@ class BeginState(State):
         self.robotMover = RobotMover()
 
     def run(self):
-        Robot.setCurrentPose((142.0, 88.5, 90))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[1], 180))
 
         print "running..."
 
         print "doing snake movement 1..."
 
-        self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 90)
+        #self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER, 180)
         print "snake movement 1 over!"
 
-        self.doDrawing()
+        signalInterpreter = ManchesterSignalInterpreter()
+
+        signalInterpreter.searchSignal()
 
         StateController.instance.endMainLoop()
 
