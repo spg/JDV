@@ -28,20 +28,20 @@ class ManchesterSignalInterpreter:
         self.arduinoInterface = ArduinoInterface.getInstance()
 
     def searchSignal(self):
-        distanceTraveled = self.__doSignalSearch()
+        distanceTraveled = self.__doSignalSearch('SS.')
 
         self.decodeSignal()
 
         self.__moveToSecondCorner(distanceTraveled)
 
-        self.__doSignalSearch()
+        self.__doSignalSearch('SB.')
 
         self.decodeSignal()
 
-    def __doSignalSearch(self):
+    def __doSignalSearch(self, method):
         print "searching signal..."
         ser = self.arduinoInterface.connect()
-        ser.write('SS.')
+        ser.write(method)
         time.sleep(0.2)
         self.arduinoInterface.checkIfOperationIsOver(ser)
         distanceTraveled = self.arduinoInterface.readLine(ser)
