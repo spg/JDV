@@ -42,6 +42,8 @@ class ManchesterSignalInterpreter:
         self.arduinoInterface.checkIfOperationIsOver(ser)
         signalAndDistance = self.arduinoInterface.readLine(ser)
 
+        print "signal and distance: " + str(signalAndDistance)
+
         signal = signalAndDistance[0:7]
         distance = signalAndDistance[8:]
 
