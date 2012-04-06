@@ -25,7 +25,7 @@ class BeginState(State):
         self.robotMover = RobotMover()
 
     def run(self):
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[1], 90))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[1], 180))
 
         print "running..."
 
