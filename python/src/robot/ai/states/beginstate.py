@@ -38,8 +38,6 @@ class BeginState(State):
 
         signalInterpreter.searchSignal()
 
-        signalInterpreter.decodeSignal()
-
         StateController.instance.endMainLoop()
 
     def doDrawing(self):

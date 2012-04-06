@@ -1,5 +1,10 @@
+from __future__ import division
+
 import time
 from python.src.robot.arduino.arduinointerface import ArduinoInterface
+from python.src.robot.arduino.robotmover import RobotMover
+from python.src.robot.robot import Robot
+from python.src.robot.terrain import Terrain
 
 class ManchesterSignalInterpreter:
     FIGURE_0 = "000"
@@ -23,19 +28,37 @@ class ManchesterSignalInterpreter:
         self.arduinoInterface = ArduinoInterface.getInstance()
 
     def searchSignal(self):
+        distanceTraveled = self.__doSignalSearch()
+
+        self.decodeSignal()
+
+        self.__moveToSecondCorner(distanceTraveled)
+
+        self.__doSignalSearch()
+
+        self.decodeSignal()
+
+    def __doSignalSearch(self):
         print "searching signal..."
         ser = self.arduinoInterface.connect()
-
         ser.write('SS.')
-
         time.sleep(0.2)
-
         self.arduinoInterface.checkIfOperationIsOver(ser)
+        distanceTraveled = self.arduinoInterface.readLine(ser)
 
-        distanceTravaled = self.arduinoInterface.readLine(ser)
+        print "distance traveled: " + str(distanceTraveled)
 
-        print "distance traveled: " + str(distanceTravaled)
+        return distanceTraveled
 
+    def __moveToSecondCorner(self, distanceTraveled):
+        ancientPose = Robot.getCurrentPose()
+
+        newPose = (ancientPose[0] - (distanceTraveled/10), ancientPose[1], ancientPose[0])
+
+        Robot.setCurrentPose(newPose)
+
+        robotMover = RobotMover()
+        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER, 0)
 
     def decodeSignal(self):
         print "decoding signal..."
