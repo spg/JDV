@@ -62,7 +62,7 @@ class ManchesterSignalInterpreter:
         Robot.setCurrentPose(newPose)
 
         robotMover = RobotMover()
-        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER, 0)
+        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_INNER, 0)
 
     def decodeSignal(self):
         print "decoding signal..."

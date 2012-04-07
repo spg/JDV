@@ -90,9 +90,9 @@ class TestSnakeMovementPlanner(unittest.TestCase):
         moves = self.movementPlanner.planMovement(self.currentPose, path, 153.434949)
 
     def test_planMovement_fieldTest_2(self):
-        self.currentPose = (180.1, Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[1], 180)
+        self.currentPose = (180.1, Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_OUTER[1], 180)
 
-        path = [(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[1])]
+        path = [(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_OUTER[0], Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_OUTER[1])]
 
         moves = self.movementPlanner.planMovement(self.currentPose, path, 0)
 
