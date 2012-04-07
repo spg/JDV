@@ -3,11 +3,23 @@ from python.src.base.ui.Trajectoire import  Trajectoire
 
 class Test_Trajectoire(unittest.TestCase):
 
-    """ Commrny
+
     def test_Un_Obstacle_(self):
-        liste = [(175.0, 65.0), (85, 85), (55, 85), (25.0, 65.0)]
-        t = Trajectoire(0,0 ,65 ,65)
-        chemin = t.PathFinding(175.00, 65.00,25.00, 65.00 )
+        liste = [(23.0, 65.0), (65, 50), (105, 50), (180.8, 65.0)]
+        t = Trajectoire(0,0 ,80 ,65)
+        chemin = t.PathFinding(23.00,65.00 ,180.8, 65.0 )
+        self.assertEqual(chemin,liste)
+
+    def test_Un_Obstacle_Sorti1(self):
+        liste = [(23.0, 90.0), (65, 75), (105, 75), (180.8, 90.0)]
+        t = Trajectoire(0,0 ,80 ,90)
+        chemin = t.PathFinding(23.00,90.00 ,180.8, 90.0 )
+        self.assertEqual(chemin,liste)
+
+    def test_Un_Obstacle_Sorti2(self):
+        liste = [(23.0, 20.0), (65, 50), (105, 50), (180.8, 20.0)]
+        t = Trajectoire(300,300 ,80 ,25)
+        chemin = t.PathFinding(23.00,20.00 ,180.8, 20.0 )
         self.assertEqual(chemin,liste)
 
     def test_Deux_Obstacle_(self):
@@ -16,6 +28,7 @@ class Test_Trajectoire(unittest.TestCase):
         chemin = t.PathFinding(175.00, 65.00,25.00, 65.00 )
         self.assertEqual(chemin,liste)
 
+    """ Commrny
     def test_Deux_Obstacle_Enver(self):
         liste = [(25.0, 65.0),(40, 70) , (70, 70), (90, 85), (120, 85), (175.0, 65.0)]
         t = Trajectoire(50,50 ,100 ,65)
