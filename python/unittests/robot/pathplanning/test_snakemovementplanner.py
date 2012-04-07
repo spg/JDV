@@ -88,3 +88,19 @@ class TestSnakeMovementPlanner(unittest.TestCase):
         path = [(10, 0), (10, 10), (20, 10), (0, 0)]
 
         moves = self.movementPlanner.planMovement(self.currentPose, path, 153.434949)
+
+    def test_planMovement_fieldTest_2(self):
+        self.currentPose = (180.1, Terrain.DRAWING_ZONE_NORTH_EAST_CORNER[1], 180)
+
+        path = [(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[1])]
+
+        moves = self.movementPlanner.planMovement(self.currentPose, path, 0)
+
+        delta = 0.0000001
+
+        self.assertEqual(7, len(moves))
+        self.assertAlmostEqual(10, moves[0].distanceInCentimeters, delta=delta)
+        self.assertAlmostEqual(-90, moves[1].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(10, moves[2].distanceInCentimeters, delta=delta)
+        self.assertAlmostEqual(90, moves[3].angleInDegrees, delta=delta)
+        self.assertAlmostEqual(10, moves[4].distanceInCentimeters, delta=delta)
