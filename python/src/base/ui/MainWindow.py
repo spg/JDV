@@ -5,29 +5,34 @@
 
 author: Equipe 5
 """
+
 import math
 import time
 import wx
 import networkx as nx
+from python.src.base import confirmevent
 from python.src.base.ui.Trajectoire import  Trajectoire
 from python.src.base.Base import Base
 from python.src.base.logevent import LogEvent
 from python.src.base.poseevent import PoseEvent
 from python.src.base.trajectoireevent import TrajectoireEvent
 from python.src.base.dessinevent import DessinEvent
+from python.src.base.endevent import EndEvent
+from python.src.base.confirmevent import ConfirmEvent
 from python.src.base.ui.Obstacle import  Obstacle
 
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         super(MainWindow, self).__init__(parent, title=title,
-            size=(700, 550))
+            size=(900, 550))
         self.panel = wx.Panel(self, -1)
         self.__Action = True
         self.__Obstacle = False
         self.Dessin = False
         self.Chemin = False
         self.gap = 15
+        self.t1= 0
         self.__robotx = 60
         self.__roboty = 60
         self.__angleActuelle = 0
@@ -43,9 +48,11 @@ class MainWindow(wx.Frame):
         PoseEvent.addHandler(self.__PoseReceived)
         TrajectoireEvent.addHandler(self.__TrajectoireReceived)
         DessinEvent.addHandler(self.__DessinReceived)
-
+        EndEvent.addHandler(self.__endReceived)
+        ConfirmEvent.addHandler(self.__ConfirmReceived)
 
     def __bindHandlers(self):
+        self.Bind(wx.EVT_BUTTON, self.__onNewturnButtonClicked, self.__startnew)
         self.Bind(wx.EVT_BUTTON, self.__onButtonClicked, self.__button)
         self.Bind(wx.EVT_BUTTON, self.__onAfficheClicked, self.__Affiche)
         self.Bind(wx.EVT_BUTTON, self.__onConnectButtonClicked, self.__connectionButton)
@@ -131,11 +138,30 @@ class MainWindow(wx.Frame):
             self.__Action = False
             self.__button = wx.Button(self.panel, label="Obstacle", pos=(500, 10), size=(100, 25))
             self.__Affiche = wx.Button(self.panel, label="Affiche", pos=(500, 50), size=(100, 25))
-            self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
+            self.__connectionButton = wx.Button(self.panel, label="Se connecter au ", pos=(500, 90), size=(130, 25))
+            self.__startnew = wx.Button(self.panel, label="Nouveau tour", pos=(500, 140), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 140), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 200), size=(100, 25))
+            self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
+
             # mac mini 254.168
             self.__bindHandlers()
+
+    def __onNewturnButtonClicked(self, event):
+        #self.__x1=self.O.getx1()+self.__offset
+        #self.__x2=self.O.getx2()+self.__offset
+        #self.__y1=self.O.gety1()+self.__offset
+        #self.__y1=self.O.gety2()+self.__offset
+        self.__x1 = 0+ self.__offset
+        self.__y1 = 0+ self.__offset
+        self.__x2 = 0+ self.__offset
+        self.__y2 = 0+ self.__offset
+        self.__Obstacle= True
+        self.dc.Clear()
+        self.__DrawLine()
+        self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
+        self.t1 = time.clock()
+        self.__base.StartRobot()
 
     def __onConnectButtonClicked(self, event):
         #Affiche les obstacle
@@ -151,12 +177,23 @@ class MainWindow(wx.Frame):
         self.__Obstacle= True
         self.dc.Clear()
         self.__DrawLine()
+        self.t1 = time.clock()
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
         self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
         self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
         self.__base.StartRobot()
 
+    def __ConfirmReceived(self, message):
+        wx.CallAfter(self.__printToLoggingInfo, message)
+
+    def __endReceived(self):
+        t2 = time.clock()
+        total = t2 - self.t1
+        min = str(total/60)
+        sec = str(total%60)
+        message = "temps :  " + min + " minutes  " + sec + " secondes "
+        wx.CallAfter(self.__printToLoggingArea, message)
 
     def __logReceived(self, message):
         wx.CallAfter(self.__printToLoggingArea, message)
@@ -222,6 +259,9 @@ class MainWindow(wx.Frame):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
         self.__loggingArea.AppendText(currentTime + ' : ' + message + '\n')
 
+    def __printToLoggingInfo(self, message):
+        self.__Info.SetValue(message)
+
     def __RotationTriangle(self, angles):
         x = ((self.__robotx - self.__xL1 ) / 10)
         y = ((self.__roboty - self.__yL1) / 10)
@@ -246,9 +286,9 @@ class MainWindow(wx.Frame):
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
         self.__x1 =  114+ self.__offset
-        self.__y1 =  80+self.__offset
+        self.__y1 =  100+self.__offset
         self.__x2 =  80+ self.__offset
-        self.__y2 = 40+self.__offset
+        self.__y2 = 50+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -262,7 +302,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste = t.PathFinding(23.00,60.00 ,180.8, 60.0 )
+        liste = t.PathFinding(23.00,10.00 ,180.8, 60.0 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
