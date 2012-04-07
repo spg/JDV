@@ -134,6 +134,7 @@ class MainWindow(wx.Frame):
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au: ", pos=(500, 90), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
             self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 140), size=(100, 25))
+            self.__portTextCtrl = wx.TextCtrl(self.panel, pos=(500, 180), size=(100, 25))
             # mac mini 254.168
             self.__bindHandlers()
 
@@ -153,7 +154,7 @@ class MainWindow(wx.Frame):
         self.__DrawLine()
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
-        self.__base.connectToRobot(self.__ipTextCtrl.GetValue())
+        self.__base.connectToRobot(self.__ipTextCtrl.GetValue(), self.__portTextCtrl.GetValue())
         self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
         self.__base.StartRobot()
 
