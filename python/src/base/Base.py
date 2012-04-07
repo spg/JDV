@@ -17,8 +17,8 @@ class Base():
         self.Ox2 = x2
         self.Oy2 = y2
 
-    def connectToRobot(self, ip):
-        self._client.connect(ip, 32792)
+    def connectToRobot(self, ip, port):
+        self._client.connect(ip, int(port))
         self._client.listen()
 
 

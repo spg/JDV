@@ -1,9 +1,7 @@
 from __future__ import division
 
-import time
 from python.src.robot.ai.statecontroller import StateController
-from python.src.robot.ai.states.state import State
-from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
+from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
 from python.src.robot.arduino.robotmover import RobotMover
 from python.src.robot.robot import Robot
@@ -14,7 +12,7 @@ from python.src.robot.vision.Camera import Camera
 
 from python.src.shared.actions.robottobase.senddesssin import SendDessin
 
-class BeginState(State):
+class BeginState:
     def __init__(self, obstacle1, obstacle2):
         Terrain.OBSTACLE_1 = obstacle1
         Terrain.OBSTACLE_2 = obstacle2
@@ -23,29 +21,24 @@ class BeginState(State):
         print "obstacle 2: " + str(obstacle2)
 
         self.robotMover = RobotMover()
+        self.signalSearcher = ManchesterSignalSearcher()
 
     def run(self):
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[0], Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER[1], 180))
+        self.__acquireCurrentPose()
 
-        print "running..."
-
-        print "doing snake movement 1..."
-
-        #self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER, 180)
-        print "snake movement 1 over!"
-
-        signalInterpreter = ManchesterSignalInterpreter()
-
-        signalInterpreter.searchSignal()
+        interpretedSignal = self.signalSearcher.searchSignal()
 
         StateController.instance.endMainLoop()
 
-    def doDrawing(self):
+    def __acquireCurrentPose(self):
+        print "Acquiring current robot pose..."
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_INNER[0], Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_INNER[1], 180))
+        print "Current robot pose is: " + str(Robot.getCurrentPose())
 
-        print "Creating camera..."
+    def __doDrawing(self):
         cam = Camera()
 
-        print "Extracting points..."
+        print "Extracting points with camera..."
         drawingCountoursFound = False
 
         drawingCountour = []
@@ -60,9 +53,7 @@ class BeginState(State):
         points = drawingCountour[0]
         size = drawingCountour[1]
 
-        print "Extracted points: "
         print points
-        print "Size: "
         print size
 
         drawingZoneSide = 60 # dimension in CM
