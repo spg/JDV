@@ -1,5 +1,4 @@
 import sys
-from python.src.robot.ai.singleton import Singleton
 from python.src.robot.ai.singletonaccessexception import SingletonAccessException
 
 class StateController():
