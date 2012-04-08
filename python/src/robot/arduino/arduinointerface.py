@@ -1,21 +1,16 @@
 from serial import Serial
 import time
-from serial.serialutil import SerialException
 from python.src.robot.logger import Logger
 
 class ArduinoInterface:
     instance = None
 
     def __init__(self):
-
-        #self.ser = Serial('/dev/ttyACM0', 115200)
-
         self.ser = Serial()
         self.ser.baudrate = 115200
         self.ser.port = '/dev/ttyACM0'
 
         self.ser.open()
-
 
         time.sleep(2)
 
@@ -43,7 +38,7 @@ class ArduinoInterface:
             line = ser.readline()
             print "arduino: " + str(line)
             if line.find("over") != -1:
-                logger = Logger.logToFileAndScreen("operation over")
+                Logger.logToFileAndScreen("operation over")
                 operationOver = True
 
     def readLine(self, ser):
