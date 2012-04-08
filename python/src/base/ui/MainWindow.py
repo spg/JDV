@@ -283,10 +283,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x1 =  80+ self.__offset
-        self.__y1 =  70+self.__offset
-        self.__x2 =  150+ self.__offset
-        self.__y2 =  65+self.__offset
+        self.__x2 =  120+ self.__offset
+        self.__y2 =  70+self.__offset
+        self.__x1 =  130+ self.__offset
+        self.__y1 =  50+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -300,7 +300,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste = t.PathFinding(23.00, 10.00, 200.00, 65.00 )
+        liste = t.PathFinding(175.00, 60.00,25.00, 10.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
