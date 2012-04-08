@@ -33,6 +33,8 @@ class BeginState:
 
         interpretedSignal = self.signalSearcher.searchSignal()
 
+        print "interpreted signal: " + str(interpretedSignal)
+
         figureId = interpretedSignal[0]
         orientation = interpretedSignal[1]
         scale = interpretedSignal[2]
