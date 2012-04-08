@@ -1,6 +1,5 @@
 import unittest
 import math
-from python.src.robot.pathplanning.pose import Pose
 from python.src.robot.pathplanning.shufflemovementplanner import ShuffleMovementPlanner
 
 class TestShuffleMovementPlanner(unittest.TestCase):

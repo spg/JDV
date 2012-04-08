@@ -3,7 +3,6 @@ from __future__ import division
 import unittest
 import math
 from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
-from python.src.robot.pathplanning.pose import Pose
 from python.src.robot.terrain import Terrain
 
 class TestSnakeMovementPlanner(unittest.TestCase):
