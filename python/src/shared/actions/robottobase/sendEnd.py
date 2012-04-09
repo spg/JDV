@@ -1,3 +1,3 @@
-class SendEnd():
-    def __init__(self, message):
-        self.message = "Fin"
+class SendEnd:
+    def __init__(self):
+        pass
