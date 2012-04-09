@@ -1,5 +1,4 @@
 from __future__ import division
-import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
@@ -12,7 +11,7 @@ from python.src.robot.sendevent import SendEvent
 from python.src.robot.terrain import Terrain
 from python.src.robot.util.imagepointstransformer import ImagePointsTransformer
 from python.src.robot.util.pointscloudscaler import PointsCloudOperations
-#from python.src.robot.vision.Camera import Camera
+from python.src.robot.vision.Camera import Camera
 from python.src.shared.actions.robottobase.sendConfirm import SendConfirm
 from python.src.shared.actions.robottobase.sendEnd import SendEnd
 
@@ -26,19 +25,14 @@ class BeginState:
         print "obstacle 1: " + str(obstacle1)
         print "obstacle 2: " + str(obstacle2)
 
-        #self.robotMover = RobotMover()
-        #self.signalSearcher = ManchesterSignalSearcher()
-        #self.captorsController = CaptorsController()
-        #self.imagePointsTransformer = ImagePointsTransformer()
+        SendEvent.send(SendConfirm())
+
+        self.robotMover = RobotMover()
+        self.signalSearcher = ManchesterSignalSearcher()
+        self.captorsController = CaptorsController()
+        self.imagePointsTransformer = ImagePointsTransformer()
 
     def run(self):
-        SendEvent.send(SendConfirm())
-        SendEvent.send(SendConfirm())
-        time.sleep(75)
-        SendEvent.send(SendEnd())
-
-        StateController.instance.endMainLoop()
-
         self.__acquireCurrentPose()
 
         interpretedSignal = self.signalSearcher.searchSignal()
@@ -53,7 +47,9 @@ class BeginState:
 
         self.__doDrawing(orientation, scale)
 
+        SendEvent.send(SendEnd())
         StateController.instance.endMainLoop()
+        return
 
     def __acquireCurrentPose(self):
         print "Doing zignage..."

@@ -14,7 +14,10 @@ class StateController():
         self.__currentState = initialState
 
     def beginMainLopp(self):
+        print "beginning main loop"
+        self.__mainLoopIsOver = False
         while not self.__mainLoopIsOver:
+            print "into main loop"
             self.__currentState.run()
 
     def setCurrentState(self, state):
@@ -23,4 +26,3 @@ class StateController():
     def endMainLoop(self):
         self.__mainLoopIsOver = True
         print "ended main loop"
-        sys.exit()
