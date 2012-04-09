@@ -13,7 +13,7 @@ class Trajectoire():
         self.obstacle_2_y = obstacle_2_y
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 15
+        gap = 20
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
         self.Ox22=gap2+obstacle_2_x
@@ -37,34 +37,34 @@ class Trajectoire():
         self.Inverse = False
         if Departx-Finx == 0 and Departy-Finy <= 0 :
             self.Inverse = True
-            self.posDepartx =Finy
+            self.posDepartx =110-Finy
             self.posDeparty =Finx
-            self.posFinx = Departy
+            self.posFinx = 110-Departy
             self.posFiny =Departx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 216
         elif Departx-Finx == 0 and Departy-Finy > 0 :
             self.Inverse = True
             self.Envers = True
-            self.posDepartx =Departy
+            self.posDepartx =110-Departy
             self.posDeparty =Departx
-            self.posFinx = Finy
+            self.posFinx = 110-Finy
             self.posFiny =Finx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 216
         elif Departx-Finx < 0 :
             self.Envers = True
             self.posDepartx =Finx
-            self.posDeparty =Finy
+            self.posDeparty =110-Finy
             self.posFinx =Departx
-            self.posFiny =Departy
+            self.posFiny =110-Departy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
             self.SortieMax = 96
         elif Departx-Finx > 0:
             self.posDepartx =Departx
-            self.posDeparty =Departy
+            self.posDeparty =110-Departy
             self.posFinx =Finx
-            self.posFiny =Finy
+            self.posFiny =110-Finy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
             self.SortieMax = 96
 

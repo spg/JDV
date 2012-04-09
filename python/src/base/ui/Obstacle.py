@@ -5,11 +5,10 @@ import wx
 
 
 class Obstacle(wx.Frame):
-    def __init__( self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(300,300))
+    def __init__( self,parent, title):
+        wx.Frame.__init__(self, parent=parent , title=title, size=(300,300))
         self.initUi()
         self.bindHandlers()
-        self.Show()
 
 
     def initUi(self):
@@ -50,10 +49,5 @@ class Obstacle(wx.Frame):
 
     def gety2(self):
         return int(self.dy2)
-
-if __name__ == '__main__':
-    app = wx.App()
-    Example(None, 'Line')
-    app.MainLoop()
 
 
