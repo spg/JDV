@@ -5,7 +5,6 @@ from python.src.robot.util.pointscloudscaler import PointsCloudOperations
 
 class ImagePointsTransformer:
     def transform(self, pointsFromImage, orientation, scale):
-        print str(pointsFromImage[1])
         transformedPoints = PointsCloudOperations.scale(pointsFromImage[0], 60 / int(pointsFromImage[1]))
 
         movedPoints = PointsCloudOperations.move(transformedPoints, -30, -30)
