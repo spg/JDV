@@ -141,6 +141,10 @@ class MainWindow(wx.Frame):
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
             self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 200), size=(100, 25))
             self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
+            self.__Info.SetForegroundColour((0,255,0))
+            font1 = wx.Font(15, wx.SWISS, wx.NORMAL, wx.NORMAL, False, u'Comic Sans MS')
+            self.__Info.SetFont(font1)
+            self.__Info.AppendText("Confirmation de la connexion")
 
             # mac mini 254.168
             self.__bindHandlers()
@@ -283,10 +287,10 @@ class MainWindow(wx.Frame):
         #self.y1=self.O.gety1()+self.d
         #self.y2=self.O.gety2()+self.d
         #Valeur par default pour bu de test
-        self.__x2 =  120+ self.__offset
-        self.__y2 =  70+self.__offset
-        self.__x1 =  130+ self.__offset
-        self.__y1 =  50+self.__offset
+        self.__x1 =  100+ self.__offset
+        self.__y1 =  80+self.__offset
+        self.__x2 =  80+ self.__offset
+        self.__y2 =  60+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -300,7 +304,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste = t.PathFinding(175.00, 60.00,25.00, 10.00 )
+        liste =t.PathFinding(23.00, 100.00, 200.00, 100.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)

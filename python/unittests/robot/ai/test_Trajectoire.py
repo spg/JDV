@@ -54,15 +54,15 @@ class Test_Trajectoire(unittest.TestCase):
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_Coller_Lignex(self):
-        liste = [(23.0, 100.0), (65, 25), (105, 25), (200.0, 10.0)]
+        liste = [(23.0, 100.0), (65, 75), (105, 75), (200.0, 10.0)]
         t = Trajectoire(80,40 ,80 ,50)
         chemin = t.PathFinding(23.00, 100.00, 200.00, 10.00 )
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_Coller_Lignex2(self):
-        liste = [(23.0, 100.0), (65, 25), (105, 25), (200.0, 10.0)]
+        liste = [(23.0, 10.0), (65, 25), (105, 25), (200.0, 100.0)]
         t = Trajectoire(80,40 ,80 ,50)
-        chemin = t.PathFinding(23.00, 100.00, 200.00, 10.00 )
+        chemin = t.PathFinding(23.00, 10.00, 200.00, 10.00 )
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_Cas1_Compliquer(self):
