@@ -25,8 +25,12 @@ class RobotMover:
     def __buildPath(self, destination):
         pathBuilder = PathBuilder()
         path = pathBuilder.build(destination)
+
+        print "path origin: " + str(path[0])
+
         del path[0]
-        print path
+
+        print "path without origin: " + str(path)
 
         return path
 
@@ -35,7 +39,7 @@ class RobotMover:
 
         moves = SnakeMovementPlanner().planMovement(Robot.getCurrentPose(), path, finalAbsoluteAngle)
 
-        print "about to execute snake moves..."
+        print "snake moves:"
         print moves
 
         self.executeMoves(moves)
