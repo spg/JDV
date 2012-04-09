@@ -60,21 +60,34 @@ class BeginState:
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
     def __goToProperImageForScanning(self, imageId):
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
+
+        self.__acquireCurrentPose()
+
+
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
+            print "going to figure 0"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
         elif imageId == ManchesterSignalInterpreter.FIGURE_1:
+            print "going to figure 1"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 90)
         elif imageId == ManchesterSignalInterpreter.FIGURE_2:
+            print "going to figure 2"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_2_FACE, 180)
         elif imageId == ManchesterSignalInterpreter.FIGURE_3:
+            print "going to figure 3"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_3_FACE, 180)
         elif imageId == ManchesterSignalInterpreter.FIGURE_4:
+            print "going to figure 4"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_4_FACE, 180)
         elif imageId == ManchesterSignalInterpreter.FIGURE_5:
+            print "going to figure 5"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
         elif imageId == ManchesterSignalInterpreter.FIGURE_6:
+            print "going to figure 6"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
         elif imageId == ManchesterSignalInterpreter.FIGURE_7:
+            print "going to figure 7"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
