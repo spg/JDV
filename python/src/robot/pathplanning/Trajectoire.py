@@ -37,34 +37,34 @@ class Trajectoire():
         self.Inverse = False
         if Departx-Finx == 0 and Departy-Finy <= 0 :
             self.Inverse = True
-            self.posDepartx =110-Finy
+            self.posDepartx =Finy
             self.posDeparty =Finx
-            self.posFinx = 110-Departy
+            self.posFinx = Departy
             self.posFiny =Departx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 216
         elif Departx-Finx == 0 and Departy-Finy > 0 :
             self.Inverse = True
             self.Envers = True
-            self.posDepartx =110-Departy
+            self.posDepartx =Departy
             self.posDeparty =Departx
-            self.posFinx = 110-Finy
+            self.posFinx = Finy
             self.posFiny =Finx
             self.setObstacle(self.obstacle_1_y,self.obstacle_1_x,self.obstacle_2_y,self.obstacle_2_x)
             self.SortieMax = 216
         elif Departx-Finx < 0 :
             self.Envers = True
             self.posDepartx =Finx
-            self.posDeparty =110-Finy
+            self.posDeparty =Finy
             self.posFinx =Departx
-            self.posFiny =110-Departy
+            self.posFiny =Departy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
             self.SortieMax = 96
         elif Departx-Finx > 0:
             self.posDepartx =Departx
-            self.posDeparty =110-Departy
+            self.posDeparty =Departy
             self.posFinx =Finx
-            self.posFiny =110-Finy
+            self.posFiny =Finy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
             self.SortieMax = 96
 
