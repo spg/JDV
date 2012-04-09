@@ -38,7 +38,7 @@ class Terrain:
     AR_TAG_NORTH = (174.8, 111.0)
     AR_TAG_EAST = (229.8, 55.5)
     AR_TAG_SOUTH = (174.8, 0)
-    AR_TAG_SOUTH_FACE = (174.8, 30)
+    AR_TAG_SOUTH_FACE = (174.8, 40)
 
     FIGURE_0_FACE = (56.0, 50.0)
     FIGURE_0_CENTER = (56.0, 0)
