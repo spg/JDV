@@ -18,7 +18,7 @@ class ManchesterSignalSearcher:
 
         self.__adjustPosition(distance)
 
-        self.__moveToSecondCorner(distance)
+        self.__moveToSecondCorner()
 
         distance, signal = self.__doSignalSearch('SB.')
 
@@ -46,7 +46,7 @@ class ManchesterSignalSearcher:
 
         return distance, signal
 
-    def __moveToSecondCorner(self, distanceTraveled):
+    def __moveToSecondCorner(self):
         robotMover = RobotMover()
         robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_INNER, 0)
 
