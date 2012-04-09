@@ -16,9 +16,13 @@ class ManchesterSignalSearcher:
 
         distance, signal = self.__doSignalSearch('SS.')
 
+        self.__adjustPosition(distance)
+
         self.__moveToSecondCorner(distance)
 
         distance, signal = self.__doSignalSearch('SB.')
+
+        self.__adjustPosition(distance)
 
         interpretedSignal = self.manchesterSignalInterpreter.interpretSignal(signal)
 
@@ -43,13 +47,14 @@ class ManchesterSignalSearcher:
         return distance, signal
 
     def __moveToSecondCorner(self, distanceTraveled):
+        robotMover = RobotMover()
+        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_INNER, 0)
+
+    def __adjustPosition(self, distance):
         ancientPose = Robot.getCurrentPose()
 
         verticalDrift = 4 #in cm
 
-        newPose = (ancientPose[0] - (int(distanceTraveled)/10), ancientPose[1] + verticalDrift, ancientPose[2])
+        newPose = (ancientPose[0] - (int(distance)/10), ancientPose[1] + verticalDrift, ancientPose[2])
 
         Robot.setCurrentPose(newPose)
-
-        robotMover = RobotMover()
-        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_INNER, 0)
