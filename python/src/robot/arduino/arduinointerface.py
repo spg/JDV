@@ -11,7 +11,7 @@ class ArduinoInterface:
         self.ser.baudrate = 115200
 
         for portId in range(0, 3):
-            portName = '/dev/ttyAC' + str(portId)
+            portName = '/dev/ttyACM' + str(portId)
             self.ser.port = portName
             try:
                 print "trying to open USB port " + str(portName)
