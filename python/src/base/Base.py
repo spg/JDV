@@ -3,7 +3,7 @@ import threading
 from Client import client
 from python.src.shared.actions.basetorobot.getlinetra import GetLineTra
 from python.src.shared.actions.basetorobot.startrobot import StartRobot
-
+from python.src.shared.actions.basetorobot.newturn import NewTurn
 class Base():
     def __init__(self):
         self._client = client()
@@ -21,6 +21,8 @@ class Base():
         self._client.connect(ip, int(port))
         self._client.listen()
 
+    def NewTurn(self):
+        self.__send(NewTurn())
 
     def StartRobot(self):
         self.__send(StartRobot(self.Ox1,self.Oy1,self.Ox2,self.Oy2))
