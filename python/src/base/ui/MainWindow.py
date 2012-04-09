@@ -140,7 +140,7 @@ class MainWindow(wx.Frame):
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au ", pos=(500, 90), size=(130, 25))
             self.__startnew = wx.Button(self.panel, label="Nouveau tour", pos=(500, 140), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.213.142', pos=(500, 200), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 200), size=(100, 25))
             self.__portTextCtrl = wx.TextCtrl(self.panel, value='', pos=(650, 200), size=(100, 25))
             self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
             font1 = wx.Font(15, wx.SWISS, wx.NORMAL, wx.NORMAL, False, u'Comic Sans MS')
