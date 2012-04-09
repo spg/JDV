@@ -111,7 +111,7 @@ class BeginState:
         print points
         print size
 
-        pointsToDraw = self.imagePointsTransformer.transform(points, orientation, scale)
+        pointsToDraw = self.imagePointsTransformer.transform(drawingCountour, orientation, scale)
 
         SendEvent.send(SendDessin(pointsToDraw))
 
