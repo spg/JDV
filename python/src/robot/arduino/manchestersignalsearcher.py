@@ -11,7 +11,6 @@ class ManchesterSignalSearcher:
         self.manchesterSignalInterpreter = ManchesterSignalInterpreter()
 
     def searchSignal(self):
-        print "doing signal search..."
         distance, signal = self.__doSignalSearch('SS.')
 
         self.__moveToSecondCorner(distance)

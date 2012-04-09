@@ -140,7 +140,7 @@ class MainWindow(wx.Frame):
             self.__startnew = wx.Button(self.panel, label="Nouveau tour", pos=(500, 140), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
             self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 200), size=(100, 25))
-            self.__portTextCtrl = wx.TextCtrl(self.panel, pos=(650, 200), size=(100, 25))
+            self.__portTextCtrl = wx.TextCtrl(self.panel, value='', pos=(650, 200), size=(100, 25))
             self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
             self.__Info.SetForegroundColour((0,255,0))
             font1 = wx.Font(15, wx.SWISS, wx.NORMAL, wx.NORMAL, False, u'Comic Sans MS')
@@ -183,7 +183,7 @@ class MainWindow(wx.Frame):
         self.t1 = time.clock()
         self.__connectionButton.Disable()
         self.__ipTextCtrl.Disable()
-        self.__base.connectToRobot(self.__ipTextCtrl.GetValue(), self.__portTextCtrl.GetValue())
+        self.__base.connectToRobot(self.__ipTextCtrl.GetValue(),self.__portTextCtrl.GetValue())
         self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
         self.__base.StartRobot()
 
