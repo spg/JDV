@@ -1,12 +1,15 @@
 from __future__ import division
 
 from python.src.robot.ai.statecontroller import StateController
+from python.src.robot.arduino.captorscontroller import CaptorsController
+from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
 from python.src.robot.arduino.robotmover import RobotMover
 from python.src.robot.robot import Robot
 from python.src.robot.sendevent import SendEvent
 from python.src.robot.terrain import Terrain
+from python.src.robot.util.imagepointstransformer import ImagePointsTransformer
 from python.src.robot.util.pointscloudscaler import PointsCloudOperations
 from python.src.robot.vision.Camera import Camera
 
@@ -22,20 +25,53 @@ class BeginState:
 
         self.robotMover = RobotMover()
         self.signalSearcher = ManchesterSignalSearcher()
+        self.captorsController = CaptorsController()
+        self.imagePointsTransformer = ImagePointsTransformer()
 
     def run(self):
         self.__acquireCurrentPose()
 
         interpretedSignal = self.signalSearcher.searchSignal()
 
+        print "interpreted signal: " + str(interpretedSignal)
+
+        figureId = interpretedSignal[0]
+        orientation = interpretedSignal[1]
+        scale = interpretedSignal[2]
+
+        self.__goToProperImageForScanning(figureId)
+
+        self.__doDrawing(orientation, scale)
+
         StateController.instance.endMainLoop()
 
     def __acquireCurrentPose(self):
-        print "Acquiring current robot pose..."
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_INNER[0], Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_INNER[1], 180))
+        print "Doing zignage..."
+        self.captorsController.Zing()
+
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
-    def __doDrawing(self):
+    def __goToProperImageForScanning(self, imageId):
+        if imageId == ManchesterSignalInterpreter.FIGURE_0:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_1:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 90)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_2:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_2_FACE, 180)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_3:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_3_FACE, 180)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_4:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_4_FACE, 180)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_5:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 180)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_6:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
+        elif imageId == ManchesterSignalInterpreter.FIGURE_7:
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
+
+    def __doDrawing(self, orientation, scale):
         cam = Camera()
 
         print "Extracting points with camera..."
@@ -56,14 +92,11 @@ class BeginState:
         print points
         print size
 
-        drawingZoneSide = 60 # dimension in CM
-        scaleFactor = drawingZoneSide / size
-        
-        scaledPoints = PointsCloudOperations.scale(points, scaleFactor)
+        pointsToDraw = self.imagePointsTransformer.transform(points, orientation, scale)
 
-        SendEvent.send(SendDessin(scaledPoints))
+        SendEvent.send(SendDessin(pointsToDraw))
 
-        movedPoints = PointsCloudOperations.move(scaledPoints, 144.8, 25.5)
+        movedPoints = PointsCloudOperations.move(pointsToDraw, 144.8, 25.5)
 
         print "going to first drawing point"
         self.robotMover.doSnakeMovement(movedPoints[0], 270)

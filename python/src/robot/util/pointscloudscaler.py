@@ -18,3 +18,12 @@ class PointsCloudOperations:
             moved.append(TupleOperations.move(point, deltaX, deltaY))
 
         return moved
+
+    @staticmethod
+    def rotate(pointsCloud, theta):
+        rotated = []
+
+        for point in pointsCloud:
+            rotated.append(TupleOperations.rotate(point, theta))
+
+        return rotated

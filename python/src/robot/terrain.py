@@ -44,7 +44,7 @@ class Terrain:
     FIGURE_0_LEFT_EDGE = (64.0, 0)
     FIGURE_0_RIGHT_EDGE = (48.0, 0)
 
-    FIGURE_1_FACE = (23.0, 40.0)
+    FIGURE_1_FACE = (23.0, 50.0)
     FIGURE_1_CENTER = (23.0, 0)
     FIGURE_1_LEFT_EDGE = (31.0, 0)
     FIGURE_1_RIGHT_EDGE = (15.0, 0)
