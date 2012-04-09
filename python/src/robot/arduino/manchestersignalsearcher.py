@@ -11,6 +11,9 @@ class ManchesterSignalSearcher:
         self.manchesterSignalInterpreter = ManchesterSignalInterpreter()
 
     def searchSignal(self):
+        robotMover = RobotMover()
+        robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_NORTH_EAST_CORNER_INNER, 180)
+
         distance, signal = self.__doSignalSearch('SS.')
 
         self.__moveToSecondCorner(distance)
