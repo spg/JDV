@@ -1,5 +1,6 @@
 from serial import Serial
 import time
+from serial.serialutil import SerialException
 from python.src.robot.logger import Logger
 
 class ArduinoInterface:
@@ -8,9 +9,18 @@ class ArduinoInterface:
     def __init__(self):
         self.ser = Serial()
         self.ser.baudrate = 115200
-        self.ser.port = '/dev/ttyACM0'
 
-        self.ser.open()
+        for portId in range(0, 3):
+            portName = '/dev/ttyAC' + str(portId)
+            self.ser.port = portName
+            try:
+                print "trying to open USB port " + str(portName)
+                self.ser.open()
+                break
+            except SerialException :
+                print "could not open USB port " + str(portName)
+                pass
+
 
         time.sleep(2)
 
