@@ -46,8 +46,8 @@ class MainWindow(wx.Frame):
         PoseEvent.addHandler(self.__PoseReceived)
         TrajectoireEvent.addHandler(self.__TrajectoireReceived)
         DessinEvent.addHandler(self.__DessinReceived)
-        EndEvent.addHandler(self.__DessinReceived)
-        ConfirmEvent.addHandler(self.__DessinReceived)
+        EndEvent.addHandler(self.__endReceived)
+        ConfirmEvent.addHandler(self.__ConfirmReceived)
 
     def __bindHandlers(self):
         self.Bind(wx.EVT_BUTTON, self.__onNewturnButtonClicked, self.__startnew)
@@ -139,32 +139,23 @@ class MainWindow(wx.Frame):
             self.__connectionButton = wx.Button(self.panel, label="Se connecter au ", pos=(500, 90), size=(130, 25))
             self.__startnew = wx.Button(self.panel, label="Nouveau tour", pos=(500, 140), size=(130, 25))
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
-            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.254.168', pos=(500, 200), size=(100, 25))
+            self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.213.142', pos=(500, 200), size=(100, 25))
             self.__portTextCtrl = wx.TextCtrl(self.panel, value='', pos=(650, 200), size=(100, 25))
-            self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
-            self.__Info.SetForegroundColour((0,255,0))
+            self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 400),style=wx.TE_MULTILINE)
             font1 = wx.Font(15, wx.SWISS, wx.NORMAL, wx.NORMAL, False, u'Comic Sans MS')
+            self.__TimeInfo = wx.TextCtrl(self.panel, value='', pos=(500, 340), size=(300, 50))
+            self.__TimeInfo.SetForegroundColour((0,0,255))
+            self.__TimeInfo.SetFont(font1)
+            self.__Info.SetForegroundColour((0,255,0))
             self.__Info.SetFont(font1)
-            self.__Info.AppendText("Confirmation de la connexion")
+            self.__Info.AppendText("")
 
-            # mac mini 254.168
+            # mac mini 254.168  10.240.213.142
             self.__bindHandlers()
 
     def __onNewturnButtonClicked(self, event):
-        #self.__x1=self.O.getx1()+self.__offset
-        #self.__x2=self.O.getx2()+self.__offset
-        #self.__y1=self.O.gety1()+self.__offset
-        #self.__y1=self.O.gety2()+self.__offset
-        self.__x1 = 0+ self.__offset
-        self.__y1 = 0+ self.__offset
-        self.__x2 = 0+ self.__offset
-        self.__y2 = 0+ self.__offset
-        self.__Obstacle= True
-        self.dc.Clear()
-        self.__DrawLine()
-        self.__base.setObstacle(self.__x1, self.__y1, self.__x2, self.__y2)
         self.t1 = time.clock()
-        self.__base.StartRobot()
+        self.__base.NewTurn()
 
     def __onConnectButtonClicked(self, event):
         #Affiche les obstacle
@@ -190,13 +181,23 @@ class MainWindow(wx.Frame):
     def __ConfirmReceived(self, message):
         wx.CallAfter(self.__printToLoggingInfo, message)
 
-    def __endReceived(self):
+    def __endReceived(self,message):
         t2 = time.clock()
         total = t2 - self.t1
-        min = str(total/60)
-        sec = str(total%60)
-        message = "temps :  " + min + " minutes  " + sec + " secondes "
-        wx.CallAfter(self.__printToLoggingArea, message)
+        min = int(round(total/60,0))
+        sec = int(round(total%60,0))
+
+        if min < 10 > sec:
+            message = "temps :  0" + str(min) + ":0" + str(sec)
+        if min < 10 <= sec:
+            message = "temps :  0" + str(min) + ":" + str(sec)
+        if min >= 10 > sec:
+            message = "temps :  " + str(min) + ":0" + str(sec)
+        if min >= 10 <= sec:
+            message = "temps :  " + str(min) + ":" + str(sec)
+
+
+        wx.CallAfter(self.__printTemps, message)
 
     def __logReceived(self, message):
         wx.CallAfter(self.__printToLoggingArea, message)
@@ -262,7 +263,13 @@ class MainWindow(wx.Frame):
         currentTime = time.strftime("%H:%M:%S", time.localtime())
         self.__loggingArea.AppendText(currentTime + ' : ' + message + '\n')
 
+
+    def __printTemps(self, message):
+        print str(message)
+        self.__TimeInfo.AppendText(message)
+
     def __printToLoggingInfo(self, message):
+        print str(message)
         self.__Info.SetValue(message)
 
     def __RotationTriangle(self, angles):

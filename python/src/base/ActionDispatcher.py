@@ -1,5 +1,5 @@
 import cPickle
-from python.src.shared.actions.robottobase import log, sendpose,senddesssin,sendtrajectoire,sendEnd,sendCornfirm
+from python.src.shared.actions.robottobase import log, sendpose,senddesssin,sendtrajectoire,sendEnd,sendConfirm
 from python.src.base.logevent import LogEvent
 from python.src.base.poseevent import PoseEvent
 from python.src.base.trajectoireevent import TrajectoireEvent
@@ -24,9 +24,9 @@ class ActionDispatcher():
         elif moduleName == sendtrajectoire.__name__:
             LogEvent.fire('Received path:')
             TrajectoireEvent.fire(obj)
-        elif moduleName == sendCornfirm.__name__:
+        elif moduleName == sendConfirm.__name__:
             LogEvent.fire('Received Confirmation:')
-            ConfirmEvent.fire(obj)
+            ConfirmEvent.fire(obj.message)
         elif moduleName == sendEnd.__name__:
             LogEvent.fire('Received Fin:')
             EndEvent.fire(obj)
