@@ -26,6 +26,7 @@ class MainWindow(wx.Frame):
             size=(900, 550))
         self.panel = wx.Panel(self, -1)
         self.__Action = True
+        self.Tour =1
         self.__Obstacle = False
         self.Dessin = False
         self.Chemin = False
@@ -141,9 +142,9 @@ class MainWindow(wx.Frame):
             self.__loggingArea = wx.TextCtrl(self.panel, pos=(270, 260), size=(200, 200), style=wx.TE_MULTILINE)
             self.__ipTextCtrl = wx.TextCtrl(self.panel, value='10.240.213.142', pos=(500, 200), size=(100, 25))
             self.__portTextCtrl = wx.TextCtrl(self.panel, value='', pos=(650, 200), size=(100, 25))
-            self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 400),style=wx.TE_MULTILINE)
+            self.__Info = wx.TextCtrl(self.panel, value='', pos=(500, 240), size=(300, 100))
             font1 = wx.Font(15, wx.SWISS, wx.NORMAL, wx.NORMAL, False, u'Comic Sans MS')
-            self.__TimeInfo = wx.TextCtrl(self.panel, value='', pos=(500, 340), size=(300, 50))
+            self.__TimeInfo = wx.TextCtrl(self.panel, value='', pos=(500, 340), size=(300, 300),style=wx.TE_MULTILINE)
             self.__TimeInfo.SetForegroundColour((0,0,255))
             self.__TimeInfo.SetFont(font1)
             self.__Info.SetForegroundColour((0,255,0))
@@ -155,6 +156,7 @@ class MainWindow(wx.Frame):
 
     def __onNewturnButtonClicked(self, event):
         self.t1 = time.clock()
+        print ""
         self.__base.NewTurn()
 
     def __onConnectButtonClicked(self, event):
@@ -265,8 +267,10 @@ class MainWindow(wx.Frame):
 
 
     def __printTemps(self, message):
+        self.__TimeInfo.AppendText('Tour '+str(self.Tour)+' : ')
         print str(message)
-        self.__TimeInfo.AppendText(message)
+        self.__TimeInfo.AppendText(message+'\n')
+        self.Tour += 1
 
     def __printToLoggingInfo(self, message):
         print str(message)
