@@ -205,6 +205,9 @@ class MainWindow(wx.Frame):
         wx.CallAfter(self.__printToLoggingArea, message)
 
     def __PoseReceived(self, message):
+        wx.CallAfter(self.__Pose,message)
+
+    def __Pose(self,message):
         self.dc.Clear()
         Angle = message.theta
         self.__RotationTriangle(Angle)
@@ -217,12 +220,18 @@ class MainWindow(wx.Frame):
             self.__AfficherTrajectoire(self.__listeChemin)
 
     def __DessinReceived(self, message):
+        wx.CallAfter(self.__Dessin,message)
+
+
+    def __Dessin(self,message):
         self.Dessin =True
         self.__listeDessin= message.liste
         self.__AfficherDessin(self.__listeDessin)
 
-
     def __TrajectoireReceived(self, message):
+        wx.CallAfter(self.__trajectoire,message)
+
+    def __trajectoire(self,message):
         self.Chemin =True
         self.__listeChemin = message.liste
         self.__AfficherTrajectoire(self.__listeChemin)
