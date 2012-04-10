@@ -21,8 +21,8 @@ class CameraAccessor:
 
     def __getCalibrationParameters__(self):
         print "CameraAccessor getCalibrationParam begin"
-        self.intrinsecParameters = numpy.load("intrinsec.npy")
-        self.distortionParameter = numpy.load("distortion.npy")
+        self.intrinsecParameters = numpy.load("vision/intrinsec.npy")
+        self.distortionParameter = numpy.load("vision/distortion.npy")
         print "CameraAccessor getCalibrationParam begin"
 
     def __initialiseCamera__(self):
