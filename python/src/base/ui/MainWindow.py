@@ -123,15 +123,15 @@ class MainWindow(wx.Frame):
             self.y13=gap2+self.__y1
             self.y14=self.__y1-gap
             self.dc.SetBrush(wx.Brush('#ff0000'))
-            #self.dc.DrawRectangle(self.x21*2,self.y21*2, 5, 5)
-            #self.dc.DrawRectangle(self.x22*2,self.y22*2, 5, 5)
-            #self.dc.DrawRectangle(self.x23*2,self.y23*2, 5, 5)
-            #self.dc.DrawRectangle(self.x24*2,self.y24*2, 5, 5)
+            self.dc.DrawRectangle(self.x21*2,self.y21*2, 5, 5)
+            self.dc.DrawRectangle(self.x22*2,self.y22*2, 5, 5)
+            self.dc.DrawRectangle(self.x23*2,self.y23*2, 5, 5)
+            self.dc.DrawRectangle(self.x24*2,self.y24*2, 5, 5)
             self.dc.SetBrush(wx.Brush('#0000ff'))
-            #self.dc.DrawRectangle(self.x11*2, self.y11*2, 5, 5)
-            #self.dc.DrawRectangle(self.x12*2, self.y12*2, 5, 5)
-            #self.dc.DrawRectangle(self.x13*2, self.y13*2, 5, 5)
-            #self.dc.DrawRectangle(self.x14*2, self.y14*2, 5, 5)
+            self.dc.DrawRectangle(self.x11*2, self.y11*2, 5, 5)
+            self.dc.DrawRectangle(self.x12*2, self.y12*2, 5, 5)
+            self.dc.DrawRectangle(self.x13*2, self.y13*2, 5, 5)
+            self.dc.DrawRectangle(self.x14*2, self.y14*2, 5, 5)
 
         if self.__Action:
             self.__Action = False
@@ -309,9 +309,9 @@ class MainWindow(wx.Frame):
         #self.__y2=self.O.gety2()
         #Valeur par default pour bu de test
         self.__x1 =  101+ self.__offset
-        self.__y1 =  84+self.__offset
+        self.__y1 =  29+self.__offset
         self.__x2 =  84+ self.__offset
-        self.__y2 =  60+self.__offset
+        self.__y2 =  43+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -325,7 +325,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste =t.PathFinding(10.00, 10.00, 173.00, 56.00 )
+        liste =t.PathFinding(23.00, 50.00, 200.00, 15.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)

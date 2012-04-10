@@ -14,7 +14,8 @@ class Trajectoire():
         self.printmess = True
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 20
+        gap = 15
+
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
         self.Ox22=gap2+obstacle_2_x
@@ -76,9 +77,11 @@ class Trajectoire():
         self.Trouvetrajectoire(self.posDepartx,self.posDeparty,self.posFinx,self.posFiny)
         self.grs = nx.Graph()
         self.grs = nx.shortest_path(self.gr,"Depart","Fin","weight")
-        #print self.grs
+        if self.printmess:
+            print self.grs
         self.FaireListe()
-        #print self.liste
+        if self.printmess:
+            print self.liste
         return self.liste
 
     def Trouvetrajectoire(self,Posdx,Posdy,Posfx,Posfy):
@@ -131,7 +134,8 @@ class Trajectoire():
             # print "posy: %d" % posy
 
             if posy>= self.Oy24 and posy<=self.Oy21  and posx>= self.Ox24 and posx<=self.Ox21:
-                #print(" O2")
+                if self.printmess:
+                    print(" O2")
                 # Calcule des distances
                 Sortie21 = self.EstSortie(self.Oy21)
                 Sortie22 = self.EstSortie(self.Oy22)
@@ -245,7 +249,8 @@ class Trajectoire():
                             self.TrouveO = True
                             self.TrouveO14 = True
             if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
-                #print(" O1")
+                if self.printmess:
+                    print(" O1")
                 Sortie21 = self.EstSortie(self.Oy21)
                 Sortie22 = self.EstSortie(self.Oy22)
                 Sortie12 = self.EstSortie(self.Oy12)
@@ -382,7 +387,8 @@ class Trajectoire():
         if Position < self.SortieMax  and Position >15:
             return False
         else:
-            #print "Sortie"
+            if self.printmess:
+                print "Sortie"
             return True
 
     def verifierTrajectoire(self,Posdx,Posdy,Posfx,Posfy,obstacle):
