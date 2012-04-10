@@ -64,7 +64,6 @@ class BeginState:
 
         self.__acquireCurrentPose()
 
-
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
             print "going to figure 0"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
@@ -99,11 +98,19 @@ class BeginState:
         drawingCountour = []
 
         while not drawingCountoursFound:
+            tryCount = 0
+            shuffleDistance = 5
             try:
                 drawingCountour = cam.getDrawingContour()
                 drawingCountoursFound = True
             except ValueError:
-                pass
+                print "Failed to extract points from camera! Retrying..."
+                if not tryCount % 3:
+                    self.robotMover.relativeShuffle(shuffleDistance, -150)
+                elif tryCount % 3 == 1:
+                    self.robotMover.relativeShuffle(shuffleDistance, 90)
+                else:
+                    self.robotMover.relativeShuffle(shuffleDistance, -30)
 
         points = drawingCountour[0]
         size = drawingCountour[1]
@@ -126,6 +133,6 @@ class BeginState:
 
         movedPoints.append(movedPoints[0]) # this is to close the figure
 
-        self.robotMover.doShuffleMovement(movedPoints)
+        self.robotMover.doShuffleMovement(movedPoints, 270)
 
         prehensorController.raisePrehensor()

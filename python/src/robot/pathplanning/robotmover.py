@@ -46,7 +46,7 @@ class RobotMover:
 
         Robot.setCurrentPose((destination[0], destination[1], finalAbsoluteAngle))
 
-    def doShuffleMovement(self, path):
+    def doShuffleMovement(self, path, finalAbsoluteAngle):
         print "about to delete first node on shuffle path..."
         print "node to delete is: " + str(path[0])
         del path[0] # path[0] is the current robot's pose
@@ -60,7 +60,7 @@ class RobotMover:
         self.executeMoves(moves)
 
         lastNode = path[len(path) - 1]
-        Robot.setCurrentPose((lastNode[0], lastNode[1], 270))
+        Robot.setCurrentPose((lastNode[0], lastNode[1], finalAbsoluteAngle))
 
     def __sendPoseToBase_advance(self, distanceInCentimeters):
         currentPose = Robot.getCurrentPose()
@@ -82,3 +82,15 @@ class RobotMover:
         deltaX = math.cos(math.radians(currentPose[2])) * distanceInCentimeters
 
         Robot.setCurrentPose((currentPose[0] + deltaX, currentPose[1] - deltaY, currentPose[2]))
+
+    def relativeShuffle(self, distance, relativeAngle):
+        currentPose = Robot.getCurrentPose()
+        currentAngle = currentPose[2]
+        B = 360 - currentAngle - relativeAngle
+
+        deltaX = distance * math.sin(math.radians(B))
+        deltaY = distance * math.cos(math.radians(B))
+
+        destination = (currentPose[0] + deltaX, currentPose[1] + deltaY, currentAngle)
+
+        self.doShuffleMovement([currentPose, destination], currentAngle)
