@@ -1,7 +1,7 @@
 import time
 from python.src.robot.arduino.arduinointerface import ArduinoInterface
 from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
-from python.src.robot.arduino.robotmover import RobotMover
+from python.src.robot.pathplanning.robotmover import RobotMover
 from python.src.robot.robot import Robot
 from python.src.robot.terrain import Terrain
 
@@ -30,11 +30,10 @@ class ManchesterSignalSearcher:
 
     def __doSignalSearch(self, method):
         print "searching signal..."
-        ser = self.arduinoInterface.connect()
-        ser.write(method)
+        self.arduinoInterface.write(method)
         time.sleep(0.2)
-        self.arduinoInterface.checkIfOperationIsOver(ser)
-        signalAndDistance = self.arduinoInterface.readLine(ser)
+        self.arduinoInterface.checkIfOperationIsOver()
+        signalAndDistance = self.arduinoInterface.readLine()
 
         print "signal and distance: " + str(signalAndDistance)
 

@@ -34,22 +34,31 @@ class ArduinoInterface:
             ArduinoInterface.instance = ArduinoInterface()
         return ArduinoInterface.instance
 
-    def connect(self):
-        ser = self.ser
-
-        return ser
-
-    def checkIfOperationIsOver(self, ser):
-
+    def checkIfOperationIsOver(self):
         operationOver = False
 
         while not operationOver:
             time.sleep(0.1)
-            line = ser.readline()
+            line = self.ser.readline()
             print "arduino: " + str(line)
             if line.find("over") != -1:
                 Logger.logToFileAndScreen("operation over")
                 operationOver = True
 
-    def readLine(self, ser):
-        return ser.readline()
+    def write(self, message):
+        operationBegun = False
+
+        while not operationBegun:
+            self.ser.write(message)
+            time.sleep(0.5)
+            operationBegun = self.checkIfOperationHasBegun()
+
+    def checkIfOperationHasBegun(self):
+        line = self.ser.readline()
+        print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
+        if line.find("okay") != -1:
+            return True
+        return False
+
+    def readLine(self):
+        return self.ser.readline()

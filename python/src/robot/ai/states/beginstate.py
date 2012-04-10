@@ -5,7 +5,7 @@ from python.src.robot.arduino.captorscontroller import CaptorsController
 from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
-from python.src.robot.arduino.robotmover import RobotMover
+from python.src.robot.pathplanning.robotmover import RobotMover
 from python.src.robot.robot import Robot
 from python.src.robot.sendevent import SendEvent
 from python.src.robot.terrain import Terrain
@@ -55,15 +55,14 @@ class BeginState:
         print "Doing zignage..."
         self.captorsController.Zing()
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
 
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
     def __goToProperImageForScanning(self, imageId):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
 
         self.__acquireCurrentPose()
-
 
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
             print "going to figure 0"
@@ -82,7 +81,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_4_FACE, 180)
         elif imageId == ManchesterSignalInterpreter.FIGURE_5:
             print "going to figure 5"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 185)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 195)
         elif imageId == ManchesterSignalInterpreter.FIGURE_6:
             print "going to figure 6"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
@@ -99,11 +98,19 @@ class BeginState:
         drawingCountour = []
 
         while not drawingCountoursFound:
+            tryCount = 0
+            shuffleDistance = 5
             try:
                 drawingCountour = cam.getDrawingContour()
                 drawingCountoursFound = True
             except ValueError:
-                pass
+                print "Failed to extract points from camera! Retrying..."
+                if not tryCount % 3:
+                    self.robotMover.relativeShuffle(shuffleDistance, -150)
+                elif tryCount % 3 == 1:
+                    self.robotMover.relativeShuffle(shuffleDistance, 90)
+                else:
+                    self.robotMover.relativeShuffle(shuffleDistance, -30)
 
         points = drawingCountour[0]
         size = drawingCountour[1]
@@ -126,6 +133,6 @@ class BeginState:
 
         movedPoints.append(movedPoints[0]) # this is to close the figure
 
-        self.robotMover.doShuffleMovement(movedPoints)
+        self.robotMover.doShuffleMovement(movedPoints, 270)
 
         prehensorController.raisePrehensor()

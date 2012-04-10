@@ -13,7 +13,7 @@ class ContourExtractor:
         size = cv.GetSize(image)
         middleOfSideImage = size[0]/2
         minTreshold = cv.GetReal2D(tmp, middleOfSideImage, middleOfSideImage)
-        minTreshold = minTreshold+(255-minTreshold)*80/255
+        minTreshold = minTreshold+(255-minTreshold)*60/255
         cv.Threshold(tmp,tmp, minTreshold,255,cv.CV_THRESH_BINARY)
         cv.Dilate(tmp, tmp)
         cv.Dilate(tmp, tmp)
@@ -39,7 +39,9 @@ class ContourExtractor:
         newPoints = []
         for point in points:
             x = point[0]
+            x = x-19
             y = imageSize - point[1]
+            y = y+19
             newPoints.append((x,y))
         return newPoints
 

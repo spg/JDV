@@ -1,10 +1,11 @@
 from python.src.robot.arduino.arduinointerface import ArduinoInterface
 
-class CaptorsController:
+class LedController:
     def __init__(self):
         self.arduinoInterface = ArduinoInterface.getInstance()
 
-    def Zing(self):
-        self.arduinoInterface.write('Z.')
+    def turnLedOn(self):
+        self.arduinoInterface.write('L1.')
 
-        self.arduinoInterface.checkIfOperationIsOver()
+    def turnLedOff(self):
+        self.arduinoInterface.write('L0.')
