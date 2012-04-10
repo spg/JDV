@@ -97,8 +97,8 @@ class BeginState:
 
         drawingCountour = []
 
+        tryCount = 0
         while not drawingCountoursFound:
-            tryCount = 0
             shuffleDistance = 3
             try:
                 drawingCountour = cam.getDrawingContour()
@@ -107,13 +107,11 @@ class BeginState:
                 print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
                 if not tryCount % 3:
                     self.robotMover.relativeShuffle(shuffleDistance, -150)
-                    tryCount += 1
                 elif tryCount % 3 == 1:
                     self.robotMover.relativeShuffle(shuffleDistance, 90)
-                    tryCount += 1
                 else:
                     self.robotMover.relativeShuffle(shuffleDistance, -30)
-                    tryCount += 1
+                tryCount += 1
 
 
 
