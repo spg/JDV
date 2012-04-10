@@ -28,7 +28,7 @@ class CameraAccessor:
         print "CameraAccessor getCalibrationParam begin"
 
     def __initialiseCamera__(self):
-        self.camera = cv.CaptureFromCAM(1)
+        self.camera = cv.CaptureFromCAM(-1)
         #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
         #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
         print "CameraAccessor: initialiseCamera - set format begin"
