@@ -28,8 +28,8 @@ class CameraAccessor:
         print "CameraAccessor: initialiseCamera - set format end"
 
     def __initialiseUndistortMap__(self):
-        #testImage = cv.QueryFrame(self.camera) 
-        #print type(testImage)
+        testImage = cv.QueryFrame(self.camera) 
+        print "cameraAccessor: initialiseUndistortMap - ",  type(testImage)
         #self.photoSize = cv.GetSize(testImage)
         self.photoSize = (1600, 1200)
         self.mapx = cv.CreateImage(self.photoSize, cv.IPL_DEPTH_32F, 1)
