@@ -225,7 +225,7 @@ class Trajectoire():
                             self.gr.add_edge(depart,"O11" , weight=dist)
                             dist = self.Ox12-self.Ox14
                             self.gr.add_edge("O11","O13" , weight=dist)
-                            self.TrouveO=true
+                            self.TrouveO = True
                             self.TrouveO13 = True
                 if Colision22 and Sortie21:
                     #print "Execption"
