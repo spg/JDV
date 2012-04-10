@@ -172,10 +172,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 =  88+ self.__offset
-        self.__y1 =  71+self.__offset
-        self.__x2 =  84+ self.__offset
-        self.__y2 =  43+self.__offset
+        self.__x1 =  93+ self.__offset
+        self.__y1 =  44+self.__offset
+        self.__x2 =  110+ self.__offset
+        self.__y2 =  18+self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -219,7 +219,7 @@ class MainWindow(wx.Frame):
         Angle = message.theta
         self.__RotationTriangle(Angle)
         self.__robotx = message.x*2
-        self.__roboty = (message.y-110)*2
+        self.__roboty = (message.y)*2
         self.__DrawLine()
         if self.Dessin:
             self.__AfficherDessin(self.__listeDessin)
@@ -315,10 +315,14 @@ class MainWindow(wx.Frame):
         #self.__y1=self.self.y1.GetValue()
         #self.__y2=self.self.y2.GetValue()
         #Valeur par default pour bu de test
-        self.__x1 =  88+ self.__offset
-        self.__y1 =  61+self.__offset
-        self.__x2 =  84+ self.__offset
-        self.__y2 =  30+self.__offset
+        #self.__x1 =  93+ self.__offset
+        #self.__y1 =  30+self.__offset
+        #self.__x2 =  81+ self.__offset
+        #self.__y2 =  75+self.__offset
+        self.__x2 =  93+ self.__offset
+        self.__y2 =  44+self.__offset
+        self.__x1 =  110+ self.__offset
+        self.__y1 =  18+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -332,7 +336,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste =t.PathFinding(23.00, 15.00, 200.00, 15.00 )
+        liste =t.PathFinding(56.0, 50.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
