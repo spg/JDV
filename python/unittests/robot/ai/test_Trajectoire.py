@@ -62,7 +62,7 @@ class Test_Trajectoire(unittest.TestCase):
     def test_Obstacle_Coller_Lignex2(self):
         liste = [(23.0, 10.0), (65, 25), (105, 25), (200.0, 100.0)]
         t = Trajectoire(80,40 ,80 ,50)
-        chemin = t.PathFinding(23.00, 10.00, 200.00, 10.00 )
+        chemin = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_Cas1_Compliquer(self):
@@ -102,56 +102,57 @@ class Test_Trajectoire(unittest.TestCase):
         t = Trajectoire(130,50 ,120 ,70)
         chemin = t.PathFinding(175.00, 60.00,25.00, 10.00 )
         self.assertEqual(chemin,liste)
-""" Commrny
 
-     # test nord-sud
-
-    def test_Un_Obstacle_x(self):
-        liste = [(175.0, 100.0), (190, 100), (190, 70), (175.0, 10.0)]
-        t = Trajectoire(0,0 ,170 ,80)
-        chemin = t.PathFinding(175.00, 10.00,175.00, 100.00)
+    def test_Obstacle_Cas7_Compliquer(self):
+        liste = [(10.0, 56.0), (69, 45), (109, 45), (173.0, 56.0)]
+        t = Trajectoire(101,84 ,84 ,60)
+        chemin  =t.PathFinding(10.00, 56.00, 173.00, 56.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Deux_Obstacle_x(self):
-        liste = [(175.0, 100.0), (190, 100), (190, 70), (190, 65), (190, 35), (175.0, 10.0)]
-        t = Trajectoire(170,45 ,170 ,80)
-        chemin = t.PathFinding(175.00, 10.00,175.00, 100.00)
+    def test_Obstacle_Cas1(self):
+        liste = [(23.0, 10.0), (69, 45), (109, 45), (200.0, 100.0)]
+        t = Trajectoire(101,84 ,84 ,60)
+        chemin  = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Deux_Obstacle_Enver_x(self):
-        liste = [(175.0, 10.0), (190, 35), (190, 65), (190, 70), (190, 100), (175.0, 100.0)]
-        t = Trajectoire(170,45 ,170 ,80)
-        chemin = t.PathFinding(175.00, 100.00,175.00, 10.00 )
+    def test_Obstacle_Cas1(self):
+        liste = [(23.0, 10.0), (69, 29), (109, 29), (200.0, 100.0)]
+        t = Trajectoire(101,84 ,84 ,44)
+        chemin  = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-
-    def test_Obstacle_Coller_LigneY_x(self):
-        liste = [(175.0, 100.0), (190, 85), (190, 55), (175.0, 10.0)]
-        t = Trajectoire(170,65 ,170 ,75)
-        chemin = t.PathFinding(175.00, 10.00,175.00, 100.00)
+    def test_Obstacle_Cas2(self):
+        liste = [(23.0, 100.0), (69, 30), (109, 30), (126, 69), (200.0, 100.0)]
+        t = Trajectoire(101,84 ,84 ,45)
+        chemin  = t.PathFinding(23.00, 100.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Obstacle_CollerLigne_x(self):
-         liste = [(175.0, 100.0), (155, 85), (155, 55), (175.0, 10.0)]
-         t = Trajectoire(185,65 ,175 ,65)
-         chemin = t.PathFinding(175.00, 10.00,175.00, 100.00)
-         self.assertEqual(chemin,liste)
-
-    def test_Obstacle_Lignex_x(self):
-        liste = [(175.0, 100.0), (200, 85), (200, 55), (175.0, 10.0)]
-        t = Trajectoire(150,65 ,180 ,65)
-        chemin = t.PathFinding(175.00, 10.00,175.00, 100.00)
+    def test_Obstacle_Cas3(self):
+        liste = [(23.0, 100.0), (86, 69), (126, 69), (200.0, 100.0)]
+        t = Trajectoire(101,84 ,84 ,43)
+        chemin  = t.PathFinding(23.00, 100.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Cas0_Compliquer_x(self):
-        liste = [(225.0, 100.0), (200, 70), (200, 40), (225.0, 10.0)]
-        t = Trajectoire(220,50 ,220 ,60)
-        chemin =  t.PathFinding(225.00, 10.00,225.00, 100.00)
+    def test_Obstacle_Cas4(self):
+        liste = [(23.0, 10.0), (69, 68), (109, 68), (200.0, 100.0)]
+        t = Trajectoire(101,26 ,84 ,43)
+        chemin  = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Cas1_Compliquer_x(self):
-        liste = [(175.0, 10.0), (190, 40), (190, 70), (175.0, 100.0)]
-        t = Trajectoire(170.00,70.00,170.00 ,50.00)
-        chemin = t.PathFinding(175.00, 100.00,175.00, 10.00)
+    def test_Obstacle_Cas5(self):
+        liste = [(23.0, 30.0), (69, 68), (109, 68), (126, 51), (200.0, 30.0)]
+        t = Trajectoire(101,26 ,84 ,43)
+        chemin  = t.PathFinding(23.00, 30.00, 200.00, 30.00 )
         self.assertEqual(chemin,liste)
-    """
+
+    def test_Obstacle_Cas6(self):
+        liste = [(23.0, 15.0), (69, 68), (109, 68), (126, 54), (200.0, 15.0)]
+        t = Trajectoire(101,29 ,84 ,43)
+        chemin  = t.PathFinding(23.00, 15.00, 200.00, 15.00 )
+        self.assertEqual(chemin,liste)
+
+    def test_Obstacle_Cas6(self):
+        liste = [(23.0, 15.0), (69, 68), (109, 68), (126, 54), (200.0, 15.0)]
+        t = Trajectoire(101,29 ,84 ,43)
+        chemin  = t.PathFinding(23.00, 15.00, 200.00, 15.00 )
+        self.assertEqual(chemin,liste)

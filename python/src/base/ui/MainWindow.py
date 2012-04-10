@@ -98,11 +98,11 @@ class MainWindow(wx.Frame):
         self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
         if self.__Obstacle:
             self.dc.SetBrush(wx.Brush('#0000ff'))
-            self.dc.DrawRectangle(self.__x1*2, self.__y1*2, 20, 20)
             #self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x1*2, (self.__y1)*2, 20, 20)
             self.dc.SetBrush(wx.Brush('#ff0000'))
-            self.dc.DrawRectangle(self.__x2*2, self.__y2*2, 20, 20)
             #self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x2*2, (self.__y2)*2, 20, 20)
             gap = self.gap
             gap2 = gap +10
 
@@ -165,10 +165,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 = 0+ self.__offset
-        self.__y1 = 0+ self.__offset
-        self.__x2 = 0+ self.__offset
-        self.__y2 = 0+ self.__offset
+        self.__x1 =  101+ self.__offset
+        self.__y1 =  84+self.__offset
+        self.__x2 =  84+ self.__offset
+        self.__y2 =  60+self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -212,7 +212,7 @@ class MainWindow(wx.Frame):
         Angle = message.theta
         self.__RotationTriangle(Angle)
         self.__robotx = message.x*2
-        self.__roboty = (110-message.y)*2
+        self.__roboty = (message.y-110)*2
         self.__DrawLine()
         if self.Dessin:
             self.__AfficherDessin(self.__listeDessin)
@@ -298,20 +298,20 @@ class MainWindow(wx.Frame):
         self.__coordy2 = 0 - (x1 * math.sin(math.radians(_angle)) + (y1 * math.cos(math.radians(_angle))))
 
     def __onButtonClicked(self, event):
-        O = Obstacle()
+        O = Obstacle(None,"Obstacle")
         O.Show()
 
     def __onAfficheClicked(self, event):
         #Affiche les obstacle
-        #self.x1=self.O.getx1()+self.d
-        #self.x2=self.O.getx2()+self.d
-        #self.y1=self.O.gety1()+self.d
-        #self.y2=self.O.gety2()+self.d
+        #self.__x1=self.O.getx1()
+        #self.__x2=self.O.getx2()
+        #self.__y1=self.O.gety1()
+        #self.__y2=self.O.gety2()
         #Valeur par default pour bu de test
-        self.__x1 =  100+ self.__offset
-        self.__y1 =  80+self.__offset
-        self.__x2 =  80+ self.__offset
-        self.__y2 =  60+self.__offset
+        self.__x1 =  101+ self.__offset
+        self.__y1 =  29+self.__offset
+        self.__x2 =  84+ self.__offset
+        self.__y2 =  43+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -325,7 +325,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste =t.PathFinding(23.00, 100.00, 200.00, 100.00 )
+        liste =t.PathFinding(23.00, 50.00, 200.00, 15.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
