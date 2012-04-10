@@ -6,7 +6,6 @@ class ContourExtractor:
     MIN_DISTANCE_BETWEEN_POINTS = 20
 
     def findContours(self,image):
-        print "ContourExtractor findContour begin"
         tmp = cv.CreateImage(cv.GetSize(image), 8, 1)
         cv.CvtColor(image, tmp, cv.CV_BGR2GRAY)
         cv.Smooth(tmp, tmp, cv.CV_GAUSSIAN, 5, 5)
@@ -33,11 +32,9 @@ class ContourExtractor:
         contour = self.findCorrectContour(contours)
         contour = self.removePointClusters(contour)
         contour = self.convertPointsToDrawingPlane(contour, size[0])
-        print "ContourExtractor findContour end"
         return contour
 
     def convertPointsToDrawingPlane(self, points, imageSize):
-        print "ContourExtractor convertPoint begin"
         newPoints = []
         for point in points:
             x = point[0]
@@ -45,11 +42,9 @@ class ContourExtractor:
             y = imageSize - point[1]
             y = y+19
             newPoints.append((x,y))
-        print "ContourExtractor convertPoint end"
         return newPoints
 
     def findCorrectContour(self, contours):
-        print "ContourExtractor findCorrectContour begin"
         _contour = contours
         validContours = []
         while _contour is not None:
@@ -64,11 +59,9 @@ class ContourExtractor:
                     drawingContour = contour
         else:
             drawingContour = validContours[0]
-        print "ContourExtractor findCorrectContour end"
         return drawingContour
 
     def removePointClusters(self, points):
-        print "ContourExtractor removePointClusters begin"
         unclusteredPoints = []
         for i in range(len(points)):
             if i == len(points) - 1:
@@ -86,5 +79,4 @@ class ContourExtractor:
 
             if distance > self.MIN_DISTANCE_BETWEEN_POINTS:
                 unclusteredPoints.append(points[i])
-        print "ContourExtractor removePointClusters end"
         return unclusteredPoints
