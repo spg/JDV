@@ -1,8 +1,8 @@
 ﻿from __future__ import division
 from CornerDetector import CornerDetector
-from Terrain import Terrain
 import numpy as np
 import math
+from python.src.robot.terrain import Terrain
 
 class Positionner:
     def __init__(self):
