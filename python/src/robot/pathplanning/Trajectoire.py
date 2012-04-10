@@ -14,7 +14,7 @@ class Trajectoire():
         self.printmess = False
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 25
+        gap = 20
 
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
