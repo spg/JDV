@@ -11,10 +11,10 @@ class Trajectoire():
         self.obstacle_1_y = obstacle_1_y
         self.obstacle_2_x = obstacle_2_x
         self.obstacle_2_y = obstacle_2_y
-        self.printmess = True
+        self.printmess = False
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 15
+        gap = 25
 
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
