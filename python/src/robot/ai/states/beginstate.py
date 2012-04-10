@@ -60,7 +60,7 @@ class BeginState:
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
     def __goToProperImageForScanning(self, imageId):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
 
         self.__acquireCurrentPose()
 
