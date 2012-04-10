@@ -51,5 +51,20 @@ class ArduinoInterface:
                 Logger.logToFileAndScreen("operation over")
                 operationOver = True
 
+    def write(self, ser, message):
+        operationBegun = False
+
+        while not operationBegun:
+            ser.write(message)
+            time.sleep(0.5)
+            operationBegun = self.checkIfOperationHasBegun(ser)
+
+    def checkIfOperationHasBegun(self, ser):
+        line = ser.readline()
+
+        if line.find("okay") != -1:
+            return True
+        return False
+
     def readLine(self, ser):
         return ser.readline()

@@ -31,7 +31,7 @@ class ManchesterSignalSearcher:
     def __doSignalSearch(self, method):
         print "searching signal..."
         ser = self.arduinoInterface.connect()
-        ser.write(method)
+        self.arduinoInterface.write(ser, method)
         time.sleep(0.2)
         self.arduinoInterface.checkIfOperationIsOver(ser)
         signalAndDistance = self.arduinoInterface.readLine(ser)

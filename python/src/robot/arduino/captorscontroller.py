@@ -7,6 +7,6 @@ class CaptorsController:
     def Zing(self):
         ser = self.arduinoInterface.connect()
 
-        ser.write('Z.')
+        self.arduinoInterface.write(ser, 'Z.')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)

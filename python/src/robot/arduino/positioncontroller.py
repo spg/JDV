@@ -13,14 +13,10 @@ class PositionController:
 
         Logger.logEverywhere("ROBOT: advancing of " + str(distanceInMillimeters) + " mm")
 
-        time.sleep(0.1)
-        ser.write('D' + str(distanceInMillimeters) + '.')
-        time.sleep(0.1)
-        ser.write('A0.')
-        time.sleep(0.1)
-        ser.write('V150.')
-        time.sleep(0.1)
-        ser.write('M.')
+        self.arduinoInterface.write(ser, 'D' + str(distanceInMillimeters) + '.')
+        self.arduinoInterface.write(ser, 'A0.')
+        self.arduinoInterface.write(ser, 'V150.')
+        self.arduinoInterface.write(ser, 'M.')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
@@ -31,7 +27,7 @@ class PositionController:
 
         Logger.logEverywhere("ROBOT: rotating of " + str(angleInDegrees) + " degrees")
 
-        ser.write('R' + str(angleInDegrees) + '.')
+        self.arduinoInterface.write(ser, 'R' + str(angleInDegrees) + '.')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
 
@@ -44,9 +40,9 @@ class PositionController:
         Logger.logEverywhere("ROBOT: shuffling of " + str(distanceInMillimeters) + " mm at angle " + str(
             relativeAngleInDegrees) + " degrees")
 
-        ser.write('D' + str(distanceInMillimeters) + '.')
-        ser.write('A' + str(relativeAngleInDegrees) + '.')
-        ser.write('V50.')
-        ser.write('M.')
+        self.arduinoInterface.write(ser, 'D' + str(distanceInMillimeters) + '.')
+        self.arduinoInterface.write(ser, 'A' + str(relativeAngleInDegrees) + '.')
+        self.arduinoInterface.write(ser, 'V50.')
+        self.arduinoInterface.write(ser, 'M.')
 
         self.arduinoInterface.checkIfOperationIsOver(ser)
