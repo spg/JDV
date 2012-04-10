@@ -1,4 +1,4 @@
-from python.src.robot.arduino.robotmover import RobotMover
+from python.src.robot.pathplanning.robotmover import RobotMover
 from python.src.robot.pathplanning.snakemovementplanner import SnakeMovementPlanner
 from python.src.robot.pathplanning.pose import Pose
 

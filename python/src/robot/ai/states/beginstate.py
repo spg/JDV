@@ -5,7 +5,7 @@ from python.src.robot.arduino.captorscontroller import CaptorsController
 from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
-from python.src.robot.arduino.robotmover import RobotMover
+from python.src.robot.pathplanning.robotmover import RobotMover
 from python.src.robot.robot import Robot
 from python.src.robot.sendevent import SendEvent
 from python.src.robot.terrain import Terrain
