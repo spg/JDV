@@ -21,9 +21,13 @@ class CameraAccessor:
 
     def __initialiseCamera__(self):
         self.camera = cv.CaptureFromCAM(0)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FORMAT, cv.IPL_DEPTH_32F)
 
     def __initialiseUndistortMap__(self):
         self.photoSize = cv.GetSize(cv.QueryFrame(self.camera))
         self.mapx = cv.CreateImage(self.photoSize, cv.IPL_DEPTH_32F, 1)
         self.mapy = cv.CreateImage(self.photoSize, cv.IPL_DEPTH_32F, 1)
         cv.InitUndistortMap(cv.fromarray(self.intrinsecParameters), cv.fromarray(self.distortionParameter), self.mapx, self.mapy)
+

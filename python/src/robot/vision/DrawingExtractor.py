@@ -2,6 +2,9 @@
 import cv2
 import math
 import copy
+from ColorSegmenter import ColorSegmenter
+
+cs = ColorSegmenter()
 
 class DrawingExtractor:
     MAX_SQUARE_AREA = 50000
@@ -9,7 +12,8 @@ class DrawingExtractor:
 
     def ExtractShape(self, srcImage):
         copyImage = cv.CloneImage(srcImage)
-        imageMatrix = self.__convertImageToMatrix__(srcImage)
+        firstTreshing = cs.segmentImageByColor(srcImage, 3)
+        imageMatrix = self.__convertImageToMatrix__(firstTreshing)
         contours = self.__findSquaresInImage__(imageMatrix)
         whiteSquare = self.__findSmallestSquare__(contours)
         whiteSquare = self.__orderSquareCorners__(whiteSquare)
@@ -106,7 +110,6 @@ class DrawingExtractor:
         squareCopy[3] = tmp
 
         return squareCopy
-
 
 
 
