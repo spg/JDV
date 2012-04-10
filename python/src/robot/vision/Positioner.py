@@ -6,7 +6,7 @@ from python.src.robot.terrain import Terrain
 
 class Positionner:
     def __init__(self):
-        transformationMatrix = np.load("vision/extrinsec.npy")
+        transformationMatrix = np.load("../../vision/extrinsec.npy")
         self.m11 = transformationMatrix[0][0]
         self.m12 = transformationMatrix[0][1]
         self.m13 = transformationMatrix[0][2]
