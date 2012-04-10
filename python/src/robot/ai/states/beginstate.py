@@ -55,7 +55,7 @@ class BeginState:
         print "Doing zignage..."
         self.captorsController.Zing()
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
 
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
