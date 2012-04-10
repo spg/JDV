@@ -84,7 +84,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 195)
         elif imageId == ManchesterSignalInterpreter.FIGURE_6:
             print "going to figure 6"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 260)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
         elif imageId == ManchesterSignalInterpreter.FIGURE_7:
             print "going to figure 7"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
@@ -104,14 +104,18 @@ class BeginState:
                 drawingCountour = cam.getDrawingContour()
                 drawingCountoursFound = True
             except ValueError:
-                print "Failed to extract points from camera! Retrying..."
+                print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
                 if not tryCount % 3:
                     self.robotMover.relativeShuffle(shuffleDistance, -150)
+                    tryCount += 1
                 elif tryCount % 3 == 1:
                     self.robotMover.relativeShuffle(shuffleDistance, 90)
+                    tryCount += 1
                 else:
                     self.robotMover.relativeShuffle(shuffleDistance, -30)
-                tryCount += 1
+                    tryCount += 1
+
+
 
         points = drawingCountour[0]
         size = drawingCountour[1]
