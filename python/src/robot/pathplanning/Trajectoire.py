@@ -248,6 +248,7 @@ class Trajectoire():
                             self.gr.add_edge("O12","O14" , weight=dist)
                             self.TrouveO = True
                             self.TrouveO14 = True
+
             if posy >= self.Oy14 and posy<=self.Oy11  and posx>=self.Ox14 and posx<=self.Ox11:
                 if self.printmess:
                     print(" O1")

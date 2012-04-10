@@ -11,6 +11,7 @@ import time
 import wx
 import networkx as nx
 from python.src.base.ui.Trajectoire import  Trajectoire
+#from python.src.robot.pathplanning import  Trajectoire
 from python.src.base.Base import Base
 from python.src.base.logevent import LogEvent
 from python.src.base.poseevent import PoseEvent
@@ -172,10 +173,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 =  93+ self.__offset
-        self.__y1 =  44+self.__offset
-        self.__x2 =  110+ self.__offset
-        self.__y2 =  18+self.__offset
+        self.__x2 =  93+ self.__offset
+        self.__y2 =  44+self.__offset
+        self.__x1 =  110+ self.__offset
+        self.__y1 =  18+self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -337,6 +338,30 @@ class MainWindow(wx.Frame):
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
         liste =t.PathFinding(56.0, 50.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(30.0, 40.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(50.0, 16.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(50.0, 42.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(50.0, 69.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(50, 77, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(30.0, 71.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)
