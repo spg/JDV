@@ -30,7 +30,7 @@ class MainWindow(wx.Frame):
         self.__Obstacle = False
         self.Dessin = False
         self.Chemin = False
-        self.gap = 15
+        self.gap = 20
         self.t1= 0
         self.__robotx = 60
         self.__roboty = 60
@@ -150,7 +150,14 @@ class MainWindow(wx.Frame):
             self.__Info.SetForegroundColour((0,255,0))
             self.__Info.SetFont(font1)
             self.__Info.AppendText("")
-
+            self.label1 = wx.StaticText(self.panel, -1, 'x1 :' ,pos=(670, 50))
+            self.label2 = wx.StaticText(self.panel, -1, 'y1 :' ,pos=(770, 50))
+            self.label3 = wx.StaticText(self.panel, -1, 'x2 :' ,pos=(670, 150))
+            self.label4 = wx.StaticText(self.panel, -1, 'y2 :' ,pos=(770, 150))
+            self.x1 = wx.TextCtrl(self.panel,-1,value=u"",pos=(700, 50),size=(50,20))
+            self.y1 = wx.TextCtrl(self.panel,-1,value=u"",pos=(800, 50),size=(50,20))
+            self.x2 = wx.TextCtrl(self.panel,-1,value=u"",pos=(700, 150),size=(50,20))
+            self.y2 = wx.TextCtrl(self.panel,-1,value=u"",pos=(800, 150),size=(50,20))
             # mac mini 254.168  10.240.213.142
             self.__bindHandlers()
 
@@ -165,10 +172,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 =  101+ self.__offset
-        self.__y1 =  84+self.__offset
+        self.__x1 =  88+ self.__offset
+        self.__y1 =  71+self.__offset
         self.__x2 =  84+ self.__offset
-        self.__y2 =  60+self.__offset
+        self.__y2 =  43+self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -303,15 +310,15 @@ class MainWindow(wx.Frame):
 
     def __onAfficheClicked(self, event):
         #Affiche les obstacle
-        #self.__x1=self.O.getx1()
-        #self.__x2=self.O.getx2()
-        #self.__y1=self.O.gety1()
-        #self.__y2=self.O.gety2()
+        #self.__x1=self.self.x1.GetValue()
+        #self.__x2=self.self.x2.GetValue()
+        #self.__y1=self.self.y1.GetValue()
+        #self.__y2=self.self.y2.GetValue()
         #Valeur par default pour bu de test
-        self.__x1 =  101+ self.__offset
-        self.__y1 =  29+self.__offset
+        self.__x1 =  88+ self.__offset
+        self.__y1 =  61+self.__offset
         self.__x2 =  84+ self.__offset
-        self.__y2 =  43+self.__offset
+        self.__y2 =  30+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -325,7 +332,7 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(207,22.5,23.00,90.00 )
         #self.__AfficherTrajectoire(liste)
-        liste =t.PathFinding(23.00, 50.00, 200.00, 15.00 )
+        liste =t.PathFinding(23.00, 15.00, 200.00, 15.00 )
         self.__AfficherTrajectoire(liste)
         #liste = t.PathFinding(174.8, 55.5, 23 , 91)
         #self.__AfficherTrajectoire(liste)

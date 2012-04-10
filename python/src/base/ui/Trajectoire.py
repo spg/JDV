@@ -14,7 +14,7 @@ class Trajectoire():
         self.printmess = True
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 15
+        gap = 20
 
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
@@ -225,7 +225,7 @@ class Trajectoire():
                             self.gr.add_edge(depart,"O11" , weight=dist)
                             dist = self.Ox12-self.Ox14
                             self.gr.add_edge("O11","O13" , weight=dist)
-                            self.TrouveO=true
+                            self.TrouveO=True
                             self.TrouveO13 = True
                 if Colision22 and Sortie21:
                     #print "Execption"
