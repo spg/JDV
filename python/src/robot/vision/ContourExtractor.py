@@ -42,7 +42,7 @@ class ContourExtractor:
         for point in points:
             x = point[0]
             x = x-19
-            y = imageSize - point[1]end
+            y = imageSize - point[1]
             y = y+19
             newPoints.append((x,y))
         print "ContourExtractor convertPoint end"
