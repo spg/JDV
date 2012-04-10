@@ -84,7 +84,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 195)
         elif imageId == ManchesterSignalInterpreter.FIGURE_6:
             print "going to figure 6"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 260)
         elif imageId == ManchesterSignalInterpreter.FIGURE_7:
             print "going to figure 7"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
@@ -99,7 +99,7 @@ class BeginState:
 
         while not drawingCountoursFound:
             tryCount = 0
-            shuffleDistance = 5
+            shuffleDistance = 3
             try:
                 drawingCountour = cam.getDrawingContour()
                 drawingCountoursFound = True
@@ -111,6 +111,7 @@ class BeginState:
                     self.robotMover.relativeShuffle(shuffleDistance, 90)
                 else:
                     self.robotMover.relativeShuffle(shuffleDistance, -30)
+                tryCount += 1
 
         points = drawingCountour[0]
         size = drawingCountour[1]
