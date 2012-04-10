@@ -14,7 +14,7 @@ class Trajectoire():
         self.printmess = True
 
     def setObstacle(self,obstacle_1_x,obstacle_1_y,obstacle_2_x,obstacle_2_y):
-        gap = 20
+        gap = 15
 
         gap2 = gap +10
         self.Ox21=gap2+obstacle_2_x
@@ -339,17 +339,21 @@ class Trajectoire():
                 if  (Colision11 and Sortie12)or(Colision12 and Sortie11):
                     #print "Execption"
                     if Sortie11 == False:
-                        #print "Pas sortie 11"
-                        TrouveTO12 =self.verifierTrajectoire(self.Ox11,self.Ox11,self.Ox12,self.Oy12,0)
+                        if self.printmess:
+                            print "Pas sortie 11"
+                        TrouveTO12 =self.verifierTrajectoire(self.Ox11,self.Ox11,self.Ox21,self.Oy21,0)
                         if TrouveTO12 == False:
-                            dist = self.CalculeDiagonal(distx,self.Oy11 - Posdy)
-                            self.gr.add_edge(depart,"O11" , weight=dist)
-                            dist = self.CalculeDiagonal(distx,self.Oy11 - self.Oy21)
-                            self.gr.add_edge("O11","O21" , weight=dist)
-                            dist = self.Ox21-self.Ox23
-                            self.gr.add_edge("O21","O23" , weight=dist)
-                            self.TrouveO = True
-                            self.TrouveO23 = True
+                            if self.printmess:
+                                print "TrouveTO12 == False"
+                            if Sortie21==False:
+                                dist = self.CalculeDiagonal(distx,self.Oy11 - Posdy)
+                                self.gr.add_edge(depart,"O11" , weight=dist)
+                                dist = self.CalculeDiagonal(distx,self.Oy11 - self.Oy21)
+                                self.gr.add_edge("O11","O21" , weight=dist)
+                                dist = self.Ox21-self.Ox23
+                                self.gr.add_edge("O21","O23" , weight=dist)
+                                self.TrouveO = True
+                                self.TrouveO23 = True
                         else:
                             dist = self.CalculeDiagonal(distx,self.Oy21-Posdy)
                             self.gr.add_edge(depart,"O22" , weight=dist)
