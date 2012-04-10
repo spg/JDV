@@ -2,7 +2,7 @@ from python.src.robot.Server import Server
 import atexit
 
 def onExit():
-    print "bonjourrrrrrrrr"
+    print "Program exited"
 
 atexit.register(onExit)
 

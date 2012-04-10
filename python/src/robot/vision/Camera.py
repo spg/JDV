@@ -50,6 +50,8 @@ class Camera:
                 x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
             else:
                 raise ValueError("No corners detected for positionning")
+            if theta < 0:
+                theta = 360 + theta
             return x, y, theta
         except:
             raise ValueError("Problem while getting robot pose")
