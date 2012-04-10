@@ -13,7 +13,9 @@ class CameraAccessor:
     def getFrame(self):
         print "CameraAccessor getFrame begin"
         frame = cv.QueryFrame(self.camera)
+        print("#####", type(frame))
         undistortedFrame = cv.CreateImage(cv.GetSize(frame), 8, 3)
+        print(">>>>>", type(undistortedFrame))
 
         cv.Remap(frame, undistortedFrame, self.mapx, self.mapy)
         print "CameraAccessor getFrame end"
