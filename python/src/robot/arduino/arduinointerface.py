@@ -61,7 +61,7 @@ class ArduinoInterface:
 
     def checkIfOperationHasBegun(self, ser):
         line = ser.readline()
-
+        print "arduino: " + str(line)
         if line.find("okay") != -1:
             return True
         return False
