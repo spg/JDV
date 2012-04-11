@@ -33,18 +33,20 @@ class BeginState:
         self.imagePointsTransformer = ImagePointsTransformer()
 
     def run(self):
-        self.__acquireCurrentPose()
+        #self.__acquireCurrentPose()
 
-        interpretedSignal = self.signalSearcher.searchSignal()
+        #interpretedSignal = self.signalSearcher.searchSignal()
 
-        print "interpreted signal: " + str(interpretedSignal)
+        #print "interpreted signal: " + str(interpretedSignal)
 
-        figureId = interpretedSignal[0]
-        orientation = interpretedSignal[1]
-        scale = interpretedSignal[2]
+        #figureId = interpretedSignal[0]
+        #orientation = interpretedSignal[1]
+        #scale = interpretedSignal[2]
 
-        self.__goToProperImageForScanning(figureId)
+        #self.__goToProperImageForScanning(figureId)
 
+        orientation = 1
+        scale = 1
         self.__doDrawing(orientation, scale)
 
         SendEvent.send(SendEnd())
@@ -105,13 +107,13 @@ class BeginState:
                 drawingCountoursFound = True
             except ValueError:
                 print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
-                if not tryCount % 3:
-                    self.robotMover.relativeShuffle(shuffleDistance, -150)
-                elif tryCount % 3 == 1:
-                    self.robotMover.relativeShuffle(shuffleDistance, 90)
-                else:
-                    self.robotMover.relativeShuffle(shuffleDistance, -30)
-                tryCount += 1
+                #if not tryCount % 3:
+                 #   self.robotMover.relativeShuffle(shuffleDistance, -150)
+                #elif tryCount % 3 == 1:
+                #    self.robotMover.relativeShuffle(shuffleDistance, 90)
+                #else:
+                #    self.robotMover.relativeShuffle(shuffleDistance, -30)
+                #tryCount += 1
 
 
 
@@ -125,17 +127,16 @@ class BeginState:
 
         SendEvent.send(SendDessin(pointsToDraw))
 
-        movedPoints = PointsCloudOperations.move(pointsToDraw, 144.8, 25.5)
+        #movedPoints = PointsCloudOperations.move(pointsToDraw, 144.8, 25.5)
 
-        print "going to first drawing point"
-        self.robotMover.doSnakeMovement(movedPoints[0], 270)
-        print "arrived at first drawing point!"
+        #print "going to first drawing point"
+        #self.robotMover.doSnakeMovement(movedPoints[0], 270)
+        #print "arrived at first drawing point!"
 
-        prehensorController = PrehensorController()
-        prehensorController.dropPrehensor()
+        #prehensorController = PrehensorController()
+        #prehensorController.dropPrehensor()
+        #movedPoints.append(movedPoints[0]) # this is to close the figure
 
-        movedPoints.append(movedPoints[0]) # this is to close the figure
+        #self.robotMover.doShuffleMovement(movedPoints, 270)
 
-        self.robotMover.doShuffleMovement(movedPoints, 270)
-
-        prehensorController.raisePrehensor()
+        #prehensorController.raisePrehensor()
