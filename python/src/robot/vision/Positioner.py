@@ -28,8 +28,6 @@ class Positionner:
         cameraPoint2 = self.getPositionRelativeToCamera(point2)
         robotPoint1 = self.convertPointToRobotCoordinates(cameraPoint1)
         robotPoint2 = self.convertPointToRobotCoordinates(cameraPoint2)
-        print "robot1 = ", robotPoint1
-        print "robot2 = ", robotPoint2
         defaultAngle = self.getCornerAngle(corner)
         offsetAngle = self.calculateAngleBetweenPoints(robotPoint1, robotPoint2, corner)
         robotAngle = defaultAngle +  offsetAngle
@@ -89,10 +87,8 @@ class Positionner:
         sideLeft = self.getDistanceBetweenPoints(point1, (0,0))
         sideRight = self.getDistanceBetweenPoints(point2, (0,0))
         angleLeft, angleRight = self.getAnglesByCosinusLaw(sideLeft, sideRight)
-        print "angles : ", angleLeft, angleRight
         angleLeft = 180 - 45 - angleLeft
         angleRight = 180 - 45 - angleRight
-        print "angles : ", angleLeft, angleRight
         leftPosition = math.sin(math.radians(angleLeft))*sideLeft
         rightPosition = math.sin(math.radians(angleRight))*sideRight
         print leftPosition

@@ -17,7 +17,7 @@ class Camera:
 
     def getDrawingContour(self):
         try:
-            image = self.camera.getFrame()
+            image = self.camera.getFrame(False)
             drawingImage = self.drawingExtractor.ExtractShape(image)
             contourPoints = self.contourExtractor.findContours(drawingImage)
             size = cv.GetSize(drawingImage)
@@ -36,27 +36,46 @@ class Camera:
 
     def getCurrentPose(self):
         try:
-            image = self.camera.getFrame()
+            image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
+            print "blue: ", len(pointBlue)
+            print "orange: ", len(pointOrange)
             self.drawPointsOnImage(image, pointBlue)
             self.drawPointsOnImage(image, pointOrange)
             if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
+                print "Blue East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
             elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
+                print "Blue West Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
             elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
+                print "Orange East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
             elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
+                print "Orange West Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
             else:
+                print "No corners detected"
                 raise ValueError("No corners detected for positionning")
             if theta < 0:
                 theta = 360 + theta
             return x, y, theta
         except:
             raise ValueError("Problem while getting robot pose")
+    
+    def getCurrentPoseBackup(self):
+        image = self.camera.getFrame(True)
+        imageSize = cv.GetSize(image)
+        pointBlue, pointOrange, side = self.getVisibleCorners(image)
+        if side == SideDetector.EAST_SIDE and len(pointBlue) > 0:
+            lenght = (pointBlue[1][0] - pointBlue[0][0])/size[0]
+            distance = 1699.1*lenght*lenght - 1051.6*lenght + 229.33
+            return True, distance
+        else:
+            return False, 0
 
     def drawPointsOnImage(self, image, points):
+        cv.SaveImage("cornerDetectionResult.jpg", image)
         if len(points) > 0:
             for point in points:
                 #pointCopy = (point[0], squareSize - point[1])
@@ -64,7 +83,6 @@ class Camera:
             cv.SaveImage("cornerDetectionResult.jpg", image)
 
     def getVisibleCorners(self, image):
-        #image = self.camera.getFrame()
         contourBlue, contourOrange = self.cornerDetector.detectCorners(image)
         side = self.sideDetector.detectVisibleSide(image)
         return contourBlue, contourOrange, side

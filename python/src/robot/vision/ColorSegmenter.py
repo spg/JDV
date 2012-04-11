@@ -14,30 +14,30 @@ class ColorSegmenter:
 
         #Tresholds for the color blue
         self.lowerTreshold.append(cv.Scalar(75, 0,0))
-        self.upperTreshold.append(cv.Scalar(140,255,255))
+        self.upperTreshold.append(cv.Scalar(170,255,255))
 
         #Tresholds for the color orange
         self.lowerTreshold.append(cv.Scalar(0,100,100))
-        self.upperTreshold.append(cv.Scalar(12,255,255))
+        self.upperTreshold.append(cv.Scalar(20,255,255))
 
         #Tresholds for the color red
         self.lowerTreshold.append(cv.Scalar(0,100,100))
         self.upperTreshold.append(cv.Scalar(4,255,255))
 
         #Tresholds for the color green
-        self.lowerTreshold.append(cv.Scalar(40,100,50))
-        self.upperTreshold.append(cv.Scalar(80,255,255))
+        self.lowerTreshold.append(cv.Scalar(30,100,50))
+        self.upperTreshold.append(cv.Scalar(90,255,255))
 
         #Tresholds for the color white
         self.lowerTreshold.append(cv.Scalar(0,0,250))
         self.upperTreshold.append(cv.Scalar(255,255,255))
 
-    def segmentImageByColor(self, sourceImage, color):
+    def segmentImageByColor(self, sourceImage, color, nbErode, nbDilate):
         if color >= 0 and color <= 5:
             hsvImage = self.convertImageToHSV(sourceImage)
             imgTresh = cv.CreateImage(cv.GetSize(sourceImage), 8, 1)
             imgTresh = self.treshHSVImageByGivenColor(hsvImage, imgTresh, color)
-            imgTresh = self.reduceNoiseOnTreshedImage(imgTresh)
+            imgTresh = self.reduceNoiseOnTreshedImage(imgTresh, nbErode, nbDilate)
             cv.SaveImage("segmentationResult.jpg", imgTresh)
             return imgTresh
 
@@ -52,8 +52,8 @@ class ColorSegmenter:
         cv.SaveImage("AfterTresh.jpg", imgTresh)
         return imgTresh
 
-    def reduceNoiseOnTreshedImage(self, imgTresh):
-        cv.Erode(imgTresh, imgTresh, None, 3)
-        cv.Dilate(imgTresh, imgTresh, None, 4)
+    def reduceNoiseOnTreshedImage(self, imgTresh, nbErode, nbDilate):
+        cv.Erode(imgTresh, imgTresh, None, nbErode)
+        cv.Dilate(imgTresh, imgTresh, None, nbDilate)
         return imgTresh
 

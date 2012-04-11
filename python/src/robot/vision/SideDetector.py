@@ -6,18 +6,21 @@ class SideDetector:
     EAST_SIDE = 1
         
     def detectVisibleSide(self, image):
+        print "sideDetector - detectVisibleSide begin"
         imageCopy = cv.CloneImage(image)
         colorSegmenter = ColorSegmenter()
-        greenSegmentation = colorSegmenter.segmentImageByColor(imageCopy, colorSegmenter.green)
+        greenSegmentation = colorSegmenter.segmentImageByColor(imageCopy, colorSegmenter.green, 3, 4)
         contours = self.__findContoursInPicture__(greenSegmentation)
         middleHeight = self.__getMiddleHeightOfImage__(imageCopy)
         contours = self.__removeContoursOnBottom__(contours, middleHeight)
+        print "sideDetector - detectVisibleSide end"
         if len(contours) > 0:
             return self.WEST_SIDE
         else:
             return self.EAST_SIDE
 
     def __findContoursInPicture__(self, binaryImage):
+        print "sideDetector - findContoursInPicture begin"
         storage = cv.CreateMemStorage()
         contours = cv.FindContours(binaryImage,
             storage,cv.CV_RETR_LIST,
@@ -27,6 +30,7 @@ class SideDetector:
             contours = cv.ApproxPoly (contours,
                 storage,
                 cv.CV_POLY_APPROX_DP, 3, 1)
+        print "sideDetector - findContoursInPicture end"
         return contours
     
     def __getMiddleHeightOfImage__(self, image):
@@ -34,6 +38,7 @@ class SideDetector:
         return size[1]/2
     
     def __removeContoursOnBottom__(self, contours, middleHeight):
+        print "sideDetector - removeContoursOnBottom begin"
         filteredContours = []
         _contour = contours
         while _contour is not None:
@@ -47,4 +52,5 @@ class SideDetector:
                 _contour = _contour.h_next()
             else:
                 _contour = None
+        print "sideDetector - removeContoursOnBottom end"
         return filteredContours

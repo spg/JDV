@@ -1,4 +1,5 @@
 from __future__ import division
+import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
@@ -31,9 +32,12 @@ class BeginState:
         self.signalSearcher = ManchesterSignalSearcher()
         self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
+        self.cam = Camera()
 
     def run(self):
         self.__acquireCurrentPose()
+
+        self.__doZignage()
 
         interpretedSignal = self.signalSearcher.searchSignal()
 
@@ -43,6 +47,8 @@ class BeginState:
         orientation = interpretedSignal[1]
         scale = interpretedSignal[2]
 
+        self.__doZignage()
+
         self.__goToProperImageForScanning(figureId)
 
         self.__doDrawing(orientation, scale)
@@ -51,11 +57,29 @@ class BeginState:
         StateController.instance.endMainLoop()
         return
 
-    def __acquireCurrentPose(self):
+    def __doZignage(self):
+        self.robotMover.doSnakeMovement((Terrain.AR_TAG_NORTH_FACE[0], Terrain.AR_TAG_NORTH_FACE[1]), 270)
+
         print "Doing zignage..."
         self.captorsController.Zing()
 
         Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+
+    def __acquireCurrentPose(self):
+        poseAcquired = False
+        pose = ()
+
+        while not poseAcquired:
+            for x in range(0, 10):
+                try:
+                    pose = self.cam.getCurrentPose()
+                    poseAcquired = True
+                    break
+                except ValueError:
+                    if x == 9:
+                        self.robotMover.doRelativeRotation(5)
+
+        Robot.setCurrentPose(pose)
 
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
@@ -90,8 +114,6 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
-        cam = Camera()
-
         print "Extracting points with camera..."
         drawingCountoursFound = False
 
@@ -101,19 +123,21 @@ class BeginState:
         while not drawingCountoursFound:
             shuffleDistance = 3
             try:
-                drawingCountour = cam.getDrawingContour()
+                drawingCountour = self.cam.getDrawingContour()
                 drawingCountoursFound = True
             except ValueError:
                 print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
-                if not tryCount % 3:
+                if not tryCount % 5:
                     self.robotMover.relativeShuffle(shuffleDistance, -150)
-                elif tryCount % 3 == 1:
+                elif tryCount % 5 == 1:
                     self.robotMover.relativeShuffle(shuffleDistance, 90)
-                else:
+                elif tryCount % 5 == 2:
                     self.robotMover.relativeShuffle(shuffleDistance, -30)
+                elif tryCount % 5 == 3:
+                    self.robotMover.doRelativeRotation(-10)
+                else:
+                    self.robotMover.doRelativeRotation(20)
                 tryCount += 1
-
-
 
         points = drawingCountour[0]
         size = drawingCountour[1]
@@ -133,7 +157,6 @@ class BeginState:
 
         prehensorController = PrehensorController()
         prehensorController.dropPrehensor()
-
         movedPoints.append(movedPoints[0]) # this is to close the figure
 
         self.robotMover.doShuffleMovement(movedPoints, 270)

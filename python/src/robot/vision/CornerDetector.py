@@ -3,11 +3,10 @@ import cv2.cv as cv
 import math
 
 from ColorSegmenter import ColorSegmenter
-#TODO Determiner sur quel coin on est
-#TODO isoler les deux points les plus bas du contour
+
 class CornerDetector:
     colorSegmenter = ColorSegmenter()
-    MIN_CORNER_AREA = 3000
+    MIN_CORNER_AREA = 4000
     WEST_BLUE_CORNER = 0
     EAST_BLUE_CORNER = 1
     WEST_ORANGE_CORNER = 2
@@ -32,7 +31,8 @@ class CornerDetector:
     
     def __findColoredCorner__(self, image, color):
         contour = []
-        segmentedImage = self.colorSegmenter.segmentImageByColor(image, color)
+        segmentedImage = self.colorSegmenter.segmentImageByColor(image, color, 3, 4)
+        cv.SaveImage("cornerSegmentation.jpg", segmentedImage)
         contours = self.__findContoursInPicture__(segmentedImage)
         if len(contours) > 0:
             contour = self.__isolateCornerContour__(contours)

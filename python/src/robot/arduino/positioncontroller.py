@@ -35,7 +35,7 @@ class PositionController:
 
         self.arduinoInterface.write('D' + str(distanceInMillimeters) + '.')
         self.arduinoInterface.write('A' + str(relativeAngleInDegrees) + '.')
-        self.arduinoInterface.write('V50.')
+        self.arduinoInterface.write('V100.')
         self.arduinoInterface.write('M.')
 
         self.arduinoInterface.checkIfOperationIsOver()
