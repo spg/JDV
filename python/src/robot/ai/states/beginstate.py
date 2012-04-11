@@ -86,7 +86,7 @@ class BeginState:
     def __goToProperImageForScanning(self, imageId):
         self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
 
-        self.__acquireCurrentPose()
+        self.__doZignage()
 
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
             print "going to figure 0"
