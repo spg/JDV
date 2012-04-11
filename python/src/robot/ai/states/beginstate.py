@@ -93,7 +93,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
-        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 270))
+        Robot.setCurrentPose((Terrain.FIGURE_3_FACE[0], Terrain.FIGURE_3_FACE[1], 165))
 
         print "Extracting points with camera..."
         drawingCountoursFound = False
