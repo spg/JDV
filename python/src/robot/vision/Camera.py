@@ -17,7 +17,7 @@ class Camera:
 
     def getDrawingContour(self):
         try:
-            image = self.camera.getFrame()
+            image = self.camera.getFrame(False)
             drawingImage = self.drawingExtractor.ExtractShape(image)
             contourPoints = self.contourExtractor.findContours(drawingImage)
             size = cv.GetSize(drawingImage)
@@ -36,7 +36,7 @@ class Camera:
 
     def getCurrentPose(self):
         try:
-            image = self.camera.getFrame()
+            image = self.camera.getFrame(True)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             self.drawPointsOnImage(image, pointBlue)
             self.drawPointsOnImage(image, pointOrange)
@@ -64,7 +64,6 @@ class Camera:
             cv.SaveImage("cornerDetectionResult.jpg", image)
 
     def getVisibleCorners(self, image):
-        #image = self.camera.getFrame()
         contourBlue, contourOrange = self.cornerDetector.detectCorners(image)
         side = self.sideDetector.detectVisibleSide(image)
         return contourBlue, contourOrange, side

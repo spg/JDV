@@ -8,11 +8,11 @@ class CameraAccessor:
         self.__getCalibrationParameters__()
         self.__initialiseUndistortMap__()
 
-    def getFrame(self):
+    def getFrame(self, undistort):
         frame = cv.QueryFrame(self.camera)
-        undistortedFrame = cv.CreateImage(cv.GetSize(frame), 8, 3)
-        cv.Remap(frame, undistortedFrame, self.mapx, self.mapy)
-        return undistortedFrame
+        if undistort == True:
+            cv.Remap(frame, frame, self.mapx, self.mapy)
+        return frame
 
     def __getCalibrationParameters__(self):
         self.intrinsecParameters = numpy.load("vision/intrinsec.npy")
