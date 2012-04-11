@@ -66,13 +66,17 @@ class BeginState:
     def __acquireCurrentPose(self):
         poseAcquired = False
         pose = ()
+
         while not poseAcquired:
-            try:
-                pose = self.cam.getCurrentPose()
-                poseAcquired = True
-            except ValueError:
-                self.robotMover.doRelativeRotation(10)
-                time.sleep(1)
+            for x in range(0, 5):
+                try:
+                    pose = self.cam.getCurrentPose()
+                    poseAcquired = True
+                    break
+                except ValueError:
+                    time.sleep(1)
+                    if x == 4:
+                        self.robotMover.doRelativeRotation(10)
 
         Robot.setCurrentPose(pose)
 
