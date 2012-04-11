@@ -36,9 +36,9 @@ class Test_Trajectoire(unittest.TestCase):
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_Coller_LigneY(self):
-        liste = [(23.0, 65.0), (65, 35), (115, 35), (200.0, 10.0)]
-        t = Trajectoire(90,50 ,80 ,50)
-        chemin = t.PathFinding(23.00, 65.00, 200.00, 10.00 )
+        liste = [(175.0, 60.0), (115, 95), (65, 95), (25.0, 105.0)]
+        t = Trajectoire(90,70 ,80 ,70)
+        chemin = t.PathFinding(175.00, 60.00,25.00, 105.00 )
         self.assertEqual(chemin,liste)
 
     def test_Obstacle_LigneY(self):
@@ -92,7 +92,7 @@ class Test_Trajectoire(unittest.TestCase):
 
 
     def test_Obstacle_Cas5_Compliquer(self):
-        liste = [(175.0, 60.0), (155, 75), (145, 95), (105, 95), (25.0, 105.0)]
+        liste = [(175.0, 60.0), (155, 35), (115, 35), (25.0, 105.0)]
         t = Trajectoire(130,50 ,120 ,70)
         chemin = t.PathFinding(175.00, 60.00,25.00, 105.00 )
         self.assertEqual(chemin,liste)
