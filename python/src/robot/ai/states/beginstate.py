@@ -28,9 +28,9 @@ class BeginState:
 
         SendEvent.send(SendConfirm())
 
-        #self.robotMover = RobotMover()
-        #self.signalSearcher = ManchesterSignalSearcher()
-        #self.captorsController = CaptorsController()
+        self.robotMover = RobotMover()
+        self.signalSearcher = ManchesterSignalSearcher()
+        self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
         self.cam = Camera()
 
@@ -47,11 +47,9 @@ class BeginState:
 
         #self.__goToProperImageForScanning(figureId)
 
-        orientation = 1
-        scale = 1
-        while True:
-            self.__doDrawing(orientation, scale)
-            time.sleep(3)
+        orientation = ManchesterSignalInterpreter.NORTH
+        scale = ManchesterSignalInterpreter.FACTOR_4
+        self.__doDrawing(orientation, scale)
 
         SendEvent.send(SendEnd())
         StateController.instance.endMainLoop()
@@ -96,26 +94,28 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
+        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[1], Terrain.FIGURE_6_FACE[2], 270))
+
         print "Extracting points with camera..."
         drawingCountoursFound = False
 
         drawingCountour = []
 
         tryCount = 0
-        #while not drawingCountoursFound:
-        shuffleDistance = 3
-        try:
-            drawingCountour = self.cam.getDrawingContour()
-            drawingCountoursFound = True
-        except ValueError:
-            print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
-            #if not tryCount % 3:
-             #   self.robotMover.relativeShuffle(shuffleDistance, -150)
-            #elif tryCount % 3 == 1:
-            #    self.robotMover.relativeShuffle(shuffleDistance, 90)
-            #else:
-            #    self.robotMover.relativeShuffle(shuffleDistance, -30)
-            #tryCount += 1
+        while not drawingCountoursFound:
+            shuffleDistance = 3
+            try:
+                drawingCountour = self.cam.getDrawingContour()
+                drawingCountoursFound = True
+            except ValueError:
+                print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
+                if not tryCount % 3:
+                    self.robotMover.relativeShuffle(shuffleDistance, -150)
+                elif tryCount % 3 == 1:
+                    self.robotMover.relativeShuffle(shuffleDistance, 90)
+                else:
+                    self.robotMover.relativeShuffle(shuffleDistance, -30)
+                tryCount += 1
 
 
 
@@ -129,16 +129,16 @@ class BeginState:
 
         SendEvent.send(SendDessin(pointsToDraw))
 
-        #movedPoints = PointsCloudOperations.move(pointsToDraw, 144.8, 25.5)
+        movedPoints = PointsCloudOperations.move(pointsToDraw, 144.8, 25.5)
 
-        #print "going to first drawing point"
-        #self.robotMover.doSnakeMovement(movedPoints[0], 270)
-        #print "arrived at first drawing point!"
+        print "going to first drawing point"
+        self.robotMover.doSnakeMovement(movedPoints[0], 270)
+        print "arrived at first drawing point!"
 
-        #prehensorController = PrehensorController()
-        #prehensorController.dropPrehensor()
-        #movedPoints.append(movedPoints[0]) # this is to close the figure
+        prehensorController = PrehensorController()
+        prehensorController.dropPrehensor()
+        movedPoints.append(movedPoints[0]) # this is to close the figure
 
-        #self.robotMover.doShuffleMovement(movedPoints, 270)
+        self.robotMover.doShuffleMovement(movedPoints, 270)
 
-        #prehensorController.raisePrehensor()
+        prehensorController.raisePrehensor()
