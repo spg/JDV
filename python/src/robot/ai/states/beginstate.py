@@ -34,31 +34,41 @@ class BeginState:
         self.cam = Camera()
 
     def run(self):
-        #self.__acquireCurrentPose()
+        self.__acquireCurrentPose()
 
-        #interpretedSignal = self.signalSearcher.searchSignal()
+        interpretedSignal = self.signalSearcher.searchSignal()
 
-        #print "interpreted signal: " + str(interpretedSignal)
+        print "interpreted signal: " + str(interpretedSignal)
 
-        #figureId = interpretedSignal[0]
-        #orientation = interpretedSignal[1]
-        #scale = interpretedSignal[2]
+        figureId = interpretedSignal[0]
+        orientation = interpretedSignal[1]
+        scale = interpretedSignal[2]
 
-        #self.__goToProperImageForScanning(figureId)
+        self.__goToProperImageForScanning(figureId)
 
-        orientation = ManchesterSignalInterpreter.NORTH
-        scale = ManchesterSignalInterpreter.FACTOR_4
         self.__doDrawing(orientation, scale)
 
         SendEvent.send(SendEnd())
         StateController.instance.endMainLoop()
         return
 
-    def __acquireCurrentPose(self):
+    def __doZignage(self):
         print "Doing zignage..."
         self.captorsController.Zing()
 
         Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+
+    def __acquireCurrentPose(self):
+        poseAcquired = False
+        pose = ()
+        while not poseAcquired:
+            try:
+                pose = self.cam.getCurrentPose()
+                poseAcquired = True
+            except ValueError:
+                self.robotMover.doRelativeRotation(15)
+
+        Robot.setCurrentPose(pose)
 
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
@@ -93,8 +103,6 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
-        Robot.setCurrentPose((Terrain.FIGURE_3_FACE[0], Terrain.FIGURE_3_FACE[1], 180))
-
         print "Extracting points with camera..."
         drawingCountoursFound = False
 
