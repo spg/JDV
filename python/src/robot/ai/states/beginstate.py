@@ -77,7 +77,7 @@ class BeginState:
                     break
                 except ValueError:
                     if x == 9:
-                        self.robotMover.doRelativeRotation(10)
+                        self.robotMover.doRelativeRotation(5)
 
         Robot.setCurrentPose(pose)
 
