@@ -56,6 +56,7 @@ class ArduinoInterface:
 
         while not operationBegun:
             print "before writing message in write method..."
+            self.ser.flushInput()
             self.ser.write(message)
             print "after writing message in write method..."
             time.sleep(0.5)

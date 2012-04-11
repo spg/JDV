@@ -79,6 +79,7 @@ class BeginState:
                     break
                 except ValueError:
                     if x == 9:
+                        print "rotating of 5 degrees..."
                         self.robotMover.doRelativeRotation(5)
 
         Robot.setCurrentPose(pose)
