@@ -13,8 +13,8 @@ class ColorSegmenter:
         self.upperTreshold = []
 
         #Tresholds for the color blue
-        self.lowerTreshold.append(cv.Scalar(100, 0,0))
-        self.upperTreshold.append(cv.Scalar(160,255,255))
+        self.lowerTreshold.append(cv.Scalar(120, 0,0))
+        self.upperTreshold.append(cv.Scalar(170,255,255))
 
         #Tresholds for the color orange
         self.lowerTreshold.append(cv.Scalar(0,100,100))
