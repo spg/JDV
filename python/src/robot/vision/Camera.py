@@ -55,6 +55,17 @@ class Camera:
             return x, y, theta
         except:
             raise ValueError("Problem while getting robot pose")
+    
+    def getCurrentPoseBackup(self):
+        image = self.camera.getFrame(True)
+        imageSize = cv.GetSize(image)
+        pointBlue, pointOrange, side = self.getVisibleCorners(image)
+        if side == SideDetector.EAST_SIDE and len(pointBlue) > 0:
+            lenght = (pointBlue[1][0] - pointBlue[0][0])/size[0]
+            distance = 1699.1*lenght*lenght - 1051.6*lenght + 229.33
+            return True, distance
+        else:
+            return False, 0
 
     def drawPointsOnImage(self, image, points):
         if len(points) > 0:
