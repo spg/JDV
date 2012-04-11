@@ -11,7 +11,7 @@ class DrawingExtractor:
     SQUARE_SIZE = 500
 
     def ExtractShape(self, srcImage):
-        print "DrawingExtractor - ExtractShape begin"
+        #print "DrawingExtractor - ExtractShape begin"
         copyImage = cv.CloneImage(srcImage)
         firstTreshing = cs.segmentImageByColor(srcImage, 3, 1, 1)
         imageMatrix = self.__convertImageToMatrix__(firstTreshing)
@@ -20,18 +20,18 @@ class DrawingExtractor:
         whiteSquare = self.__orderSquareCorners__(whiteSquare)
         whiteSquare = self.__convertContourToArray__(whiteSquare)
         copyImage = self.__warpImage__(copyImage, whiteSquare)
-        print "DrawingExtractor - ExtractShape end"
+        #print "DrawingExtractor - ExtractShape end"
         return copyImage
 
     def __convertImageToMatrix__(self, image):
-        print "DrawingExtractor - convertImageToMatrix begin"
+        #print "DrawingExtractor - convertImageToMatrix begin"
         cv.SaveImage("conversion.jpg", image)
         imageMatrix = cv2.imread("conversion.jpg")
-        print "DrawingExtractor - convertImageToMatrix begin"
+        #print "DrawingExtractor - convertImageToMatrix begin"
         return imageMatrix
 
     def __findSquaresInImage__(self, img):
-        print "DrawingExtractor - findSquareInImage begin"
+        #print "DrawingExtractor - findSquareInImage begin"
         img = cv2.GaussianBlur(img, (5, 5), 0)
         squares = []
         for gray in cv2.split(img):
@@ -51,32 +51,32 @@ class DrawingExtractor:
                         cnt = cnt.reshape(-1, 2)
                         if not self.__squareIsOnBorder__(cnt, img.shape):
                             squares.append(cnt)
-        print "DrawingExtractor - findSquareInImage end"
+        #print "DrawingExtractor - findSquareInImage end"
         return squares
 
     def __isContourASquare__(self, contour):
         return len(contour) == 4 and cv2.contourArea(contour) > self.MAX_SQUARE_AREA and cv2.isContourConvex(contour)
 
     def __warpImage__(self, image, corners):
-        print "DrawingExtractor - warpImage begin"
+        #print "DrawingExtractor - warpImage begin"
         target = [(0,0), (self.SQUARE_SIZE,0), (self.SQUARE_SIZE,self.SQUARE_SIZE), (0, self.SQUARE_SIZE)]
         mat = cv.CreateMat(3, 3, cv.CV_32F)
         cv.GetPerspectiveTransform(corners, target, mat)
         out = cv.CreateMat(self.SQUARE_SIZE, self.SQUARE_SIZE, cv.CV_8UC3)
         cv.WarpPerspective(image, out, mat, cv.CV_INTER_CUBIC)
-        print "DrawingExtractor - warpImage end"
+        #print "DrawingExtractor - warpImage end"
         return out
 
     def __convertContourToArray__(self, squareCorners):
-        print "DrawingExtractor - convertContourToArray begin"
+        #print "DrawingExtractor - convertContourToArray begin"
         corners = []
         for point in squareCorners:
             corners.append((point[0], point[1]))
-        print "DrawingExtractor - convertContourToArray begin"
+        #print "DrawingExtractor - convertContourToArray begin"
         return corners
 
     def __squareIsOnBorder__(self, points, imageSize):
-        print "DrawingExtractor - squareIsOnBorder begin"
+        #print "DrawingExtractor - squareIsOnBorder begin"
         imageLenght = imageSize[1]
         imageHeight = imageSize[0]
         for point in points:
@@ -88,20 +88,20 @@ class DrawingExtractor:
                 return True
             if point[1] > imageHeight - 5:
                 return True
-        print "DrawingExtractor - squareIsOnBorder end"
+        #print "DrawingExtractor - squareIsOnBorder end"
         return False
 
     def __findSmallestSquare__(self, squares):
-        print "DrawingExtractor - findSmallestSquare begin"
+        #print "DrawingExtractor - findSmallestSquare begin"
         minSquare = squares[0]
         for square in squares:
             if square[0][0] < minSquare[0][0] or square[0][1] < minSquare[0][1]:
                 minSquare = square
-        print "DrawingExtractor - findSmallestSquare end"
+        #print "DrawingExtractor - findSmallestSquare end"
         return minSquare
 
     def __orderSquareCorners__(self, square):
-        print "DrawingExtractor - orderSquareInBorder begin"
+        #print "DrawingExtractor - orderSquareInBorder begin"
         ordered = False
         squareCopy = square
         while ordered == False:
@@ -123,7 +123,7 @@ class DrawingExtractor:
         tmp = copy.deepcopy(squareCopy[2])
         squareCopy[2] = squareCopy[3]
         squareCopy[3] = tmp
-        print "DrawingExtractor - orderSquareInBorder end"
+        #print "DrawingExtractor - orderSquareInBorder end"
         return squareCopy
 
 
