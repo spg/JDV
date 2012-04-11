@@ -1,5 +1,4 @@
 from __future__ import division
-import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
@@ -94,7 +93,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
-        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[1], Terrain.FIGURE_6_FACE[2], 270))
+        Robot.setCurrentPose((Terrain.FIGURE_6_FACE[0], Terrain.FIGURE_6_FACE[1], 270))
 
         print "Extracting points with camera..."
         drawingCountoursFound = False
