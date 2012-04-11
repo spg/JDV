@@ -43,7 +43,6 @@ class ArduinoInterface:
             time.sleep(0.1)
             print "reading line in checkIfOperationIsOver"
             line = self.ser.readline()
-            self.ser.flushOutput()
             print "arduino: " + str(line)
             if line.find("over") != -1:
                 Logger.logToFileAndScreen("operation over")
@@ -57,6 +56,7 @@ class ArduinoInterface:
 
         while not operationBegun:
             print "before writing message in write method..."
+            self.ser.flushInput()
             self.ser.write(message)
             print "after writing message in write method..."
             time.sleep(0.5)
@@ -68,14 +68,11 @@ class ArduinoInterface:
     def checkIfOperationHasBegun(self):
         print "before reading ling in checkIfOperationHasBegun"
         line = self.ser.readline()
-        self.ser.flushOutput()
         print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
         if line.find("okay") != -1:
             return True
         return False
 
     def readLine(self):
-
         line = self.ser.readline()
-        self.ser.flushOutput()
         return line
