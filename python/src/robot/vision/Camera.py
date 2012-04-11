@@ -75,6 +75,7 @@ class Camera:
             return False, 0
 
     def drawPointsOnImage(self, image, points):
+        cv.SaveImage("cornerDetectionResult.jpg", image)
         if len(points) > 0:
             for point in points:
                 #pointCopy = (point[0], squareSize - point[1])
