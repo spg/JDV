@@ -74,7 +74,6 @@ class BeginState:
                     poseAcquired = True
                     break
                 except ValueError:
-                    time.sleep(1)
                     if x == 4:
                         self.robotMover.doRelativeRotation(10)
 
