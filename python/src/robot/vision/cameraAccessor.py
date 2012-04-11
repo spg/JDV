@@ -19,9 +19,12 @@ class CameraAccessor:
         self.distortionParameter = numpy.load("vision/distortion.npy")
 
     def __initialiseCamera__(self):
+        print "Initialisind camera..."
         self.camera = cv.CaptureFromCAM(-1)
         cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
         cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
+        image = self.getFrame(False)
+        print "Camera resolution : ", cv.GetSize(image)
         #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FORMAT, cv.IPL_DEPTH_32F)
 
     def __initialiseUndistortMap__(self):
