@@ -1,4 +1,5 @@
 from __future__ import division
+import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
@@ -31,6 +32,7 @@ class BeginState:
         #self.signalSearcher = ManchesterSignalSearcher()
         #self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
+        self.cam = Camera()
 
     def run(self):
         #self.__acquireCurrentPose()
@@ -47,7 +49,9 @@ class BeginState:
 
         orientation = 1
         scale = 1
-        self.__doDrawing(orientation, scale)
+        while True:
+            self.__doDrawing(orientation, scale)
+            time.sleep(3)
 
         SendEvent.send(SendEnd())
         StateController.instance.endMainLoop()
@@ -92,28 +96,26 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
 
     def __doDrawing(self, orientation, scale):
-        cam = Camera()
-
         print "Extracting points with camera..."
         drawingCountoursFound = False
 
         drawingCountour = []
 
         tryCount = 0
-        while not drawingCountoursFound:
-            shuffleDistance = 3
-            try:
-                drawingCountour = cam.getDrawingContour()
-                drawingCountoursFound = True
-            except ValueError:
-                print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
-                #if not tryCount % 3:
-                 #   self.robotMover.relativeShuffle(shuffleDistance, -150)
-                #elif tryCount % 3 == 1:
-                #    self.robotMover.relativeShuffle(shuffleDistance, 90)
-                #else:
-                #    self.robotMover.relativeShuffle(shuffleDistance, -30)
-                #tryCount += 1
+        #while not drawingCountoursFound:
+        shuffleDistance = 3
+        try:
+            drawingCountour = self.cam.getDrawingContour()
+            drawingCountoursFound = True
+        except ValueError:
+            print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
+            #if not tryCount % 3:
+             #   self.robotMover.relativeShuffle(shuffleDistance, -150)
+            #elif tryCount % 3 == 1:
+            #    self.robotMover.relativeShuffle(shuffleDistance, 90)
+            #else:
+            #    self.robotMover.relativeShuffle(shuffleDistance, -30)
+            #tryCount += 1
 
 
 
