@@ -10,7 +10,7 @@ class ArduinoInterface:
         self.ser = Serial()
         self.ser.baudrate = 115200
 
-        for portId in range(0, 4):
+        for portId in range(0, 5):
             portName = '/dev/ttyACM' + str(portId)
             self.ser.port = portName
             try:
@@ -43,6 +43,7 @@ class ArduinoInterface:
             time.sleep(0.1)
             print "reading line in checkIfOperationIsOver"
             line = self.ser.readline()
+            self.ser.flushOutput()
             print "arduino: " + str(line)
             if line.find("over") != -1:
                 Logger.logToFileAndScreen("operation over")
@@ -67,10 +68,14 @@ class ArduinoInterface:
     def checkIfOperationHasBegun(self):
         print "before reading ling in checkIfOperationHasBegun"
         line = self.ser.readline()
+        self.ser.flushOutput()
         print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
         if line.find("okay") != -1:
             return True
         return False
 
     def readLine(self):
-        return self.ser.readline()
+
+        line = self.ser.readline()
+        self.ser.flushOutput()
+        return line
