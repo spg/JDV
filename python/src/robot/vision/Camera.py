@@ -21,6 +21,7 @@ class Camera:
             drawingImage = self.drawingExtractor.ExtractShape(image)
             contourPoints = self.contourExtractor.findContours(drawingImage)
             size = cv.GetSize(drawingImage)
+            print size
             squareSize = size[0]
             newSquareSize = size[0]-(2*19)
 
