@@ -33,8 +33,8 @@ class CameraAccessor:
         testImage = cv.QueryFrame(self.camera) 
         print "imageType = ", type(testImage)
         self.photoSize = cv.GetSize(testImage)
-        self.mapx = cv.CreateImage(self.photoSize, 8, 1)
-        self.mapy = cv.CreateImage(self.photoSize, 8, 1)
+        self.mapx = cv.CreateImage(self.photoSize, 32, 1)
+        self.mapy = cv.CreateImage(self.photoSize, 32, 1)
         cv.InitUndistortMap(cv.fromarray(self.intrinsecParameters), cv.fromarray(self.distortionParameter), self.mapx, self.mapy)
         print "CameraAccessor - initialiseUndistortMap end"
 
