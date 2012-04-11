@@ -94,3 +94,10 @@ class RobotMover:
         destination = (currentPose[0] + deltaX, currentPose[1] + deltaY, currentAngle)
 
         self.doShuffleMovement([currentPose, destination], currentAngle)
+
+    def doRelativeRotation(self, relativeAngleInDegrees):
+        currentPose = Robot.getCurrentPose()
+
+        self.positionController.rotate(relativeAngleInDegrees)
+
+        Robot.setCurrentPose((currentPose[0], currentPose[1], currentPose[2] + relativeAngleInDegrees))

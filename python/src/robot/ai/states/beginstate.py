@@ -108,15 +108,17 @@ class BeginState:
                 drawingCountoursFound = True
             except ValueError:
                 print "Failed to extract points from camera! Retrying... with count: " + str(tryCount)
-                if not tryCount % 3:
+                if not tryCount % 5:
                     self.robotMover.relativeShuffle(shuffleDistance, -150)
-                elif tryCount % 3 == 1:
+                elif tryCount % 5 == 1:
                     self.robotMover.relativeShuffle(shuffleDistance, 90)
-                else:
+                elif tryCount % 5 == 2:
                     self.robotMover.relativeShuffle(shuffleDistance, -30)
+                elif tryCount % 5 == 3:
+                    self.robotMover.doRelativeRotation(-10)
+                else:
+                    self.robotMover.doRelativeRotation(20)
                 tryCount += 1
-
-
 
         points = drawingCountour[0]
         size = drawingCountour[1]
