@@ -6,7 +6,7 @@ from ColorSegmenter import ColorSegmenter
 
 class CornerDetector:
     colorSegmenter = ColorSegmenter()
-    MIN_CORNER_AREA = 3000
+    MIN_CORNER_AREA = 4000
     WEST_BLUE_CORNER = 0
     EAST_BLUE_CORNER = 1
     WEST_ORANGE_CORNER = 2
