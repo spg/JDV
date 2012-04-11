@@ -29,12 +29,14 @@ class Positionner:
         print "Positionner - get current pose begin"
         cameraPoint1 = self.getPositionRelativeToCamera(point1)
         cameraPoint2 = self.getPositionRelativeToCamera(point2)
+        print "camera points : ", cameraPoint1, cameraPoint2
         robotPoint1 = self.convertPointToRobotCoordinates(cameraPoint1)
         robotPoint2 = self.convertPointToRobotCoordinates(cameraPoint2)
-        print "robot1 = ", robotPoint1
-        print "robot2 = ", robotPoint2
+        print "robot points = ", robotPoint1, robotPoint2
         defaultAngle = self.getCornerAngle(corner)
+        print "default angle :  ", defaultAngle
         offsetAngle = self.calculateAngleBetweenPoints(robotPoint1, robotPoint2, corner)
+        print "offset angle : ", offsetAngle
         robotAngle = defaultAngle +  offsetAngle
         x,y = self.getRobotPosition(robotPoint1, robotPoint2, corner)
         print "Positionner - get current pose end"
