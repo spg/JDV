@@ -32,7 +32,7 @@ class CornerDetector:
     
     def __findColoredCorner__(self, image, color):
         contour = []
-        segmentedImage = self.colorSegmenter.segmentImageByColor(image, color)
+        segmentedImage = self.colorSegmenter.segmentImageByColor(image, color, 3, 4)
         contours = self.__findContoursInPicture__(segmentedImage)
         if len(contours) > 0:
             contour = self.__isolateCornerContour__(contours)

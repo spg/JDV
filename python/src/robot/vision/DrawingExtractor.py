@@ -12,7 +12,7 @@ class DrawingExtractor:
 
     def ExtractShape(self, srcImage):
         copyImage = cv.CloneImage(srcImage)
-        firstTreshing = cs.segmentImageByColor(srcImage, 3)
+        firstTreshing = cs.segmentImageByColor(srcImage, 3, 1, 1)
         imageMatrix = self.__convertImageToMatrix__(firstTreshing)
         contours = self.__findSquaresInImage__(imageMatrix)
         whiteSquare = self.__findSmallestSquare__(contours)

@@ -8,7 +8,7 @@ class SideDetector:
     def detectVisibleSide(self, image):
         imageCopy = cv.CloneImage(image)
         colorSegmenter = ColorSegmenter()
-        greenSegmentation = colorSegmenter.segmentImageByColor(imageCopy, colorSegmenter.green)
+        greenSegmentation = colorSegmenter.segmentImageByColor(imageCopy, colorSegmenter.green, 3, 4)
         contours = self.__findContoursInPicture__(greenSegmentation)
         middleHeight = self.__getMiddleHeightOfImage__(imageCopy)
         contours = self.__removeContoursOnBottom__(contours, middleHeight)

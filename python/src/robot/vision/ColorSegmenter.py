@@ -32,12 +32,12 @@ class ColorSegmenter:
         self.lowerTreshold.append(cv.Scalar(0,0,250))
         self.upperTreshold.append(cv.Scalar(255,255,255))
 
-    def segmentImageByColor(self, sourceImage, color):
+    def segmentImageByColor(self, sourceImage, color, nbErode, nbDilate):
         if color >= 0 and color <= 5:
             hsvImage = self.convertImageToHSV(sourceImage)
             imgTresh = cv.CreateImage(cv.GetSize(sourceImage), 8, 1)
             imgTresh = self.treshHSVImageByGivenColor(hsvImage, imgTresh, color)
-            imgTresh = self.reduceNoiseOnTreshedImage(imgTresh)
+            imgTresh = self.reduceNoiseOnTreshedImage(imgTresh, nbErode, nbDilate)
             cv.SaveImage("segmentationResult.jpg", imgTresh)
             return imgTresh
 
@@ -52,8 +52,8 @@ class ColorSegmenter:
         cv.SaveImage("AfterTresh.jpg", imgTresh)
         return imgTresh
 
-    def reduceNoiseOnTreshedImage(self, imgTresh):
-        cv.Erode(imgTresh, imgTresh, None, 3)
-        cv.Dilate(imgTresh, imgTresh, None, 4)
+    def reduceNoiseOnTreshedImage(self, imgTresh, nbErode, nbDilate):
+        cv.Erode(imgTresh, imgTresh, None, nbErode)
+        cv.Dilate(imgTresh, imgTresh, None, nbDilate)
         return imgTresh
 
