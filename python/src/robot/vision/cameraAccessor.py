@@ -9,6 +9,8 @@ class CameraAccessor:
         self.__initialiseUndistortMap__()
 
     def getFrame(self, undistort):
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
         frame = cv.QueryFrame(self.camera)
         if undistort == True:
             cv.Remap(frame, frame, self.mapx, self.mapy)
