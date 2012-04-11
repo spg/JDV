@@ -40,8 +40,8 @@ class Camera:
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             print "blue: ", len(pointBlue)
             print "orange: ", len(pointOrange)
-            #self.drawPointsOnImage(image, pointBlue)
-            #self.drawPointsOnImage(image, pointOrange)
+            self.drawPointsOnImage(image, pointBlue)
+            self.drawPointsOnImage(image, pointOrange)
             if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
                 print "Blue East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
