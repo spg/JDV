@@ -58,6 +58,8 @@ class BeginState:
         return
 
     def __doZignage(self):
+        time.sleep(3)
+
         self.robotMover.doSnakeMovement((Terrain.AR_TAG_NORTH_FACE[0], Terrain.AR_TAG_NORTH_FACE[1]), 270)
 
         print "Doing zignage..."
