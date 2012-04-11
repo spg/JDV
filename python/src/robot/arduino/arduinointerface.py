@@ -46,6 +46,7 @@ class ArduinoInterface:
                 operationOver = True
 
     def write(self, message):
+        print "message to write: " + str(message)
         operationBegun = False
 
         while not operationBegun:
@@ -55,6 +56,8 @@ class ArduinoInterface:
             time.sleep(0.5)
             print "after sleeping"
             operationBegun = self.checkIfOperationHasBegun()
+
+        print "returning out of write(self, message)"
 
     def checkIfOperationHasBegun(self):
         print "before reading ling in checkIfOperationHasBegun"
