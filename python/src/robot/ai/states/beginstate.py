@@ -71,8 +71,8 @@ class BeginState:
                 pose = self.cam.getCurrentPose()
                 poseAcquired = True
             except ValueError:
-                self.robotMover.doRelativeRotation(15)
-                time.sleep(2)
+                self.robotMover.doRelativeRotation(10)
+                time.sleep(1)
 
         Robot.setCurrentPose(pose)
 
