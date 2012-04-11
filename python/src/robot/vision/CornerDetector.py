@@ -100,7 +100,7 @@ class CornerDetector:
     def __isContourOnBottomOfPicture__(self, contour):
         cornersOnBottomHalf = 0
         for point in contour:
-            if point[1] > self.yCenter*4/3:
+            if point[1] > self.yCenter*0.6:
                 cornersOnBottomHalf += 1
         return cornersOnBottomHalf >= 2
     
