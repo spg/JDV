@@ -35,15 +35,20 @@ class ArduinoInterface:
         return ArduinoInterface.instance
 
     def checkIfOperationIsOver(self):
+        print "checking if operation is over..."
         operationOver = False
 
         while not operationOver:
+            print "entered while in checkIfOperationIsOver"
             time.sleep(0.1)
+            print "reading line in checkIfOperationIsOver"
             line = self.ser.readline()
             print "arduino: " + str(line)
             if line.find("over") != -1:
                 Logger.logToFileAndScreen("operation over")
                 operationOver = True
+
+        print "returning out of checkIfOperationIsOver"
 
     def write(self, message):
         print "message to write: " + str(message)
