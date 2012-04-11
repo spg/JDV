@@ -36,6 +36,8 @@ class BeginState:
     def run(self):
         self.__acquireCurrentPose()
 
+        self.__doZignage()
+
         interpretedSignal = self.signalSearcher.searchSignal()
 
         print "interpreted signal: " + str(interpretedSignal)
@@ -53,10 +55,12 @@ class BeginState:
         return
 
     def __doZignage(self):
+        self.robotMover.doSnakeMovement((Terrain.AR_TAG_SOUTH_FACE[0], Terrain.AR_TAG_SOUTH_FACE[1]), 90)
+
         print "Doing zignage..."
         self.captorsController.Zing()
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
 
     def __acquireCurrentPose(self):
         poseAcquired = False
