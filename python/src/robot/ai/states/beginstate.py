@@ -27,9 +27,9 @@ class BeginState:
 
         SendEvent.send(SendConfirm())
 
-        self.robotMover = RobotMover()
-        self.signalSearcher = ManchesterSignalSearcher()
-        self.captorsController = CaptorsController()
+        #self.robotMover = RobotMover()
+        #self.signalSearcher = ManchesterSignalSearcher()
+        #self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
 
     def run(self):
