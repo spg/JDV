@@ -29,8 +29,8 @@ class CameraAccessor:
         self.camera = cv.CaptureFromCAM(-1)
         frame = self.getFrame(False)
         print cv.GetSize(frame)
-        #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
-        #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_WIDTH, 1600)
+        cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FRAME_HEIGHT, 1200)
         #cv.SetCaptureProperty(self.camera, cv.CV_CAP_PROP_FORMAT, cv.IPL_DEPTH_32F)
 
     def __initialiseUndistortMap__(self):
