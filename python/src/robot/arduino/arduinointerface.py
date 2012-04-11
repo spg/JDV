@@ -10,7 +10,7 @@ class ArduinoInterface:
         self.ser = Serial()
         self.ser.baudrate = 115200
 
-        for portId in range(0, 4):
+        for portId in range(0, 5):
             portName = '/dev/ttyACM' + str(portId)
             self.ser.port = portName
             try:
