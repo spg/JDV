@@ -11,6 +11,7 @@ import time
 import wx
 import networkx as nx
 from python.src.base.ui.Trajectoire import  Trajectoire
+#from python.src.robot.pathplanning import  Trajectoire
 from python.src.base.Base import Base
 from python.src.base.logevent import LogEvent
 from python.src.base.poseevent import PoseEvent
@@ -89,10 +90,10 @@ class MainWindow(wx.Frame):
         self.dc.DrawRectangle( 295 + self.__offset, 55 + self.__offset, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.__xL1 = self.__robotx + (10 * self.__coordx1)
-        self.__xL2 = self.__robotx + (10 * self.__coordx2)
-        self.__yL1 = self.__roboty + (10 * self.__coordy1)
-        self.__yL2 = self.__roboty + (10 * self.__coordy2)
+        self.__xL1 = self.__robotx + (15 * self.__coordx1)
+        self.__xL2 = self.__robotx + (15 * self.__coordx2)
+        self.__yL1 = self.__roboty + (15 * self.__coordy1)
+        self.__yL2 = self.__roboty + (15 * self.__coordy2)
         self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL1, self.__yL1)
         self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL2, self.__yL2)
         self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
@@ -172,10 +173,10 @@ class MainWindow(wx.Frame):
         #__x2=self.O.getx2()+self.__offset
         #__y1=self.O.gety1()+self.__offset
         #__y1=self.O.gety2()+self.__offset
-        self.__x1 =  93+ self.__offset
-        self.__y1 =  44+self.__offset
-        self.__x2 =  110+ self.__offset
-        self.__y2 =  18+self.__offset
+        self.__x2 =  0+ self.__offset
+        self.__y2 =  0+self.__offset
+        self.__x1 =  0+ self.__offset
+        self.__y1 =  0+self.__offset
         #Affichage des obstacle
         self.__Obstacle= True
         self.dc.Clear()
@@ -220,6 +221,7 @@ class MainWindow(wx.Frame):
         self.__RotationTriangle(Angle)
         self.__robotx = message.x*2
         self.__roboty = (message.y)*2
+        #self.__roboty = (110-message.y)*2
         self.__DrawLine()
         if self.Dessin:
             self.__AfficherDessin(self.__listeDessin)
@@ -254,7 +256,8 @@ class MainWindow(wx.Frame):
             if Depart :
                 Depart = False
             else:
-                self.dc.DrawLine((x1*2)+self.__offset,(y1*2)+self.__offset, (x*2)+self.__offset,(y*2)+self.__offset)
+                #self.dc.DrawLine((x1*2)+self.__offset,(y1*2)+self.__offset, (x*2)+self.__offset,(y*2)+self.__offset)
+                self.dc.DrawLine((x1*2)+self.__offset,((y1)*2)+self.__offset, (x*2)+self.__offset,((y)*2)+self.__offset)
             x1 = x
             y1 = y
 
@@ -263,10 +266,12 @@ class MainWindow(wx.Frame):
     def __AfficherDessin(self,liste):
         self.Dessin = True
         self.dc.Clear()
+        print "Efface"
         self.__DrawLine()
         Depart = True
         x1 = y1 = 0
         for  x, y  in liste :
+            print "DEssin"
             if Depart :
                 xdepart = x
                 ydepart = y
@@ -293,14 +298,14 @@ class MainWindow(wx.Frame):
         self.__Info.SetValue(message)
 
     def __RotationTriangle(self, angles):
-        x = ((self.__robotx - self.__xL1 ) / 10)
-        y = ((self.__roboty - self.__yL1) / 10)
+        x = ((self.__robotx - self.__xL1 ) / 15)
+        y = ((self.__roboty - self.__yL1) / 15)
         _angle = angles - self.__angleActuelle
         self.__angleActuelle += _angle
         self.__coordx1 = 0 - (x * math.cos(math.radians(_angle)) - (y * math.sin(math.radians(_angle))))
         self.__coordy1 = 0 - (x * math.sin(math.radians(_angle)) + (y * math.cos(math.radians(_angle))))
-        x1 = ((self.__robotx - self.__xL2) / 10)
-        y1 = ((self.__roboty - self.__yL2) / 10)
+        x1 = ((self.__robotx - self.__xL2) / 15)
+        y1 = ((self.__roboty - self.__yL2) / 15)
         self.__coordx2 = 0 - (x1 * math.cos(math.radians(_angle)) - (y1 * math.sin(math.radians(_angle))))
         self.__coordy2 = 0 - (x1 * math.sin(math.radians(_angle)) + (y1 * math.cos(math.radians(_angle))))
 
@@ -315,14 +320,14 @@ class MainWindow(wx.Frame):
         #self.__y1=self.self.y1.GetValue()
         #self.__y2=self.self.y2.GetValue()
         #Valeur par default pour bu de test
-        #self.__x1 =  93+ self.__offset
-        #self.__y1 =  30+self.__offset
-        #self.__x2 =  81+ self.__offset
-        #self.__y2 =  75+self.__offset
-        self.__x2 =  93+ self.__offset
-        self.__y2 =  44+self.__offset
-        self.__x1 =  110+ self.__offset
-        self.__y1 =  18+self.__offset
+        self.__x1 =  120+ self.__offset
+        self.__y1 =  60+self.__offset
+        self.__x2 =  80+ self.__offset
+        self.__y2 =  10+self.__offset
+        #self.__x2 =  50+ self.__offset
+        #self.__y2 =  100+self.__offset
+        #self.__x1 =  80+ self.__offset
+        #self.__y1 =  50+self.__offset
         #Affichage des obstacle
         # Bleu
         self.dc.SetBrush(wx.Brush('#0000ff'))
@@ -334,12 +339,34 @@ class MainWindow(wx.Frame):
         #Affichage des noeuds des obstacles
         #t = Trajectoire(150.00, 350.00, 210.00, 70.00)
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
-        #liste = t.PathFinding(207,22.5,23.00,90.00 )
+        #liste = t.PathFinding(175.00, 60.00,25.00, 105.00 )
         #self.__AfficherTrajectoire(liste)
         liste =t.PathFinding(56.0, 50.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
-        #liste = t.PathFinding(174.8, 55.5, 23 , 91)
-        #self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(30.0, 40.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(50.0, 16.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(40.0, 42.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(40.0, 69.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(40, 77, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(30.0, 71.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
+        time.sleep(2)
+        liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
+        self.__AfficherTrajectoire(liste)
 
 
 
