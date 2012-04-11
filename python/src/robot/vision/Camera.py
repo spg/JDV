@@ -36,7 +36,7 @@ class Camera:
 
     def getCurrentPose(self):
         try:
-            image = self.camera.getFrame(True)
+            image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             self.drawPointsOnImage(image, pointBlue)
             self.drawPointsOnImage(image, pointOrange)
