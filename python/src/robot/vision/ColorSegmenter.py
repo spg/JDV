@@ -26,7 +26,7 @@ class ColorSegmenter:
 
         #Tresholds for the color green
         self.lowerTreshold.append(cv.Scalar(30,100,50))
-        self.upperTreshold.append(cv.Scalar(90,255,255))
+        self.upperTreshold.append(cv.Scalar(100,255,255))
 
         #Tresholds for the color white
         self.lowerTreshold.append(cv.Scalar(0,0,250))
