@@ -67,8 +67,8 @@ class ArduinoInterface:
 
     def checkIfOperationHasBegun(self):
         print "before reading ling in checkIfOperationHasBegun"
-        line = self.ser.flushOutput()
-        self.ser.flushInput()
+        line = self.ser.readline()
+        self.ser.flushOutput()
         print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
         if line.find("okay") != -1:
             return True
