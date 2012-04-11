@@ -49,11 +49,15 @@ class ArduinoInterface:
         operationBegun = False
 
         while not operationBegun:
+            print "before writing message in write method..."
             self.ser.write(message)
+            print "after writing message in write method..."
             time.sleep(0.5)
+            print "after sleeping"
             operationBegun = self.checkIfOperationHasBegun()
 
     def checkIfOperationHasBegun(self):
+        print "before reading ling in checkIfOperationHasBegun"
         line = self.ser.readline()
         print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
         if line.find("okay") != -1:
