@@ -39,7 +39,7 @@ class Camera:
             image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             self.drawPointsOnImage(image, pointBlue)
-            self.drawPointsOnImage(image, pointOrange
+            self.drawPointsOnImage(image, pointOrange)
             if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
                 print "Blue East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
@@ -53,7 +53,7 @@ class Camera:
                 print "Orange West Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
             else:
-            print "No corners detected"
+                print "No corners detected"
                 raise ValueError("No corners detected for positionning")
             if theta < 0:
                 theta = 360 + theta
