@@ -58,9 +58,7 @@ class BeginState:
         return
 
     def __doZignage(self):
-        time.sleep(3)
-
-        self.robotMover.doSnakeMovement((Terrain.AR_TAG_NORTH_FACE[0], Terrain.AR_TAG_NORTH_FACE[1]), 270)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
 
         print "Doing zignage..."
         self.captorsController.Zing()
@@ -87,10 +85,6 @@ class BeginState:
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
     def __goToProperImageForScanning(self, imageId):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
-
-        self.__doZignage()
-
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
             print "going to figure 0"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
