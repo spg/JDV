@@ -96,13 +96,14 @@ class CornerDetector:
         if cv.ContourArea(contour) < self.MIN_CORNER_AREA:
             return False
         return True
-    
+
     def __isContourOnBottomOfPicture__(self, contour):
-        cornersOnBottomHalf = 0
+        cornersOnTopHalf = 0
         for point in contour:
-            if point[1] > self.yCenter*0.5:
-                cornersOnBottomHalf += 1
-        return cornersOnBottomHalf >= 2
+            if point[1] < self.yCenter*0.5:
+                print point[1], " ", cornersOnTopHalf
+                cornersOnTopHalf += 1
+        return cornersOnTopHalf <= 0
     
     def __findContourWithBiggestArea__(self, contours):
         biggestContour = contours[0]
