@@ -47,6 +47,8 @@ class BeginState:
         orientation = interpretedSignal[1]
         scale = interpretedSignal[2]
 
+        self.__doZignage()
+
         self.__goToProperImageForScanning(figureId)
 
         self.__doDrawing(orientation, scale)
@@ -68,13 +70,13 @@ class BeginState:
         pose = ()
 
         while not poseAcquired:
-            for x in range(0, 5):
+            for x in range(0, 10):
                 try:
                     pose = self.cam.getCurrentPose()
                     poseAcquired = True
                     break
                 except ValueError:
-                    if x == 4:
+                    if x == 9:
                         self.robotMover.doRelativeRotation(10)
 
         Robot.setCurrentPose(pose)
