@@ -1,4 +1,5 @@
 from __future__ import division
+import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
@@ -71,6 +72,7 @@ class BeginState:
                 poseAcquired = True
             except ValueError:
                 self.robotMover.doRelativeRotation(15)
+                time.sleep(2)
 
         Robot.setCurrentPose(pose)
 
