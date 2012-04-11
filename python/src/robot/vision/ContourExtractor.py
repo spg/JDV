@@ -6,7 +6,7 @@ class ContourExtractor:
     MIN_DISTANCE_BETWEEN_POINTS = 20
 
     def findContours(self,image):
-        print "begin findcontours"
+        #print "begin findcontours"
         tmp = cv.CreateImage(cv.GetSize(image), 8, 1)
         cv.CvtColor(image, tmp, cv.CV_BGR2GRAY)
         cv.Smooth(tmp, tmp, cv.CV_GAUSSIAN, 5, 5)
@@ -34,11 +34,11 @@ class ContourExtractor:
         contour = self.removePointClusters(contour)
         contour = self.convertPointsToDrawingPlane(contour, size[0])
 
-        print "finish findcontours"
+        #print "finish findcontours"
         return contour
 
     def convertPointsToDrawingPlane(self, points, imageSize):
-        print "begin convertpointstodrawingplane"
+        #print "begin convertpointstodrawingplane"
         newPoints = []
         for point in points:
             x = point[0]
@@ -46,11 +46,11 @@ class ContourExtractor:
             y = imageSize - point[1]
             y = y+19
             newPoints.append((x,y))
-        print "finish convertpointstodrawingplane"
+        #print "finish convertpointstodrawingplane"
         return newPoints
 
     def findCorrectContour(self, contours):
-        print "begin findcorrectcontour"
+        #print "begin findcorrectcontour"
         _contour = contours
         validContours = []
         while _contour is not None:
@@ -65,11 +65,11 @@ class ContourExtractor:
                     drawingContour = contour
         else:
             drawingContour = validContours[0]
-        print "finish findcorrectcontour"
+        #print "finish findcorrectcontour"
         return drawingContour
 
     def removePointClusters(self, points):
-        print "begin removepointclusters"
+        #print "begin removepointclusters"
         unclusteredPoints = []
         for i in range(len(points)):
             if i == len(points) - 1:
@@ -87,5 +87,5 @@ class ContourExtractor:
 
             if distance > self.MIN_DISTANCE_BETWEEN_POINTS:
                 unclusteredPoints.append(points[i])
-        print "finish removepointclusters"
+        #print "finish removepointclusters"
         return unclusteredPoints
