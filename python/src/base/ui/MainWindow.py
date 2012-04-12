@@ -154,10 +154,10 @@ class MainWindow(wx.Frame):
             self.label2 = wx.StaticText(self.panel, -1, 'y1 :' ,pos=(770, 50))
             self.label3 = wx.StaticText(self.panel, -1, 'x2 :' ,pos=(670, 150))
             self.label4 = wx.StaticText(self.panel, -1, 'y2 :' ,pos=(770, 150))
-            self.x1 = wx.TextCtrl(self.panel,-1,value=u"120",pos=(700, 50),size=(50,20))
-            self.y1 = wx.TextCtrl(self.panel,-1,value=u"50",pos=(800, 50),size=(50,20))
-            self.x2 = wx.TextCtrl(self.panel,-1,value=u"80",pos=(700, 150),size=(50,20))
-            self.y2 = wx.TextCtrl(self.panel,-1,value=u"50",pos=(800, 150),size=(50,20))
+            self.x1 = wx.TextCtrl(self.panel,-1,value=u"111",pos=(700, 50),size=(50,20))
+            self.y1 = wx.TextCtrl(self.panel,-1,value=u"48",pos=(800, 50),size=(50,20))
+            self.x2 = wx.TextCtrl(self.panel,-1,value=u"100",pos=(700, 150),size=(50,20))
+            self.y2 = wx.TextCtrl(self.panel,-1,value=u"82",pos=(800, 150),size=(50,20))
             # mac mini 254.168  10.240.213.142
             self.__bindHandlers()
 

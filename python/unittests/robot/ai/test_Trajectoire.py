@@ -41,12 +41,6 @@ class Test_Trajectoire(unittest.TestCase):
         chemin = t.PathFinding(175.00, 60.00,25.00, 105.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Obstacle_LigneY(self):
-        liste = [(23.0, 65.0), (65, 35), (135, 35), (200.0, 10.0)]
-        t = Trajectoire(110,50 ,80 ,50)
-        chemin = t.PathFinding(23.00, 65.00, 200.00, 10.00 )
-        self.assertEqual(chemin,liste)
-
     def test_Obstacle_Lignex(self):
         liste = [(23.0, 65.0), (65, 45), (105, 45), (200.0, 10.0)]
         t = Trajectoire(80,20 ,80 ,80)
