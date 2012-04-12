@@ -25,8 +25,9 @@ class ManchesterSignalSearcher:
         self.__adjustPosition(distance)
 
         interpretedSignal = self.manchesterSignalInterpreter.interpretSignal(signal)
+        signalPosition = Robot.getCurrentPosition()
 
-        return interpretedSignal
+        return interpretedSignal, signalPosition
 
     def __doSignalSearch(self, method):
         print "searching signal..."
@@ -57,3 +58,13 @@ class ManchesterSignalSearcher:
         newPose = (ancientPose[0] - (int(distance)/10), ancientPose[1] + verticalDrift, ancientPose[2])
 
         Robot.setCurrentPose(newPose)
+
+    def doSimpleSignalDecoding(self):
+        self.arduinoInterface.write('SD.')
+
+        self.arduinoInterface.checkIfOperationIsOver()
+
+        signal = self.arduinoInterface.readLine()
+        interpretedSignal = self.manchesterSignalInterpreter.interpretSignal(signal)
+
+        return interpretedSignal

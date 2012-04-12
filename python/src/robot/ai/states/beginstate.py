@@ -3,6 +3,7 @@ import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
+from python.src.robot.arduino.ledcontroller import LedController
 from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
@@ -33,13 +34,23 @@ class BeginState:
         self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
         self.cam = Camera()
+        self.ledController = LedController()
+
+        self.firstTurnOver = False
 
     def run(self):
         self.__acquireCurrentPose()
 
         self.__doZignage()
 
-        interpretedSignal = self.signalSearcher.searchSignal()
+        interpretedSignal = ()
+
+        if not self.firstTurnOver:
+            interpretedSignal, signalPosition = self.signalSearcher.searchSignal()
+            self.signalPosition = signalPosition
+        else:
+            self.robotMover.doSnakeMovement(self.signalPosition, 270)
+            interpretedSignal = self.signalSearcher.doSimpleSignalDecoding()
 
         print "interpreted signal: " + str(interpretedSignal)
 
@@ -53,7 +64,12 @@ class BeginState:
 
         self.__doDrawing(orientation, scale)
 
+        self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_WEST_CORNER_INNER, 270)
+
+        self.flashLed()
+
         SendEvent.send(SendEnd())
+        self.firstTurnOver = True
         StateController.instance.endMainLoop()
         return
 
@@ -159,3 +175,9 @@ class BeginState:
         self.robotMover.doShuffleMovement(movedPoints, 270)
 
         prehensorController.raisePrehensor()
+
+    def flashLed(self):
+        self.ledController.turnLedOn()
+        time.sleep(3)
+        self.ledController.turnLedOff()
+
