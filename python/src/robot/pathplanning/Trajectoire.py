@@ -468,6 +468,14 @@ class Trajectoire():
             b = b + 1
         return False
 
+    def EstSortie(self,Position):
+        if Position < self.SortieMax  and Position >15:
+            return False
+        else:
+            if self.printmess:
+                print "Sortie"
+            return True
+
     def FaireListe(self):
         self.liste = []
         self.nbrelement = 0
