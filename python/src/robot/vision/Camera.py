@@ -73,7 +73,9 @@ class Camera:
         while attemps < 10  and nbSuccess <= 3:
             attemps += 1
             print "Camera: Getting current pose. Attemp ", attemps
-            x, y, theta = 0
+            x = 0
+            y  = 0
+            theta = 0
             image = self.camera.getFrame()
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             self.drawPointsOnImage(image, pointBlue)
