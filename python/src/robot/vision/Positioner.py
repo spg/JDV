@@ -63,6 +63,7 @@ class Positionner:
             rwc2 = Terrain.CORNER_BLUE_EAST_RIGHT_EDGE
         return rwc1, rwc2
 
+
     def calculateAngleBetweenPoints(self, point1, point2, corner):
         deltaX = point2[0] - point1[0]
         deltaY = point2[1] - point1[1]

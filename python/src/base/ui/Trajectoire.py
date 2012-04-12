@@ -72,6 +72,10 @@ class Trajectoire():
             self.posFiny =Finy
             self.setObstacle(self.obstacle_1_x,self.obstacle_1_y,self.obstacle_2_x,self.obstacle_2_y)
             self.SortieMax = 96
+        if  145 < Departx < 205 and 145 < Finx < 205:
+            self.setObstacle(1000,1000,1000,1000)
+
+
 
 
     def PathFinding(self,Departx,Departy,Finx,Finy):

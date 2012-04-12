@@ -20,7 +20,7 @@ class ContourExtractor:
         cv.Dilate(tmp, tmp)
         cv.Erode(tmp, tmp)
         cv.Erode(tmp, tmp)
-        cv.SaveImage("treshold.jpg", tmp)
+        #cv.SaveImage("treshold.jpg", tmp)
         storage = cv.CreateMemStorage()
         contours = cv.FindContours(tmp,
             storage,cv.CV_RETR_LIST,

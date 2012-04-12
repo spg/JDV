@@ -25,8 +25,8 @@ class ColorSegmenter:
         self.upperTreshold.append(cv.Scalar(4,255,255))
 
         #Tresholds for the color green
-        self.lowerTreshold.append(cv.Scalar(50,0,0))
-        self.upperTreshold.append(cv.Scalar(90,255,255))
+        self.lowerTreshold.append(cv.Scalar(40,100,100))
+        self.upperTreshold.append(cv.Scalar(100,255,255))
 
         #Tresholds for the color white
         self.lowerTreshold.append(cv.Scalar(0,0,250))
@@ -38,7 +38,7 @@ class ColorSegmenter:
             imgTresh = cv.CreateImage(cv.GetSize(sourceImage), 8, 1)
             imgTresh = self.treshHSVImageByGivenColor(hsvImage, imgTresh, color)
             imgTresh = self.reduceNoiseOnTreshedImage(imgTresh, nbErode, nbDilate)
-            cv.SaveImage("segmentationResult.jpg", imgTresh)
+            #cv.SaveImage("segmentationResult.jpg", imgTresh)
             return imgTresh
 
     def convertImageToHSV(self, sourceImage):
@@ -47,9 +47,9 @@ class ColorSegmenter:
         return hsvImage
 
     def treshHSVImageByGivenColor(self, hsvImage, imgTresh, color):
-        cv.SaveImage("BeforeTresh.jpg", hsvImage)
+        #cv.SaveImage("BeforeTresh.jpg", hsvImage)
         cv.InRangeS(hsvImage, self.lowerTreshold[color], self.upperTreshold[color], imgTresh)
-        cv.SaveImage("AfterTresh.jpg", imgTresh)
+        #cv.SaveImage("AfterTresh.jpg", imgTresh)
         return imgTresh
 
     def reduceNoiseOnTreshedImage(self, imgTresh, nbErode, nbDilate):

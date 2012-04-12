@@ -32,8 +32,8 @@ class MainWindow(wx.Frame):
         self.Chemin = False
         self.gap = 20
         self.t1= 0
-        self.__robotx = 175
-        self.__roboty = 53
+        self.__robotx = 175*2
+        self.__roboty = 53*2
         self.__angleActuelle = 0
         self.__coordx1 = -1
         self.__coordy1 = -1
@@ -89,13 +89,13 @@ class MainWindow(wx.Frame):
         #self.dc.DrawRectangle( 295 + self.__offset, 55 + self.__offset, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.__xL1 = self.__robotx + (7 * self.__coordx1)
-        self.__xL2 = self.__robotx + (7 * self.__coordx2)
-        self.__yL1 = self.__roboty + (7 * self.__coordy1)
-        self.__yL2 = self.__roboty + (7 * self.__coordy2)
-        self.dc.DrawLine(self.__robotx*2, self.__roboty*2, self.__xL1*2, self.__yL1*2)
-        self.dc.DrawLine(self.__robotx*2, self.__roboty*2, self.__xL2*2, self.__yL2*2)
-        self.dc.DrawLine(self.__xL2*2, self.__yL2*2, self.__xL1*2, self.__yL1*2)
+        self.__xL1 = self.__robotx + (15 * self.__coordx1)
+        self.__xL2 = self.__robotx + (15 * self.__coordx2)
+        self.__yL1 = self.__roboty + (15 * self.__coordy1)
+        self.__yL2 = self.__roboty + (15 * self.__coordy2)
+        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL1, self.__yL1)
+        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL2, self.__yL2)
+        self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
         if self.__Obstacle:
             self.dc.SetBrush(wx.Brush('#0000ff'))
             self.dc.DrawRectangle(self.__x1*2, (100-self.__y1)*2, 20, 20)
@@ -215,8 +215,8 @@ class MainWindow(wx.Frame):
         Angle = message.theta
         self.__RotationTriangle(Angle)
         self.__robotx = message.x*2
-        self.__roboty = (message.y)*2
-        #self.__roboty = (110-message.y)*2
+        self.__roboty = (110-message.y)*2
+        #self.__roboty = (message.y)*2
         self.__DrawLine()
         if self.Dessin:
             self.__AfficherDessin(self.__listeDessin)
@@ -293,14 +293,14 @@ class MainWindow(wx.Frame):
         self.__Info.SetValue(message)
 
     def __RotationTriangle(self, angles):
-        x = ((self.__robotx - self.__xL1 ) / 7)
-        y = ((self.__roboty - self.__yL1) / 7)
+        x = ((self.__robotx - self.__xL1 ) / 15)
+        y = ((self.__roboty - self.__yL1) / 15)
         _angle = angles - self.__angleActuelle
         self.__angleActuelle += _angle
         self.__coordx1 = 0 - (x * math.cos(math.radians(_angle)) - (y * math.sin(math.radians(_angle))))
         self.__coordy1 = 0 - (x * math.sin(math.radians(_angle)) + (y * math.cos(math.radians(_angle))))
-        x1 = ((self.__robotx - self.__xL2) / 7)
-        y1 = ((self.__roboty - self.__yL2) / 7)
+        x1 = ((self.__robotx - self.__xL2) / 15)
+        y1 = ((self.__roboty - self.__yL2) / 15)
         self.__coordx2 = 0 - (x1 * math.cos(math.radians(_angle)) - (y1 * math.sin(math.radians(_angle))))
         self.__coordy2 = 0 - (x1 * math.sin(math.radians(_angle)) + (y1 * math.cos(math.radians(_angle))))
 
@@ -362,6 +362,5 @@ class MainWindow(wx.Frame):
         time.sleep(2)
         liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
-
 
 
