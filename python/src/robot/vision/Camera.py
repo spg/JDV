@@ -35,33 +35,33 @@ class Camera:
             raise ValueError("Couldn't find drawing in image")
 
     def getCurrentPose2(self):
-        try:
-            image = self.camera.getFrame(False)
-            pointBlue, pointOrange, side = self.getVisibleCorners(image)
-            print "blue: ", len(pointBlue)
-            print "orange: ", len(pointOrange)
-            self.drawPointsOnImage(image, pointBlue)
-            self.drawPointsOnImage(image, pointOrange)
-            if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
-                print "Blue East Corner"
-                x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
-            elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
-                print "Blue West Corner"
-                x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
-            elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
-                print "Orange East Corner"
-                x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
-            elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
-                print "Orange West Corner"
-                x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
-            else:
-                print "No corners detected"
-                raise ValueError("No corners detected for positionning")
-            if theta < 0:
-                theta = 360 + theta
-            return x, y, theta
-        except:
-            raise ValueError("Problem while getting robot pose")
+        #try:
+        image = self.camera.getFrame(False)
+        pointBlue, pointOrange, side = self.getVisibleCorners(image)
+        print "blue: ", len(pointBlue)
+        print "orange: ", len(pointOrange)
+        self.drawPointsOnImage(image, pointBlue)
+        self.drawPointsOnImage(image, pointOrange)
+        if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
+            print "Blue East Corner"
+            x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
+        elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
+            print "Blue West Corner"
+            x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
+        elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
+            print "Orange East Corner"
+            x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
+        elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
+            print "Orange West Corner"
+            x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
+        else:
+            print "No corners detected"
+            raise ValueError("No corners detected for positionning")
+        if theta < 0:
+            theta = 360 + theta
+        return x, y, theta
+        #except:
+         #   raise ValueError("Problem while getting robot pose")
 
     def getCurrentPose(self):
         xTotal = 0
