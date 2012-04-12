@@ -97,9 +97,6 @@ class Camera:
                     xTotal += x
                     yTotal += y
                     thetaTotal += theta
-            if nbSuccess == 0:
-                print "Camera Getting current pose. Failure! No corner detected."
-                raise ValueError("Camera: Couldn't detect a corner with camera")
             xAverage = xTotal/nbSuccess
             yAverage = yTotal/nbSuccess
             thetaAverage = thetaTotal/nbSuccess
