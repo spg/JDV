@@ -3,6 +3,7 @@ import time
 
 from python.src.robot.ai.statecontroller import StateController
 from python.src.robot.arduino.captorscontroller import CaptorsController
+from python.src.robot.arduino.ledcontroller import LedController
 from python.src.robot.arduino.manchestersignalinterpreter import ManchesterSignalInterpreter
 from python.src.robot.arduino.manchestersignalsearcher import ManchesterSignalSearcher
 from python.src.robot.arduino.prehensorcontroller import PrehensorController
@@ -33,13 +34,23 @@ class BeginState:
         self.captorsController = CaptorsController()
         self.imagePointsTransformer = ImagePointsTransformer()
         self.cam = Camera()
+        self.ledController = LedController()
+
+        self.firstTurnOver = False
 
     def run(self):
         self.__acquireCurrentPose()
 
         self.__doZignage()
 
-        interpretedSignal = self.signalSearcher.searchSignal()
+        interpretedSignal = ()
+
+        if not self.firstTurnOver:
+            interpretedSignal, signalPosition = self.signalSearcher.searchSignal()
+            self.signalPosition = signalPosition
+        else:
+            self.robotMover.doSnakeMovement(self.signalPosition, 270)
+            interpretedSignal = self.signalSearcher.doSimpleSignalDecoding()
 
         print "interpreted signal: " + str(interpretedSignal)
 
@@ -53,41 +64,41 @@ class BeginState:
 
         self.__doDrawing(orientation, scale)
 
+        self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_WEST_CORNER_INNER, 270)
+
+        self.flashLed()
+
         SendEvent.send(SendEnd())
+        self.firstTurnOver = True
         StateController.instance.endMainLoop()
         return
 
     def __doZignage(self):
-        self.robotMover.doSnakeMovement((Terrain.AR_TAG_NORTH_FACE[0], Terrain.AR_TAG_NORTH_FACE[1]), 270)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
 
         print "Doing zignage..."
         self.captorsController.Zing()
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
 
     def __acquireCurrentPose(self):
         poseAcquired = False
         pose = ()
 
         while not poseAcquired:
-            for x in range(0, 10):
-                try:
-                    pose = self.cam.getCurrentPose()
-                    poseAcquired = True
-                    break
-                except ValueError:
-                    if x == 9:
-                        self.robotMover.doRelativeRotation(5)
+            try:
+                pose = self.cam.getCurrentPose()
+                poseAcquired = True
+                break
+            except ValueError:
+                print "rotating of 5 degrees..."
+                self.robotMover.doRelativeRotation(5)
 
         Robot.setCurrentPose(pose)
 
         print "Current robot pose is: " + str(Robot.getCurrentPose())
 
     def __goToProperImageForScanning(self, imageId):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
-
-        self.__acquireCurrentPose()
-
         if imageId == ManchesterSignalInterpreter.FIGURE_0:
             print "going to figure 0"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
@@ -162,3 +173,9 @@ class BeginState:
         self.robotMover.doShuffleMovement(movedPoints, 270)
 
         prehensorController.raisePrehensor()
+
+    def flashLed(self):
+        self.ledController.turnLedOn()
+        time.sleep(3)
+        self.ledController.turnLedOff()
+

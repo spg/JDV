@@ -16,17 +16,19 @@ class ManchesterSignalSearcher:
 
         distance, signal = self.__doSignalSearch('SS.')
 
-        self.__adjustPosition(distance)
+        self.__adjustPosition(distance, 4)
+
+        signalPosition = Robot.getCurrentPosition()
 
         self.__moveToSecondCorner()
 
         distance, signal = self.__doSignalSearch('SB.')
 
-        self.__adjustPosition(distance)
+        self.__adjustPosition(distance, -4)
 
         interpretedSignal = self.manchesterSignalInterpreter.interpretSignal(signal)
 
-        return interpretedSignal
+        return interpretedSignal, signalPosition
 
     def __doSignalSearch(self, method):
         print "searching signal..."
@@ -49,11 +51,19 @@ class ManchesterSignalSearcher:
         robotMover = RobotMover()
         robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_EAST_CORNER_INNER, 0)
 
-    def __adjustPosition(self, distance):
+    def __adjustPosition(self, distance, verticalDrift):
         ancientPose = Robot.getCurrentPose()
-
-        verticalDrift = 4 #in cm
 
         newPose = (ancientPose[0] - (int(distance)/10), ancientPose[1] + verticalDrift, ancientPose[2])
 
         Robot.setCurrentPose(newPose)
+
+    def doSimpleSignalDecoding(self):
+        self.arduinoInterface.write('SD.')
+
+        self.arduinoInterface.checkIfOperationIsOver()
+
+        signal = self.arduinoInterface.readLine()
+        interpretedSignal = self.manchesterSignalInterpreter.interpretSignal(signal)
+
+        return interpretedSignal
