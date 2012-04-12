@@ -37,7 +37,7 @@ class Camera:
     def getCurrentPose(self):
         try:
             image = self.camera.getFrame(False)
-            pointBlue, pointOrange, side = self.getVisibleCorners(image)
+            pointBlue, pointOrange = self.getVisibleCorners(image)
             print "blue: ", len(pointBlue)
             print "orange: ", len(pointOrange)
             self.drawPointsOnImage(image, pointBlue)
@@ -120,8 +120,8 @@ class Camera:
 
     def getVisibleCorners(self, image):
         contourBlue, contourOrange = self.cornerDetector.detectCorners(image)
-        side = self.sideDetector.detectVisibleSide(image)
-        return contourBlue, contourOrange, side
+        #side = self.sideDetector.detectVisibleSide(image)
+        return contourBlue, contourOrange
 
 
     def __doubleImage__(self, contourPoints, size):
