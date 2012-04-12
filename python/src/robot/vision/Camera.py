@@ -76,7 +76,7 @@ class Camera:
             x = 0
             y  = 0
             theta = 0
-            image = self.camera.getFrame()
+            image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
             self.drawPointsOnImage(image, pointBlue)
             self.drawPointsOnImage(image, pointOrange)
