@@ -116,7 +116,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_0_FACE, 90)
         elif imageId == ManchesterSignalInterpreter.FIGURE_1:
             print "going to figure 1"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 95)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 100)
         elif imageId == ManchesterSignalInterpreter.FIGURE_2:
             print "going to figure 2"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_2_FACE, 165)
