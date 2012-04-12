@@ -28,7 +28,7 @@ class Camera:
                 pointCopy = (point[0], squareSize - point[1])
                 cv.Circle(drawingImage, pointCopy, 5, (0,0,0), 2)
 
-            cv.SaveImage("segmentationResult.jpg", drawingImage)
+            #cv.SaveImage("segmentationResult.jpg", drawingImage)
 
             return contourPoints, newSquareSize
         except:
@@ -78,8 +78,8 @@ class Camera:
                 theta = 0
                 image = self.camera.getFrame(False)
                 pointBlue, pointOrange, side = self.getVisibleCorners(image)
-                self.drawPointsOnImage(image, pointBlue)
-                self.drawPointsOnImage(image, pointOrange)
+                #self.drawPointsOnImage(image, pointBlue)
+                #self.drawPointsOnImage(image, pointOrange)
                 if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
                     x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
                     print "Camera Getting current pose. Success! Blue East corner found."
@@ -120,12 +120,12 @@ class Camera:
             return False, 0
 
     def drawPointsOnImage(self, image, points):
-        cv.SaveImage("cornerDetectionResult.jpg", image)
+        #cv.SaveImage("cornerDetectionResult.jpg", image)
         if len(points) > 0:
             for point in points:
                 #pointCopy = (point[0], squareSize - point[1])
                 cv.Circle(image, point, 5, (0,0,0), 2)
-            cv.SaveImage("cornerDetectionResult.jpg", image)
+            #cv.SaveImage("cornerDetectionResult.jpg", image)
 
     def getVisibleCorners(self, image):
         contourBlue, contourOrange = self.cornerDetector.detectCorners(image)
@@ -153,4 +153,4 @@ class Camera:
                 point2 = (x2, y2)
                 cv.Line(doubleImage,point1, point2,255, 2)
 
-        cv.SaveImage("scale.jpg", doubleImage)
+        #cv.SaveImage("scale.jpg", doubleImage)
