@@ -77,10 +77,8 @@ class BeginState:
         return
 
     def __doZignage(self):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
-
-        print "Doing zignage..."
-        self.captorsController.Zing()
+        self.__doZignage_a()
+        self.__doZignage_b()
 
     def __doZignage_a(self):
         self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
