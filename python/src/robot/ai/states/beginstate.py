@@ -39,6 +39,8 @@ class BeginState:
         self.firstTurnOver = False
 
     def run(self):
+        self.ledController.turnLedOff()
+
         interpretedSignal = ()
 
         if not self.firstTurnOver:
