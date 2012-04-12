@@ -336,9 +336,6 @@ class MainWindow(wx.Frame):
         t = Trajectoire(self.__x1,self.__y1 ,self.__x2 ,self.__y2)
         #liste = t.PathFinding(175.00, 60.00,25.00, 105.00 )
         #self.__AfficherTrajectoire(liste)
-        liste =t.PathFinding(160.0, 15.0, 175.00, 90.00 )
-        self.__AfficherTrajectoire(liste)
-        """
         liste =t.PathFinding(56.0, 50.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
         time.sleep(2)
@@ -365,6 +362,5 @@ class MainWindow(wx.Frame):
         time.sleep(2)
         liste =t.PathFinding(56.0, 60.0, 175.00, 53.00 )
         self.__AfficherTrajectoire(liste)
-        """
 
 
