@@ -119,7 +119,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_1_FACE, 95)
         elif imageId == ManchesterSignalInterpreter.FIGURE_2:
             print "going to figure 2"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_2_FACE, 180)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_2_FACE, 165)
         elif imageId == ManchesterSignalInterpreter.FIGURE_3:
             print "going to figure 3"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_3_FACE, 180)
@@ -131,7 +131,7 @@ class BeginState:
             self.robotMover.doSnakeMovement(Terrain.FIGURE_5_FACE, 195)
         elif imageId == ManchesterSignalInterpreter.FIGURE_6:
             print "going to figure 6"
-            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 270)
+            self.robotMover.doSnakeMovement(Terrain.FIGURE_6_FACE, 255)
         elif imageId == ManchesterSignalInterpreter.FIGURE_7:
             print "going to figure 7"
             self.robotMover.doSnakeMovement(Terrain.FIGURE_7_FACE, 270)
