@@ -49,6 +49,7 @@ class BeginState:
             interpretedSignal, signalPosition = self.signalSearcher.searchSignal()
             self.signalPosition = signalPosition
         else:
+            self.__doZignage_b()
             self.robotMover.doSnakeMovement(self.signalPosition, 270)
             interpretedSignal = self.signalSearcher.doSimpleSignalDecoding()
 
@@ -64,7 +65,9 @@ class BeginState:
 
         self.__doDrawing(orientation, scale)
 
-        self.robotMover.doSnakeMovement(Terrain.DRAWING_ZONE_SOUTH_WEST_CORNER_INNER, 270)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
+
+        self.__doZignage_a()
 
         self.flashLed()
 
@@ -78,6 +81,16 @@ class BeginState:
 
         print "Doing zignage..."
         self.captorsController.Zing()
+
+    def __doZignage_a(self):
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
+
+        print "Doing zignage A..."
+        self.captorsController.Zing_a()
+
+    def __doZignage_b(self):
+        print "Doing zignage B..."
+        self.captorsController.Zing_b()
 
         Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
 

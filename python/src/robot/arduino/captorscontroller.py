@@ -8,3 +8,14 @@ class CaptorsController:
         self.arduinoInterface.write('Z.')
 
         self.arduinoInterface.checkIfOperationIsOver()
+
+    def Zing_a(self):
+        self.arduinoInterface.write('ZA.')
+
+        self.arduinoInterface.checkIfOperationIsOver()
+
+    def Zing_b(self):
+        def Zing_a(self):
+            self.arduinoInterface.write('ZB.')
+
+            self.arduinoInterface.checkIfOperationIsOver()
