@@ -7,7 +7,7 @@ class CameraAccessor:
         #print "CameraAccessor - initialiseCamera begin"
         #self.__initialiseCamera__()
         self.__getCalibrationParameters__()
-        self.__initialiseUndistortMap__()
+        #self.__initialiseUndistortMap__()
         #print "CameraAccessor - initialiseCamera end"
 
     def getFrame(self, undistort):
