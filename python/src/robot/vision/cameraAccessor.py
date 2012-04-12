@@ -12,7 +12,8 @@ class CameraAccessor:
 
     def getFrame(self, undistort):
         #print "CameraAccessor - getFrame begin"
-        frame = cv.QueryFrame(self.camera)
+        for i in range(1,5):
+            frame = cv.QueryFrame(self.camera)
         if undistort == True:
             cv.Remap(frame, frame, self.mapx, self.mapy)
         #print "CameraAccessor - getFrame end"

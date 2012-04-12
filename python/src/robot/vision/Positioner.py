@@ -48,7 +48,7 @@ class Positionner:
         newY = -1*(point[1] - yDistanceFromPicturOrigin)
         return (newX, newY)
 
-    def getRealWorldCoordinates(self, point1, point2, corner):
+    def getRealWorldCoordinates2(self, point1, point2, corner):
         if corner == CornerDetector.WEST_BLUE_CORNER:
             rwc1 = Terrain.CORNER_BLUE_WEST_LEFT_EDGE
             rwc2 = Terrain.CORNER_BLUE_WEST_RIGHT_EDGE
@@ -62,6 +62,7 @@ class Positionner:
             rwc1 = Terrain.CORNER_BLUE_EAST_LEFT_EDGE
             rwc2 = Terrain.CORNER_BLUE_EAST_RIGHT_EDGE
         return rwc1, rwc2
+
 
     def calculateAngleBetweenPoints(self, point1, point2, corner):
         deltaX = point2[0] - point1[0]
