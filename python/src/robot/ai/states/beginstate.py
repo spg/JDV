@@ -74,27 +74,25 @@ class BeginState:
         return
 
     def __doZignage(self):
-        self.robotMover.doSnakeMovement(Terrain.AR_TAG_NORTH_FACE, 270)
+        self.robotMover.doSnakeMovement(Terrain.AR_TAG_SOUTH_FACE, 90)
 
         print "Doing zignage..."
         self.captorsController.Zing()
 
-        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 270))
+        Robot.setCurrentPose((Terrain.DRAWING_ZONE_CENTER[0], Terrain.DRAWING_ZONE_CENTER[1], 90))
 
     def __acquireCurrentPose(self):
         poseAcquired = False
         pose = ()
 
         while not poseAcquired:
-            for x in range(0, 10):
-                try:
-                    pose = self.cam.getCurrentPose()
-                    poseAcquired = True
-                    break
-                except ValueError:
-                    if x == 9:
-                        print "rotating of 5 degrees..."
-                        self.robotMover.doRelativeRotation(5)
+            try:
+                pose = self.cam.getCurrentPose()
+                poseAcquired = True
+                break
+            except ValueError:
+                print "rotating of 5 degrees..."
+                self.robotMover.doRelativeRotation(5)
 
         Robot.setCurrentPose(pose)
 
