@@ -26,7 +26,7 @@ class CameraAccessor:
         #print "Initialising camera..."
         self.camera = cv.CaptureFromCAM(-1)
         frame = self.getFrame(False)
-        #print cv.GetSize(frame)
+        print "Frame size = ", cv.GetSize(frame)
 
     def __initialiseUndistortMap__(self):
         #print "CameraAccessor - initialiseUndistortMap begin"
