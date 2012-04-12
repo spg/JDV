@@ -70,7 +70,7 @@ class Camera:
         nbSuccess = 0
         attemps = 0
         try:
-            while attemps < 10 and nbSuccess <= 3:
+            while attemps < 10  and nbSuccess <= 3:
                 attemps += 1
                 print "Camera: Getting current pose. Attemp ", attemps
                 x, y, theta = 0
