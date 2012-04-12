@@ -115,7 +115,7 @@ class Test_Trajectoire(unittest.TestCase):
         chemin  = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Obstacle_Cas1(self):
+    def test_Obstacle_Cas9(self):
         liste = [(23.0, 10.0), (69, 29), (109, 29), (200.0, 100.0)]
         t = Trajectoire(101,84 ,84 ,44)
         chemin  = t.PathFinding(23.00, 10.00, 200.00, 100.00 )
@@ -151,8 +151,15 @@ class Test_Trajectoire(unittest.TestCase):
         chemin  = t.PathFinding(23.00, 15.00, 200.00, 15.00 )
         self.assertEqual(chemin,liste)
 
-    def test_Obstacle_Cas6(self):
+    def test_Obstacle_Cas7(self):
         liste = [(23.0, 15.0), (69, 68), (109, 68), (126, 54), (200.0, 15.0)]
         t = Trajectoire(101,29 ,84 ,43)
         chemin  = t.PathFinding(23.00, 15.00, 200.00, 15.00 )
         self.assertEqual(chemin,liste)
+
+    def test_Obstacle_Cas8(self):
+        liste = [(160.0, 15.0), (175.0, 90.0)]
+        t = Trajectoire(140,50 ,80 ,50)
+        chemin  = liste =t.PathFinding(160.0, 15.0, 175.00, 90.00 )
+        self.assertEqual(chemin,liste)
+
