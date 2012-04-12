@@ -21,13 +21,11 @@ class codeMorse:
     def __short(self):
         self.ledController.turnLedOn()
         self.ledController.turnLedOff()
-        self.__pause()
 
     def __long(self):
         self.ledController.turnLedOn()
         time.sleep(1)
         self.ledController.turnLedOff()
-        self.__pause()
 
     def __pause(self):
         time.sleep(1)
