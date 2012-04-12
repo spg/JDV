@@ -38,7 +38,7 @@ class ColorSegmenter:
             imgTresh = cv.CreateImage(cv.GetSize(sourceImage), 8, 1)
             imgTresh = self.treshHSVImageByGivenColor(hsvImage, imgTresh, color)
             imgTresh = self.reduceNoiseOnTreshedImage(imgTresh, nbErode, nbDilate)
-            cv.SaveImage("segmentationResult.jpg", imgTresh)
+            #cv.SaveImage("segmentationResult.jpg", imgTresh)
             return imgTresh
 
     def convertImageToHSV(self, sourceImage):
@@ -47,9 +47,9 @@ class ColorSegmenter:
         return hsvImage
 
     def treshHSVImageByGivenColor(self, hsvImage, imgTresh, color):
-        cv.SaveImage("BeforeTresh.jpg", hsvImage)
+        #cv.SaveImage("BeforeTresh.jpg", hsvImage)
         cv.InRangeS(hsvImage, self.lowerTreshold[color], self.upperTreshold[color], imgTresh)
-        cv.SaveImage("AfterTresh.jpg", imgTresh)
+        #cv.SaveImage("AfterTresh.jpg", imgTresh)
         return imgTresh
 
     def reduceNoiseOnTreshedImage(self, imgTresh, nbErode, nbDilate):
