@@ -66,6 +66,7 @@ class ArduinoInterface:
         print "returning out of write(self, message)"
 
     def checkIfOperationHasBegun(self):
+        return True
         print "before reading ling in checkIfOperationHasBegun"
         line = self.ser.readline()
         print "in checkIfOperationHasBegun - ARDUINO: " + str(line)
