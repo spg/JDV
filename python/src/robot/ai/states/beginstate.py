@@ -39,13 +39,12 @@ class BeginState:
         self.firstTurnOver = False
 
     def run(self):
-        self.__acquireCurrentPose()
-
-        self.__doZignage()
-
         interpretedSignal = ()
 
         if not self.firstTurnOver:
+            self.__acquireCurrentPose()
+            self.__doZignage()
+
             interpretedSignal, signalPosition = self.signalSearcher.searchSignal()
             self.signalPosition = signalPosition
         else:
