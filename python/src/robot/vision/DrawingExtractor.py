@@ -2,6 +2,7 @@
 import cv2
 import math
 import copy
+import time
 from ColorSegmenter import ColorSegmenter
 
 cs = ColorSegmenter()
@@ -13,6 +14,7 @@ class DrawingExtractor:
     def ExtractShape(self, srcImage):
         #print "DrawingExtractor - ExtractShape begin"
         copyImage = cv.CloneImage(srcImage)
+        time.sleep(0.5)
         firstTreshing = cs.segmentImageByColor(srcImage, 3, 1, 1)
         imageMatrix = self.__convertImageToMatrix__(firstTreshing)
         contours = self.__findSquaresInImage__(imageMatrix)
