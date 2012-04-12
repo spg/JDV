@@ -37,17 +37,23 @@ class Camera:
     def getCurrentPose(self):
         try:
             image = self.camera.getFrame(False)
-            pointBlue, pointOrange = self.getVisibleCorners(image)
+            pointBlue, pointOrange, side = self.getVisibleCorners(image)
             print "blue: ", len(pointBlue)
             print "orange: ", len(pointOrange)
             self.drawPointsOnImage(image, pointBlue)
             self.drawPointsOnImage(image, pointOrange)
-            if len(pointBlue) > 0:
+            if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
                 print "Blue East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
-            elif len(pointOrange) > 0:
+            elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
+                print "Blue West Corner"
+                x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
+            elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
                 print "Orange East Corner"
                 x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
+            elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
+                print "Orange West Corner"
+                x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
             else:
                 print "No corners detected"
                 raise ValueError("No corners detected for positionning")
@@ -66,7 +72,7 @@ class Camera:
         try:
             while attemps < 10  and nbSuccess <= 3:
                 attemps += 1
-                print "Camera: Getting current pose. Attempt ", attemps
+                print "Camera: Getting current pose. Attemp ", attemps
                 x = 0
                 y  = 0
                 theta = 0
@@ -74,16 +80,19 @@ class Camera:
                 pointBlue, pointOrange, side = self.getVisibleCorners(image)
                 self.drawPointsOnImage(image, pointBlue)
                 self.drawPointsOnImage(image, pointOrange)
-                if len(pointBlue) > 0:
+                if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
                     x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
                     print "Camera Getting current pose. Success! Blue East corner found."
-                    nbSuccess += 1
-                    xTotal += x
-                    yTotal += y
-                    thetaTotal += theta
-                elif len(pointOrange) > 0:
+                elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
+                    print "Camera Getting current pose. Success! Blue West corner found."
+                elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
                     x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
                     print "Camera Getting current pose. Success! Orange East corner found."
+                elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
+                    print "Camera Getting current pose. Success! Orange West corner found."
+                if x > 130:
                     nbSuccess += 1
                     xTotal += x
                     yTotal += y
@@ -120,8 +129,8 @@ class Camera:
 
     def getVisibleCorners(self, image):
         contourBlue, contourOrange = self.cornerDetector.detectCorners(image)
-        #side = self.sideDetector.detectVisibleSide(image)
-        return contourBlue, contourOrange
+        side = self.sideDetector.detectVisibleSide(image)
+        return contourBlue, contourOrange, side
 
 
     def __doubleImage__(self, contourPoints, size):
