@@ -11,7 +11,6 @@ import time
 import wx
 import networkx as nx
 from python.src.base.ui.Trajectoire import  Trajectoire
-#from python.src.robot.pathplanning import  Trajectoire
 from python.src.base.Base import Base
 from python.src.base.logevent import LogEvent
 from python.src.base.poseevent import PoseEvent
@@ -33,8 +32,8 @@ class MainWindow(wx.Frame):
         self.Chemin = False
         self.gap = 20
         self.t1= 0
-        self.__robotx = 60
-        self.__roboty = 60
+        self.__robotx = 175
+        self.__roboty = 53
         self.__angleActuelle = 0
         self.__coordx1 = -1
         self.__coordy1 = -1
@@ -78,32 +77,32 @@ class MainWindow(wx.Frame):
         self.dc.DrawRectangle(156+ self.__offset, 0 + self.__offset, 4,220 )
         # Point d'arriver pour les dessins
         self.dc.SetBrush(wx.Brush('#00ff00'))
-        self.dc.DrawRectangle( 122+ self.__offset, 182 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 46+ self.__offset, 182 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 40+ self.__offset, 190 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 40+ self.__offset, 138 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 40+ self.__offset, 84 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 40+ self.__offset, 32 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 46+ self.__offset, 40 + self.__offset, 5, 5)
-        self.dc.DrawRectangle( 122+ self.__offset, 40 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 122+ self.__offset, 182 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 46+ self.__offset, 182 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 40+ self.__offset, 190 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 40+ self.__offset, 138 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 40+ self.__offset, 84 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 40+ self.__offset, 32 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 46+ self.__offset, 40 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 122+ self.__offset, 40 + self.__offset, 5, 5)
         # Point d'arriver pour la zone de  dessins
-        self.dc.DrawRectangle( 295 + self.__offset, 55 + self.__offset, 5, 5)
+        #self.dc.DrawRectangle( 295 + self.__offset, 55 + self.__offset, 5, 5)
         # Met le robot sur la zone
         self.dc.SetBrush(wx.Brush('#ff0000'))
-        self.__xL1 = self.__robotx + (15 * self.__coordx1)
-        self.__xL2 = self.__robotx + (15 * self.__coordx2)
-        self.__yL1 = self.__roboty + (15 * self.__coordy1)
-        self.__yL2 = self.__roboty + (15 * self.__coordy2)
-        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL1, self.__yL1)
-        self.dc.DrawLine(self.__robotx, self.__roboty, self.__xL2, self.__yL2)
-        self.dc.DrawLine(self.__xL2, self.__yL2, self.__xL1, self.__yL1)
+        self.__xL1 = self.__robotx + (7 * self.__coordx1)
+        self.__xL2 = self.__robotx + (7 * self.__coordx2)
+        self.__yL1 = self.__roboty + (7 * self.__coordy1)
+        self.__yL2 = self.__roboty + (7 * self.__coordy2)
+        self.dc.DrawLine(self.__robotx*2, self.__roboty*2, self.__xL1*2, self.__yL1*2)
+        self.dc.DrawLine(self.__robotx*2, self.__roboty*2, self.__xL2*2, self.__yL2*2)
+        self.dc.DrawLine(self.__xL2*2, self.__yL2*2, self.__xL1*2, self.__yL1*2)
         if self.__Obstacle:
             self.dc.SetBrush(wx.Brush('#0000ff'))
-            #self.dc.DrawRectangle(self.__x1*2, (110-self.__y1)*2, 20, 20)
-            self.dc.DrawRectangle(self.__x1*2, (self.__y1)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x1*2, (100-self.__y1)*2, 20, 20)
+            #self.dc.DrawRectangle(self.__x1*2, (self.__y1)*2, 20, 20)
             self.dc.SetBrush(wx.Brush('#ff0000'))
-            #self.dc.DrawRectangle(self.__x2*2, (110-self.__y2)*2, 20, 20)
-            self.dc.DrawRectangle(self.__x2*2, (self.__y2)*2, 20, 20)
+            self.dc.DrawRectangle(self.__x2*2, (100-self.__y2)*2, 20, 20)
+            #self.dc.DrawRectangle(self.__x2*2, (self.__y2)*2, 20, 20)
             gap = self.gap
             gap2 = gap +10
 
@@ -123,16 +122,16 @@ class MainWindow(wx.Frame):
             self.y12=self.__y1-gap
             self.y13=gap2+self.__y1
             self.y14=self.__y1-gap
-            self.dc.SetBrush(wx.Brush('#ff0000'))
-            self.dc.DrawRectangle(self.x21*2,self.y21*2, 5, 5)
-            self.dc.DrawRectangle(self.x22*2,self.y22*2, 5, 5)
-            self.dc.DrawRectangle(self.x23*2,self.y23*2, 5, 5)
-            self.dc.DrawRectangle(self.x24*2,self.y24*2, 5, 5)
-            self.dc.SetBrush(wx.Brush('#0000ff'))
-            self.dc.DrawRectangle(self.x11*2, self.y11*2, 5, 5)
-            self.dc.DrawRectangle(self.x12*2, self.y12*2, 5, 5)
-            self.dc.DrawRectangle(self.x13*2, self.y13*2, 5, 5)
-            self.dc.DrawRectangle(self.x14*2, self.y14*2, 5, 5)
+            #self.dc.SetBrush(wx.Brush('#ff0000'))
+            #self.dc.DrawRectangle(self.x21*2,self.y21*2, 5, 5)
+            #self.dc.DrawRectangle(self.x22*2,self.y22*2, 5, 5)
+            #self.dc.DrawRectangle(self.x23*2,self.y23*2, 5, 5)
+            #self.dc.DrawRectangle(self.x24*2,self.y24*2, 5, 5)
+            #self.dc.SetBrush(wx.Brush('#0000ff'))
+            #self.dc.DrawRectangle(self.x11*2, self.y11*2, 5, 5)
+            #self.dc.DrawRectangle(self.x12*2, self.y12*2, 5, 5)
+            #self.dc.DrawRectangle(self.x13*2, self.y13*2, 5, 5)
+            #self.dc.DrawRectangle(self.x14*2, self.y14*2, 5, 5)
 
         if self.__Action:
             self.__Action = False
@@ -155,10 +154,10 @@ class MainWindow(wx.Frame):
             self.label2 = wx.StaticText(self.panel, -1, 'y1 :' ,pos=(770, 50))
             self.label3 = wx.StaticText(self.panel, -1, 'x2 :' ,pos=(670, 150))
             self.label4 = wx.StaticText(self.panel, -1, 'y2 :' ,pos=(770, 150))
-            self.x1 = wx.TextCtrl(self.panel,-1,value=u"",pos=(700, 50),size=(50,20))
-            self.y1 = wx.TextCtrl(self.panel,-1,value=u"",pos=(800, 50),size=(50,20))
-            self.x2 = wx.TextCtrl(self.panel,-1,value=u"",pos=(700, 150),size=(50,20))
-            self.y2 = wx.TextCtrl(self.panel,-1,value=u"",pos=(800, 150),size=(50,20))
+            self.x1 = wx.TextCtrl(self.panel,-1,value=u"120",pos=(700, 50),size=(50,20))
+            self.y1 = wx.TextCtrl(self.panel,-1,value=u"50",pos=(800, 50),size=(50,20))
+            self.x2 = wx.TextCtrl(self.panel,-1,value=u"110",pos=(700, 150),size=(50,20))
+            self.y2 = wx.TextCtrl(self.panel,-1,value=u"50",pos=(800, 150),size=(50,20))
             # mac mini 254.168  10.240.213.142
             self.__bindHandlers()
 
@@ -169,10 +168,10 @@ class MainWindow(wx.Frame):
 
     def __onConnectButtonClicked(self, event):
         #Affiche les obstacle
-        # __x1=self.O.getx1()+self.__offset
-        #__x2=self.O.getx2()+self.__offset
-        #__y1=self.O.gety1()+self.__offset
-        #__y1=self.O.gety2()+self.__offset
+        self.__x1=int(self.x1.GetValue())
+        self.__x2=int(self.x2.GetValue())
+        self.__y1=int(self.y1.GetValue())
+        self.__y2=int(self.y2.GetValue())
         self.__x2 =  0+ self.__offset
         self.__y2 =  0+self.__offset
         self.__x1 =  0+ self.__offset
@@ -257,7 +256,7 @@ class MainWindow(wx.Frame):
                 Depart = False
             else:
                 #self.dc.DrawLine((x1*2)+self.__offset,(y1*2)+self.__offset, (x*2)+self.__offset,(y*2)+self.__offset)
-                self.dc.DrawLine((x1*2)+self.__offset,((y1)*2)+self.__offset, (x*2)+self.__offset,((y)*2)+self.__offset)
+                self.dc.DrawLine((x1*2)+self.__offset,((110-y1)*2)+self.__offset, (x*2)+self.__offset,((110-y)*2)+self.__offset)
             x1 = x
             y1 = y
 
@@ -298,14 +297,14 @@ class MainWindow(wx.Frame):
         self.__Info.SetValue(message)
 
     def __RotationTriangle(self, angles):
-        x = ((self.__robotx - self.__xL1 ) / 15)
-        y = ((self.__roboty - self.__yL1) / 15)
+        x = ((self.__robotx - self.__xL1 ) / 7)
+        y = ((self.__roboty - self.__yL1) / 7)
         _angle = angles - self.__angleActuelle
         self.__angleActuelle += _angle
         self.__coordx1 = 0 - (x * math.cos(math.radians(_angle)) - (y * math.sin(math.radians(_angle))))
         self.__coordy1 = 0 - (x * math.sin(math.radians(_angle)) + (y * math.cos(math.radians(_angle))))
-        x1 = ((self.__robotx - self.__xL2) / 15)
-        y1 = ((self.__roboty - self.__yL2) / 15)
+        x1 = ((self.__robotx - self.__xL2) / 7)
+        y1 = ((self.__roboty - self.__yL2) / 7)
         self.__coordx2 = 0 - (x1 * math.cos(math.radians(_angle)) - (y1 * math.sin(math.radians(_angle))))
         self.__coordy2 = 0 - (x1 * math.sin(math.radians(_angle)) + (y1 * math.cos(math.radians(_angle))))
 
@@ -315,15 +314,15 @@ class MainWindow(wx.Frame):
 
     def __onAfficheClicked(self, event):
         #Affiche les obstacle
-        #self.__x1=self.self.x1.GetValue()
-        #self.__x2=self.self.x2.GetValue()
-        #self.__y1=self.self.y1.GetValue()
-        #self.__y2=self.self.y2.GetValue()
+        self.__x1=int(self.x1.GetValue())
+        self.__x2=int(self.x2.GetValue())
+        self.__y1=int(self.y1.GetValue())
+        self.__y2=int(self.y2.GetValue())
         #Valeur par default pour bu de test
-        self.__x1 =  120+ self.__offset
-        self.__y1 =  60+self.__offset
-        self.__x2 =  80+ self.__offset
-        self.__y2 =  10+self.__offset
+        #self.__x1 =  120+ self.__offset
+        #self.__y1 =  50+self.__offset
+        #self.__x2 =  110+ self.__offset
+        #self.__y2 =  50+self.__offset
         #self.__x2 =  50+ self.__offset
         #self.__y2 =  100+self.__offset
         #self.__x1 =  80+ self.__offset

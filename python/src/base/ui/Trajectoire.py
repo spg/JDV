@@ -146,12 +146,13 @@ class Trajectoire():
                 Sortie11 = self.EstSortie(self.Oy11)
                 distx=self.Ox21 - Posdx
                 if Posdx > self.Oy21:
-                    TrouveVO21 = self.verifierTrajectoire(Posdx,Posdy,self.Ox21,self.Oy21,2)
+                    TrouveVO21 = self.verifierTrajectoire(Posdx,Posdy,self.Ox21,self.Oy21,0)
                 else:
-                    TrouveVO21 = self.verifierTrajectoire(self.Ox21,self.Oy21,Posdx,Posdy,2)
+                    TrouveVO21 = self.verifierTrajectoire(self.Ox21,self.Oy21,Posdx,Posdy,0)
                 Colision21 = self.verifierTrajectoire(self.Ox21,self.Oy21,self.Ox23,self.Oy23,2)
                 if Sortie21==False and TrouveVO21 == False and Colision21 == False:
-                    #print "Trouver 21"
+                    if self.printmess:
+                        print "Trouver 21"
                     dist = self.CalculeDiagonal(distx,self.Oy21 - Posdy)
                     self.gr.add_edge(depart,"O21" , weight=dist )
                     dist = self.Ox21-self.Ox23
@@ -210,12 +211,16 @@ class Trajectoire():
                             self.TrouveO = True
                             self.TrouveO14 = True
                     else :
-                        dist = self.CalculeDiagonal(distx,self.Oy21 - Posdy)
-                        self.gr.add_edge(depart,"O21" , weight=dist)
-                        dist = self.Ox21-self.Ox23
-                        self.gr.add_edge("O21","O23" , weight=dist)
-                        self.TrouveO = True
-                        self.TrouveO23 = True
+                        if self.printmess:
+                            print "Calisse"
+                        trouve21 = self.verifierTrajectoire(Posdx,Posdy,self.Ox21,self.Oy21,0)
+                        if trouve21 == False :
+                            dist = self.CalculeDiagonal(distx,self.Oy21 - Posdy)
+                            self.gr.add_edge(depart,"O21" , weight=dist)
+                            dist = self.Ox21-self.Ox23
+                            self.gr.add_edge("O21","O23" , weight=dist)
+                            self.TrouveO = True
+                            self.TrouveO23 = True
                 if  Colision21 and Sortie22:
                     if self.printmess:
                         print "Perdu"
