@@ -20,13 +20,14 @@ class codeMorse:
 
     def __short(self):
         self.ledController.turnLedOn()
-        time.sleep(0.1)
         self.ledController.turnLedOff()
+        self.__pause()
 
     def __long(self):
         self.ledController.turnLedOn()
         time.sleep(1)
         self.ledController.turnLedOff()
+        self.__pause()
 
     def __pause(self):
         time.sleep(1)
@@ -35,8 +36,10 @@ short = codeMorse.SHORT
 lonng = codeMorse.LONG
 pause = codeMorse.PAUSE
 
-signals = [short, lonng, short, short, pause, short, short, pause, lonng, short, lonng, short, pause, lonng, lonng, lonng,
+unicorn = [short, lonng, short, short, pause, short, short, pause, lonng, short, lonng, short, pause, lonng, lonng, lonng,
         pause, short, lonng, short, pause, lonng, short, pause, short]
 
+lol = [short, lonng, short, short, pause, lonng, lonng, lonng, pause, short, lonng, short, short]
+
 morseCodeer = codeMorse()
-morseCodeer.doCode(signals)
+morseCodeer.doCode(lol)
