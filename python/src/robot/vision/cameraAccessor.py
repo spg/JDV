@@ -5,19 +5,19 @@ class CameraAccessor:
 
     def __init__(self):
         #print "CameraAccessor - initialiseCamera begin"
-        #self.__initialiseCamera__()
+        self.__initialiseCamera__()
         self.__getCalibrationParameters__()
-        self.__initialiseUndistortMap__()
+        #self.__initialiseUndistortMap__()
         #print "CameraAccessor - initialiseCamera end"
 
     def getFrame(self, undistort):
-        self.camera = cv.CaptureFromCAM(-1)
+        #self.camera = cv.CaptureFromCAM(-1)
         print "CameraAccessor: Allocating Camera"
         for i in range(1,5):
             frame = cv.QueryFrame(self.camera)
         if undistort == True:
             cv.Remap(frame, frame, self.mapx, self.mapy)
-        cv.ReleaseCapture(self.camera)
+        #cv.ReleaseCapture(self.camera)
         print "CameraAccessor: Releasing camera"
         return frame
 
