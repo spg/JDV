@@ -18,10 +18,10 @@ class CornerDetector:
         cv.Smooth(imageCopy, imageCopy, cv.CV_GAUSSIAN, 5, 5)
         self.__getCenterOfPicture__(imageCopy)
 
-        #blueCorner = self.__findColoredCorner__(imageCopy, self.colorSegmenter.blue)
+        blueCorner = self.__findColoredCorner__(imageCopy, self.colorSegmenter.blue)
         blueCornerFloorPoints = []
-        #if len(blueCorner) > 0:
-        #    blueCornerFloorPoints = self.__isolateCornerFloorPoints__(blueCorner)
+        if len(blueCorner) > 0:
+            blueCornerFloorPoints = self.__isolateCornerFloorPoints__(blueCorner)
 
         orangeCorner = self.__findColoredCorner__(imageCopy, self.colorSegmenter.orange)
         orangeCornerFloorPoints = []
@@ -100,10 +100,9 @@ class CornerDetector:
     def __isContourOnBottomOfPicture__(self, contour):
         cornersOnTopHalf = 0
         for point in contour:
-            if point[1] < self.yCenter*0.5:
-                print point[1], " ", cornersOnTopHalf
+            if point[1] < self.yCenter:
                 cornersOnTopHalf += 1
-        return cornersOnTopHalf <= 0
+        return cornersOnTopHalf <= 1
     
     def __findContourWithBiggestArea__(self, contours):
         biggestContour = contours[0]
