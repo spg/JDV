@@ -15,7 +15,6 @@ class CaptorsController:
         self.arduinoInterface.checkIfOperationIsOver()
 
     def Zing_b(self):
-        def Zing_a(self):
-            self.arduinoInterface.write('ZB.')
+        self.arduinoInterface.write('ZB.')
 
-            self.arduinoInterface.checkIfOperationIsOver()
+        self.arduinoInterface.checkIfOperationIsOver()
