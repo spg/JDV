@@ -34,7 +34,7 @@ class Camera:
         except:
             raise ValueError("Couldn't find drawing in image")
 
-    def getCurrentPose(self):
+    def getCurrentPose2(self):
         try:
             image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
@@ -62,7 +62,52 @@ class Camera:
             return x, y, theta
         except:
             raise ValueError("Problem while getting robot pose")
-    
+
+    def getCurrentPose(self):
+        xTotal = 0
+        yTotal = 0
+        thetaTotal = 0
+        nbSuccess = 0
+        attemps = 0
+        try:
+            while attemps < 10 and nbSuccess <= 3:
+                attemps += 1
+                print "Camera: Getting current pose. Attemp ", attemps
+                x, y, theta = 0
+                image = self.camera.getFrame()
+                pointBlue, pointOrange, side = self.getVisibleCorners(image)
+                self.drawPointsOnImage(image, pointBlue)
+                self.drawPointsOnImage(image, pointOrange)
+                if len(pointBlue) > 0 and side == SideDetector.EAST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.EAST_BLUE_CORNER)
+                    nbSuccess += 1
+                    print "Camera Getting current pose. Success! Blue East corner found."
+                elif len(pointBlue) > 0 and side == SideDetector.WEST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointBlue[0], pointBlue[1], CornerDetector.WEST_BLUE_CORNER)
+                    nbSuccess += 1
+                    print "Camera Getting current pose. Success! Blue West corner found."
+                elif len(pointOrange) > 0 and side == SideDetector.EAST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.EAST_ORANGE_CORNER)
+                    nbSuccess += 1
+                    print "Camera Getting current pose. Success! Orange East corner found."
+                elif len(pointOrange) > 0 and side == SideDetector.WEST_SIDE:
+                    x, y, theta = self.positionner.getCurrentPose(pointOrange[0], pointOrange[1], CornerDetector.WEST_ORANGE_CORNER)
+                    nbSuccess += 1
+                    print "Camera Getting current pose. Success! Orange West corner found."
+                xTotal += x
+                yTotal += y
+                thetaTotal += theta
+            if nbSuccess == 0:
+                print "Camera Getting current pose. Failure! No corner detected."
+                raise ValueError("Camera: Couldn't detect a corner with camera")
+            xAverage = xTotal/nbSuccess
+            yAverage = yTotal/nbSuccess
+            thetaAverage = thetaTotal/nbSuccess
+            print "Camera: Robot pose found. X = ", xAverage, ", Y = ", yAverage, ", Theta = ", thetaAverage
+            return xAverage, yAverage, thetaAverage
+        except:
+            raise ValueError("Problem while getting robot pose")
+
     def getCurrentPoseBackup(self):
         image = self.camera.getFrame(True)
         imageSize = cv.GetSize(image)
