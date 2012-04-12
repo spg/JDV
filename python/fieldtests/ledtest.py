@@ -3,8 +3,8 @@ from python.src.robot.arduino.ledcontroller import LedController
 
 ledController = LedController()
 
-ledController.turnLedOn()
-time.sleep(1)
-ledController.turnLedOff()
-time.sleep(1)
-ledController.turnLedOn()
+while True:
+
+    ledController.turnLedOn()
+    time.sleep(0.2)
+    ledController.turnLedOff()
