@@ -29,7 +29,7 @@ class CornerDetector:
             orangeCornerFloorPoints = self.__isolateCornerFloorPoints__(orangeCorner)
         return blueCornerFloorPoints, orangeCornerFloorPoints
     
-    def __findColoredCorn.er__(self, image, color):
+    def __findColoredCorner__(self, image, color):
         contour = []
         segmentedImage = self.colorSegmenter.segmentImageByColor(image, color, 3, 4)
         cv.SaveImage("cornerSegmentation.jpg", segmentedImage)
