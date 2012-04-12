@@ -34,7 +34,7 @@ class Camera:
         except:
             raise ValueError("Couldn't find drawing in image")
 
-    def getCurrentPose2(self):
+    def getCurrentPose(self):
         try:
             image = self.camera.getFrame(False)
             pointBlue, pointOrange, side = self.getVisibleCorners(image)
@@ -63,7 +63,7 @@ class Camera:
         except:
             raise ValueError("Problem while getting robot pose")
 
-    def getCurrentPose(self):
+    def getCurrentPose2(self):
         xTotal = 0
         yTotal = 0
         thetaTotal = 0
